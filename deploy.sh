@@ -10,7 +10,7 @@ npm run build
 git checkout gh-pages || git checkout --orphan gh-pages
 
 # Remove old files except .git
-find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name 'dist' -exec rm -rf {} +
+find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name 'dist' ! -name 'node-modules' -exec rm -rf {} +
 
 # Copy built files to root
 cp -r dist/* .
