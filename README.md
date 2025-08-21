@@ -1,1 +1,0 @@
-Grampound Digital Twin project
