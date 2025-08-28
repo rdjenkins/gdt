@@ -13,11 +13,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank">
       <img src="${calendarlogo}" class="logo" alt="Grampound calendar logo" />
     </a>
-    <a href="https://photos.grampound.org.uk/" target="_blank">
-      <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
-    </a>
     <a href="https://www.achurchnearyou.com/search/?acny_search_place=Grampound%2C+Truro%2C+UK&lat=50.2992589&lon=-4.8984499&place=Grampound%2C+Truro+TR2%2C+UK&postcode=TR2&text=" target="_blank">
       <img src="${acnylogo}" class="logo" alt="A Church Near You logo" />
+    </a>
+    <a href="https://photos.grampound.org.uk/" target="_blank">
+      <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
     </a>
     <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank">
       <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
