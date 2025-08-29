@@ -4,6 +4,7 @@ import ghplogo from '/gwchp-logo-coloured-600x600.png'
 import calendarlogo from '/calendar.svg'
 import acnylogo from '/acny.png'
 import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
+import waterqualitylogo from '/Water-quality-sewage.png'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -18,6 +19,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </a>
     <a href="https://photos.grampound.org.uk/" target="_blank">
       <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
+    </a>
+    <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank">
+      <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
     </a>
     <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank">
       <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
