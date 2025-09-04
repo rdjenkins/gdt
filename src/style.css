@@ -24,7 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  /* display: flex; */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -45,7 +45,7 @@ h1 {
 
 .logo {
   height: 6em;
-  padding: 1.5em;
+/*  padding: 1.5em; */
   will-change: filter;
   transition: filter 300ms;
 }
@@ -89,10 +89,48 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.flex-container {
+  display: flex;
+  
+  flex-flow: row wrap;
+  
+  justify-content: normal;
+  
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.flex-item {
+  border:lightgray 1px solid;
+  border-radius: 5px;
+  margin: 1em 0.5em;
+  padding: 1em;
+  width: 200px;
+/*  padding: 5px;
+  width: 200px;
+  height: 150px;
+  margin-top: 10px;
+  line-height: 150px;
+  color: black;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+  */
+}
+
 #search-container button {
     border: 1px solid #242424;
-    margin-left: 1em;
+    background-color: lightgray;
+    margin: 0.5em;
 }
+
+#search-container input {
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid #242424;
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
