@@ -89,6 +89,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+#search-container button {
+    border: 1px solid #242424;
+    margin-left: 1em;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
