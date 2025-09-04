@@ -5,6 +5,7 @@ import calendarlogo from '/calendar.svg'
 import acnylogo from '/acny.png'
 import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
 import waterqualitylogo from '/Water-quality-sewage.png'
+import creedchurchyardlogo from '/creed-churchyard.png'
 
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
@@ -51,6 +52,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </a>
     <a href="https://photos.grampound.org.uk/" target="_blank">
       <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
+    </a>
+    <a href="https://stcrida.co.uk/cs.php" target="_blank">
+      <img src="${creedchurchyardlogo}" class="logo green" alt="Creed Churchyard logo" />
     </a>
     <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank">
       <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
