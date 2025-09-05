@@ -6,6 +6,7 @@ import acnylogo from '/acny.png'
 import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
 import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
+import geographlogo from '/geograph-logo.svg'
 
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
@@ -78,6 +79,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
       </a>
       <p>Grampound Heritage Project photo archive.</p>
+    </li>
+
+    <li class="flex-item">
+      <a href="https://www.geograph.org.uk/mapper/combined.php#15/50.3010/-4.9012" target="_blank">
+        <img src="${geographlogo}" class="logo vanilla" alt="Geograph logo" />
+      </a>
+      <p>Geograph photographs of Grampound.</p>
     </li>
 
     <li class="flex-item">
