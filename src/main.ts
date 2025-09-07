@@ -7,6 +7,7 @@ import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
 import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
+import githublogo from '/github-mark.svg'
 
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
@@ -108,7 +109,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </a>
       <p>Air quality in Cornwall.</p>
     </li>
-    
+
+    <li class="flex-item">
+      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank">
+        <img src="${githublogo}" class="logo" alt="GitHub Discussions Logo" />
+      </a>
+      <p>Join the discussion about this project on GitHub.</p>
+    </li>
+
     </ul>
   </div>
 `
