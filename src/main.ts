@@ -111,10 +111,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
-      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank">
-        <img src="${githublogo}" class="logo" alt="GitHub Discussions Logo" />
+      <a href="https://github.com/rdjenkins/gdt/" target="_blank">
+        <img src="${githublogo}" class="logo" alt="GitHub Logo" />
       </a>
-      <p>Join the discussion about this project on GitHub.</p>
+      <p>Find us on GitHub.</p>
     </li>
 
     </ul>
