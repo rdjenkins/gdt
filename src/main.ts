@@ -9,8 +9,7 @@ import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
 
-let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading PurpleAir Widget...</div>
-<script src='https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'></script>`
+let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
 
 async function waterqualitytrafficlight() {
   const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
@@ -155,4 +154,52 @@ document.addEventListener('DOMContentLoaded', () => {
       waterQualityDiv.innerHTML =  waterqualitytrafficlightHTML + '<div>Get more detail on floodmapper ↗</div>';
     }
   });
+});
+
+// Append the PurpleAir script to the document body after DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  const script = document.createElement('script');
+  script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  document.body.appendChild(script);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const targetId = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  const observer = new MutationObserver(() => {
+    const widgetDiv = document.getElementById(targetId);
+    if (widgetDiv) {
+      const span = widgetDiv.querySelector('span[style="display: inline-block; font-size: 80px;"]');
+      if (span) {
+        const pmValue = parseFloat(span.innerHTML);
+        if (!isNaN(pmValue) && pmValue < 50) {
+          // Create a new span element
+          const newSpan = document.createElement('span');
+          newSpan.textContent = span.textContent;
+          newSpan.style.background = 'green';
+          newSpan.style.color = 'white';
+          newSpan.style.borderRadius = '1000px';
+          newSpan.style.padding = '0.5em 0.5em';
+          widgetDiv.innerHTML = '';
+          widgetDiv.appendChild(newSpan);
+        }
+        if (!isNaN(pmValue) && pmValue >=50 && pmValue < 100) {
+          // Create a new span element
+          const newSpan = document.createElement('span');
+          newSpan.textContent = span.textContent;
+          newSpan.style.background = 'yellow';
+          newSpan.style.color = 'white';
+          newSpan.style.borderRadius = '1000px';
+          newSpan.style.padding = '0.5em 0.5em';
+          widgetDiv.innerHTML = '';
+          widgetDiv.appendChild(newSpan);
+        }
+        observer.disconnect();
+      }
+    }
+  });
+
+  const widgetDiv = document.getElementById(targetId);
+  if (widgetDiv) {
+    observer.observe(widgetDiv, { childList: true, subtree: true });
+  }
 });
