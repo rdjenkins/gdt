@@ -9,6 +9,9 @@ import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
 
+let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading PurpleAir Widget...</div>
+<script src='https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'></script>`
+
 async function waterqualitytrafficlight() {
   const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
   const text = await response.text();
@@ -119,6 +122,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
       </a>
       <p>Air quality in Cornwall.</p>
+      ${nearestPurpleAirSensorwidget}
     </li>
 
     <li class="flex-item">
