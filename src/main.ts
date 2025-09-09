@@ -9,6 +9,14 @@ import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
 
+async function waterqualitytrafficlight() {
+  const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
+  const text = await response.text();
+  return text;
+}
+
+let waterqualitytrafficlightHTML = "";
+
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
 searchBox.placeholder = 'Find an address or place...';
@@ -98,7 +106,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <li class="flex-item">
       <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank">
-        <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
+        <div id="water-quality-traffic-light">
+          ${waterqualitytrafficlightHTML}
+          <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
+        </div>
       </a>
       <p>Water quality for the River Fal.</p>
     </li>
@@ -129,4 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
     searchContainer.appendChild(searchButton);
     searchContainer.style.marginBottom = '1em';
   }
+});
+
+// Fetch the water quality traffic light HTML and update the content
+document.addEventListener('DOMContentLoaded', () => {
+  waterqualitytrafficlight().then(html => {
+    waterqualitytrafficlightHTML = html;
+    const waterQualityDiv = document.querySelector('#water-quality-traffic-light');
+    if (waterQualityDiv) {
+      waterQualityDiv.innerHTML =  waterqualitytrafficlightHTML + '<div>Get more detail on floodmapper ↗</div>';
+    }
+  });
 });

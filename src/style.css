@@ -131,6 +131,11 @@ button:focus-visible {
   border: 1px solid #242424;
 }
 
+#water-quality-traffic-light {
+  color: black;
+  display: flex;
+  align-items: center;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
