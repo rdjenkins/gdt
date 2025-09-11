@@ -72,6 +72,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
+      <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
+        <button>Pepo Trenowth (1½ hrs)</button>
+      </a>
+      <a href="https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909" target="_blank">
+        <button>Creed Circuit (1 hr)</button>
+      </a>
+      <p>Circular walks near Grampound.</p>
+    </li>
+
+    <li class="flex-item">
       <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank">
         <img src="${calendarlogo}" class="logo" alt="Grampound calendar logo" />
       </a>
@@ -120,15 +130,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank">
         <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
       </a>
+      <p>${nearestPurpleAirSensorwidget}</p>
       <p>Air quality in Cornwall.</p>
-      ${nearestPurpleAirSensorwidget}
     </li>
 
     <li class="flex-item">
       <a href="https://github.com/rdjenkins/gdt/" target="_blank">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
       </a>
-      <p>Find us on GitHub.</p>
+      <p>Find this project on GitHub.</p>
     </li>
 
     </ul>
