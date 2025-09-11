@@ -193,7 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.innerHTML = '';
           widgetDiv.appendChild(newSpan);
         }
-        observer.disconnect();
+        console.log(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
+        //observer.disconnect();
       }
     }
   });
