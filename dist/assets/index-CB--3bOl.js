@@ -4,7 +4,7 @@
     <p class="subtitle">
     digital twin project
     </p>
-
+<h2>Maps</h2>
     <ul class="flex-container">
     <li class="flex-item">
       <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank">
@@ -27,12 +27,16 @@
       </a>
       <p>Circular walks near Grampound.</p>
     </li>
+    </ul>
+
+<h2>What's on</h2>
+    <ul class="flex-container">
 
     <li class="flex-item">
       <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank">
         <img src="${u}" class="logo" alt="Grampound calendar logo" />
       </a>
-      <p>Village Hall calendar of events.</p>
+      <p>Calendar of events.</p>
     </li>
 
     <li class="flex-item">
@@ -41,6 +45,10 @@
       </a>
       <p>Church services in Grampound with Creed.</p>
     </li>
+    </ul>
+
+<h2>Photos and more</h2>
+    <ul class="flex-container">
 
     <li class="flex-item">
       <a href="https://photos.grampound.org.uk/" target="_blank">
@@ -62,6 +70,10 @@
       </a>
       <p>Creed Churchyard search.</p>
     </li>
+    </ul>
+
+<h2>Environment</h2>
+    <ul class="flex-container">
 
     <li class="flex-item">
       <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank">
@@ -80,7 +92,10 @@
       <p>${w}</p>
       <p>Air quality in Cornwall.</p>
     </li>
-
+    </ul>
+  
+<h2>More info</h2>
+    <ul class="flex-container">
     <li class="flex-item">
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank">
         <img src="${_}" class="logo" alt="GitHub Logo" />

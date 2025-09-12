@@ -36,6 +36,15 @@ h1 {
   margin-bottom: 0px;
 }
 
+h2 {
+  place-items: left;
+  text-align: left;
+  font-size: 2.4em;
+  line-height: 1.1;
+  margin-top: 1.5em;
+  margin-bottom: 0.2em;
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
