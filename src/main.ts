@@ -135,7 +135,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
-      <a href="https://github.com/rdjenkins/gdt/" target="_blank">
+      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
       </a>
       <p>Find this project on GitHub.</p>
