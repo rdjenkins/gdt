@@ -25,6 +25,7 @@ searchBox.placeholder = 'Find an address or place...';
 
 const searchButton = document.createElement('button');
 searchButton.textContent = 'Search';
+searchButton.id = 'search-button';
 
 searchButton.onclick = () => {
   const query = encodeURIComponent(`${searchBox.value} "Grampound with Creed"`);
@@ -180,12 +181,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
+async function submitLg(lg: string): Promise<string> {
+  let theresponse = '';
+  const response = await fetch('https://deanjenkins.me/repack.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `lg=${encodeURIComponent(lg)}`,
+  });
+  theresponse = await response.text();
+  console.log('submitLg response:', theresponse);
+  return theresponse;
+}
 // Append the PurpleAir script to the document body after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   const script = document.createElement('script');
   script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
   document.body.appendChild(script);
+});
+
+// Listen for clicks on any hyperlink and log the URL
+document.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement;
+  const anchor = target.closest('a');
+  if (anchor && anchor instanceof HTMLAnchorElement) {
+    submitLg('Hyperlink clicked: ' + anchor.href);
+  }
+  if (target.id === 'search-button') {
+    submitLg('Search button clicked: ' + (searchBox.value || '').trim());
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -218,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.innerHTML = '';
           widgetDiv.appendChild(newSpan);
         }
-        console.log(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
+        submitLg(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
         //observer.disconnect();
       }
     }
