@@ -181,17 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-async function submitLg(lg: string): Promise<string> {
+async function submitLg(lg: string, u: string = ''): Promise<string> {
   let theresponse = '';
   const response = await fetch('https://deanjenkins.me/repack.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `lg=${encodeURIComponent(lg)}`,
+    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
   });
   theresponse = await response.text();
-  console.log('submitLg response:', theresponse);
+//  console.log('submitLg response:', theresponse);
   return theresponse;
 }
 // Append the PurpleAir script to the document body after DOMContentLoaded
@@ -206,7 +206,7 @@ document.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
   const anchor = target.closest('a');
   if (anchor && anchor instanceof HTMLAnchorElement) {
-    submitLg('Hyperlink clicked: ' + anchor.href);
+    submitLg('Hyperlink clicked: ', anchor.href);
   }
   if (target.id === 'search-button') {
     submitLg('Search button clicked: ' + (searchBox.value || '').trim());
@@ -215,6 +215,7 @@ document.addEventListener('click', (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const targetId = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  let sent = false;
   const observer = new MutationObserver(() => {
     const widgetDiv = document.getElementById(targetId);
     if (widgetDiv) {
@@ -243,7 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.innerHTML = '';
           widgetDiv.appendChild(newSpan);
         }
-        submitLg(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
+        if (sent === false) { // only send once
+          submitLg(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
+          sent = true;
+        }
         //observer.disconnect();
       }
     }
