@@ -221,7 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const observer = new MutationObserver(() => {
     const widgetDiv = document.getElementById(targetId);
     if (widgetDiv) {
-      const span = widgetDiv.querySelector('span[style="display: inline-block; font-size: 80px;"]');
+      // Try to find the span by its text content and approximate style, since mobile may render differently
+      let span = Array.from(widgetDiv.querySelectorAll('span')).find(s => {
+        const text = s.textContent?.trim() || '';
+        // Check if the text is a number and the font size is large
+        const isNumber = !isNaN(parseFloat(text));
+        const fontSize = window.getComputedStyle(s).fontSize;
+        return isNumber && parseFloat(fontSize) >= 60;
+      });
       if (span) {
         console.log('PurpleAir Pm2.5 span found');
         const pmValue = parseFloat(span.innerHTML);
