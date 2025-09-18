@@ -251,12 +251,14 @@ document.addEventListener('DOMContentLoaded', () => {
           sent = true;
         }
         //observer.disconnect();
-      }
+      } 
     }
   });
 
   const widgetDiv = document.getElementById(targetId);
   if (widgetDiv) {
     observer.observe(widgetDiv, { childList: true, subtree: true });
+  } else {
+    console.error(`PurpleAir widget not found.`);
   }
 });
