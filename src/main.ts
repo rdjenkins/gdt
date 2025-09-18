@@ -193,7 +193,7 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
     body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
   });
   theresponse = await response.text();
-  console.log('logging:', theresponse);
+  console.log('GDT Logging:', theresponse);
   return theresponse;
 }
 // Append the PurpleAir script to the document body after DOMContentLoaded
