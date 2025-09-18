@@ -223,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (widgetDiv) {
       const span = widgetDiv.querySelector('span[style="display: inline-block; font-size: 80px;"]');
       if (span) {
+        console.log('PurpleAir Pm2.5 span found');
         const pmValue = parseFloat(span.innerHTML);
         if (!isNaN(pmValue) && pmValue < 50) {
           // Create a new span element
