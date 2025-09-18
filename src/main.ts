@@ -8,6 +8,9 @@ import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
+import { ClientJS } from 'clientjs';
+const client = new ClientJS();
+const f = client.getFingerprint();
 
 let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
 
@@ -188,7 +191,7 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
+    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}&f=${encodeURIComponent(f)}`,
   });
   theresponse = await response.text();
 //  console.log('submitLg response:', theresponse);
