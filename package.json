@@ -1,7 +1,7 @@
 {
   "name": "grampound-digital-twin",
   "private": true,
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,8 +11,5 @@
   "devDependencies": {
     "typescript": "~5.8.3",
     "vite": "^7.1.2"
-  },
-  "dependencies": {
-    "clientjs": "^0.2.1"
   }
 }
