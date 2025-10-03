@@ -307,11 +307,13 @@ const url = "https://api.open-meteo.com/v1/forecast";
   
   const weatherInfo = document.getElementById('weather-info');
   if (weatherInfo) {
-    weatherInfo.innerHTML = 
-    `<img src="${weather_code_image}" alt="${weather_code_description}" style="background:${weather_code_image_background};border-radius:10px;" /><br>
-    ${weather_code_description} ${Math.round(weatherData.current.temperature_2m)}°C<br>
+    const weather_summary = `${weather_code_description} ${Math.round(weatherData.current.temperature_2m)}°C<br>
     wind ${Math.round(weatherData.current.wind_speed_10m)} m/s (${wind_description})<br>
     rain ${weatherData.current.rain.toFixed(1)} mm (${rain_description})`;
+    weatherInfo.innerHTML = 
+    `<img src="${weather_code_image}" alt="${weather_code_description}" style="background:${weather_code_image_background};border-radius:10px;" /><br>
+    ${weather_summary}`;
+    submitLg(`${weather_summary}`);
   }
 })();
 
@@ -365,6 +367,7 @@ if (floodInfo) {
     (nextFlow < 10) ? 'Medium flow' :
     (nextFlow < 15) ? 'High flow' : 'Very high flow';
   console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
+  submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
   floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
     `Current (GloFAS estimated) river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
     (${flowDescription})`;
