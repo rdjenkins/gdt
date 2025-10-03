@@ -8,6 +8,9 @@ import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
 import packageJson from '../package.json';
+import { fetchWeatherApi } from 'openmeteo';
+import wmoCodes from './wmo-codes.json';
+
 console.log('GDT Version:', packageJson.version);
 
 let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
@@ -53,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Define the main HTML structure with placeholders for weather info
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
     <h1>Grampound</h1>
@@ -116,6 +120,18 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h2>Environment</h2>
     <ul class="flex-container">
 
+      <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" target="_blank" class="flex-item">
+        <p id="weather-info">
+          Weather (UK Met Office)
+        </p>
+      </a>
+
+      <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
+        <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
+      <p>${nearestPurpleAirSensorwidget}</p>
+      <p>Air quality in Cornwall.</p>
+      </a>
+
       <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank" class="flex-item">
         <div id="water-quality-traffic-light">
           ${waterqualitytrafficlightHTML}
@@ -124,10 +140,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Water quality for the River Fal.</p>
       </a>
 
-      <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
-        <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
-      <p>${nearestPurpleAirSensorwidget}</p>
-      <p>Air quality in Cornwall.</p>
+      <a href="https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00" target="_blank" class="flex-item">
+        <button>Go to gov.UK for flood warnings for Grampound.</button>
+        <p id="flood-info">
+          Flood data loading...
+        </p>
       </a>
 
       </ul>
@@ -177,6 +194,184 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
   console.log('GDT Logging:', theresponse);
   return theresponse;
 }
+
+// Fetch weather data from Open-Meteo
+// Example coordinates for Grampound: 50.2993°N, -4.9005°E
+// Documentation: https://open-meteo.com/en/docs
+// API starting code from: https://open-meteo.com/en/docs/ukmo-api?latitude=50.2993&longitude=-4.9005&timezone=Europe%2FLondon&hourly=&wind_speed_unit=ms&forecast_days=1&current=weather_code,temperature_2m,wind_speed_10m,rain
+const params = {
+	"latitude": 50.2993,
+	"longitude": -4.9005,
+	"models": "ukmo_seamless",
+	"current": ["weather_code", "temperature_2m", "wind_speed_10m", "rain"],
+	"timezone": "Europe/London",
+	"forecast_days": 1,
+	"wind_speed_unit": "ms",
+};
+const url = "https://api.open-meteo.com/v1/forecast";
+// Wrap the weather fetch and processing in an async IIFE to ensure it runs asynchronously
+(async () => {
+  const responses = await fetchWeatherApi(url, params);
+
+  // Process first location. Add a for-loop for multiple locations or weather models
+  const response = responses[0];
+
+  // Attributes for timezone and location
+  const latitude = response.latitude();
+  const longitude = response.longitude();
+  const elevation = response.elevation();
+  const timezone = response.timezone();
+  const timezoneAbbreviation = response.timezoneAbbreviation();
+  const utcOffsetSeconds = response.utcOffsetSeconds();
+
+  console.log(
+    `\nCoordinates: ${latitude}°N ${longitude}°E`,
+    `\nElevation: ${elevation}m asl`,
+    `\nTimezone: ${timezone} ${timezoneAbbreviation}`,
+    `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
+  );
+
+  const current = response.current()!;
+
+  // Note: The order of weather variables in the URL query and the indices below need to match!
+  const weatherData = {
+    current: {
+      time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
+      weather_code: current.variables(0)!.value(),
+      temperature_2m: current.variables(1)!.value(),
+      wind_speed_10m: current.variables(2)!.value(),
+      rain: current.variables(3)!.value(),
+    },
+  };
+
+  // Load WMO weather code descriptions from wmo-codes.json and display the appropriate description
+
+  function isDayTime(date: Date): boolean {
+    const hour = date.getHours();
+    return hour >= 6 && hour < 18; // crude day/night check, adjust as needed
+  }
+
+  const weatherCode = weatherData.current.weather_code;
+  const currentTime = weatherData.current.time as Date;
+  let weather_code_description = '';
+  let weather_code_image = '';
+  let weather_code_image_background = '';
+
+  if (wmoCodes && typeof weatherCode === 'number') {
+    const codeEntry = Object.entries(wmoCodes).find(
+      ([code]) => Number(code) === weatherCode
+    );
+    if (codeEntry) {
+      const [, value] = codeEntry;
+      weather_code_description = isDayTime(currentTime)
+        ? value.day.description
+        : value.night.description;
+      weather_code_image = isDayTime(currentTime)
+        ? value.day.image
+        : value.night.image;
+      weather_code_image_background = isDayTime(currentTime)
+        ? 'lightblue'
+        : 'lightgray';
+    }
+  }
+
+  // 'weatherData' now contains a simple structure with arrays with datetime and weather data
+  console.log(
+    `\nCurrent time: ${weatherData.current.time}`,
+    `\nCurrent weather_code: ${weatherData.current.weather_code}`,
+    `\nCurrent weather description: ${weather_code_description}`,
+    `\nCurrent temperature_2m: ${weatherData.current.temperature_2m}`,
+    `\nCurrent wind_speed_10m: ${weatherData.current.wind_speed_10m}`,
+    `\nCurrent rain: ${weatherData.current.rain}`,
+  );
+
+  // wind speed as Beaufort scale description
+  const wind_description = weatherData.current.wind_speed_10m <= 0.2 ? 'calm' :
+    weatherData.current.wind_speed_10m <= 1.5 ? 'light air' :
+    weatherData.current.wind_speed_10m <= 3.3 ? 'light breeze' :
+    weatherData.current.wind_speed_10m <= 5.4 ? 'gentle breeze' :
+    weatherData.current.wind_speed_10m <= 7.9 ? 'moderate breeze' :
+    weatherData.current.wind_speed_10m <= 10.7 ? 'fresh breeze' :
+    weatherData.current.wind_speed_10m <= 13.8 ? 'strong breeze' :
+    weatherData.current.wind_speed_10m <= 17.1 ? 'near gale' :
+    weatherData.current.wind_speed_10m <= 20.7 ? 'gale' :
+    weatherData.current.wind_speed_10m <= 24.4 ? 'severe gale' :
+    weatherData.current.wind_speed_10m <= 28.4 ? 'storm' :
+    weatherData.current.wind_speed_10m <= 32.6 ? 'violent storm' : 'hurricane';
+
+  const rain_description = weatherData.current.rain === 0 ? 'no rain' :
+    weatherData.current.rain < 2.5 ? 'light rain' :
+    weatherData.current.rain < 7.6 ? 'moderate rain' :
+    weatherData.current.rain < 50 ? 'heavy rain' :
+    weatherData.current.rain < 100 ? 'very heavy rain' : 'extreme rain';
+  
+  const weatherInfo = document.getElementById('weather-info');
+  if (weatherInfo) {
+    weatherInfo.innerHTML = 
+    `<img src="${weather_code_image}" alt="${weather_code_description}" style="background:${weather_code_image_background};border-radius:10px;" /><br>
+    ${weather_code_description} ${Math.round(weatherData.current.temperature_2m)}°C<br>
+    wind ${Math.round(weatherData.current.wind_speed_10m)} m/s (${wind_description})<br>
+    rain ${weatherData.current.rain.toFixed(1)} mm (${rain_description})`;
+  }
+})();
+
+
+(async () => {
+  const params = {
+	"latitude": 50.2993,
+	"longitude": -4.9005,
+	"daily": "river_discharge",
+	"forecast_days": 7,
+};
+const url = "https://flood-api.open-meteo.com/v1/flood";
+const responses = await fetchWeatherApi(url, params);
+
+// Process first location. Add a for-loop for multiple locations or weather models
+const response = responses[0];
+
+// Attributes for timezone and location
+const latitude = response.latitude();
+const longitude = response.longitude();
+const elevation = response.elevation();
+const utcOffsetSeconds = response.utcOffsetSeconds();
+
+console.log(
+	`\nCoordinates: ${latitude}°N ${longitude}°E`,
+	`\nElevation: ${elevation}m asl`,
+	`\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
+);
+
+const daily = response.daily()!;
+
+// Note: The order of weather variables in the URL query and the indices below need to match!
+const floodData = {
+	daily: {
+		time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
+			(_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
+		),
+		river_discharge: daily.variables(0)!.valuesArray(),
+	},
+};
+
+// 'floodData' now contains a simple structure with arrays with datetime and weather data
+console.log("\nDaily river flow data GloFAS", floodData.daily)
+
+const floodInfo = document.getElementById('flood-info');
+if (floodInfo) {
+  const nextFlow = (floodData.daily.river_discharge) ? floodData.daily.river_discharge[0] : -1;
+  // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
+  const flowDescription = (nextFlow === -1) ? 'No data' :
+    (nextFlow < 5) ? 'Low flow' :
+    (nextFlow < 10) ? 'Medium flow' :
+    (nextFlow < 15) ? 'High flow' : 'Very high flow';
+  console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
+  floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
+    `Current (GloFAS estimated) river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
+    (${flowDescription})`;
+}
+})();
+
+
 // Append the PurpleAir script to the document body after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   const script = document.createElement('script');

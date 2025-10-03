@@ -11,5 +11,8 @@
   "devDependencies": {
     "typescript": "~5.8.3",
     "vite": "^7.1.2"
+  },
+  "dependencies": {
+    "openmeteo": "^1.2.1"
   }
 }
