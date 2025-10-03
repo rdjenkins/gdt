@@ -2,7 +2,6 @@ import './style.css'
 import openstreetmaplogo from '/OpenStreetMap-logo-with-text.svg'
 import ghplogo from '/gwchp-logo-coloured-600x600.png'
 import calendarlogo from '/calendar.svg'
-import acnylogo from '/acny.png'
 import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
 import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
@@ -60,14 +59,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <p class="subtitle">
     digital twin project
     </p>
+
 <h2>Maps</h2>
     <ul class="flex-container">
-    <li class="flex-item">
-      <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank">
+      <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank" class="flex-item">
         <img src="${openstreetmaplogo}" class="logo vanilla" alt="OpenStreetMap logo" />
-      </a>
       <p>Map of Grampound with Creed.</p>
-    </li>
+      </a>
 
     <li class="flex-item">
         <div id="search-container"></div>
@@ -85,80 +83,63 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
     </ul>
 
-<h2>What's on</h2>
+    <h2>What's on</h2>
     <ul class="flex-container">
 
-    <li class="flex-item">
-      <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank">
+      <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank" class="flex-item">
         <img src="${calendarlogo}" class="logo" alt="Grampound calendar logo" />
-      </a>
       <p>Calendar of events.</p>
-    </li>
-
-    <li class="flex-item">
-      <a href="https://www.achurchnearyou.com/search/?acny_search_place=Grampound%2C+Truro%2C+UK&lat=50.2992589&lon=-4.8984499&place=Grampound%2C+Truro+TR2%2C+UK&postcode=TR2&text=" target="_blank">
-        <img src="${acnylogo}" class="logo" alt="A Church Near You logo" />
       </a>
-      <p>Church services in Grampound with Creed.</p>
-    </li>
+
     </ul>
 
 <h2>Photos and more</h2>
     <ul class="flex-container">
 
-    <li class="flex-item">
-      <a href="https://photos.grampound.org.uk/" target="_blank">
+      <a href="https://photos.grampound.org.uk/" target="_blank" class="flex-item">
         <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
-      </a>
       <p>Grampound Heritage Project photo archive.</p>
-    </li>
+      </a>
 
-    <li class="flex-item">
-      <a href="https://www.geograph.org.uk/mapper/combined.php#15/50.3010/-4.9012" target="_blank">
+      <a href="https://www.geograph.org.uk/mapper/combined.php#15/50.3010/-4.9012" target="_blank" class="flex-item">
         <img src="${geographlogo}" class="logo vanilla" alt="Geograph logo" />
-      </a>
       <p>Geograph photographs of Grampound.</p>
-    </li>
-
-    <li class="flex-item">
-      <a href="https://stcrida.co.uk/cs.php" target="_blank">
-        <img src="${creedchurchyardlogo}" class="logo green" alt="Creed Churchyard logo" />
       </a>
+
+      <a href="https://stcrida.co.uk/cs.php" target="_blank" class="flex-item">
+        <img src="${creedchurchyardlogo}" class="logo green" alt="Creed Churchyard logo" />
       <p>Creed Churchyard search.</p>
-    </li>
-    </ul>
+      </a>
+
+      </ul>
 
 <h2>Environment</h2>
     <ul class="flex-container">
 
-    <li class="flex-item">
-      <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank">
+      <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank" class="flex-item">
         <div id="water-quality-traffic-light">
           ${waterqualitytrafficlightHTML}
           <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
         </div>
-      </a>
       <p>Water quality for the River Fal.</p>
-    </li>
-
-    <li class="flex-item">
-      <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank">
-        <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
       </a>
+
+      <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
+        <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
       <p>${nearestPurpleAirSensorwidget}</p>
       <p>Air quality in Cornwall.</p>
-    </li>
-    </ul>
+      </a>
+
+      </ul>
   
 <h2>More info</h2>
     <ul class="flex-container">
-    <li class="flex-item">
-      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank">
+      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
-      </a>
       <p>Find this project on GitHub.</p>
-    </li>
+      </a>
 
+      
     </ul>
   </div>
 `
@@ -235,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNaN(pmValue) && pmValue < 50) {
           // Create a new span element
           const newSpan = document.createElement('span');
+          newSpan.classList.add('purple-air-reading');
           newSpan.textContent = span.textContent;
           newSpan.style.background = 'green';
           newSpan.style.color = 'white';
@@ -246,8 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNaN(pmValue) && pmValue >=50 && pmValue < 100) {
           // Create a new span element
           const newSpan = document.createElement('span');
+          newSpan.classList.add('purple-air-reading');
           newSpan.textContent = span.textContent;
           newSpan.style.background = 'yellow';
+          newSpan.style.color = 'white';
+          newSpan.style.borderRadius = '1000px';
+          newSpan.style.padding = '0.5em 0.5em';
+          widgetDiv.innerHTML = '';
+          widgetDiv.appendChild(newSpan);
+        }
+        if (!isNaN(pmValue) && pmValue >=100) {
+          // Create a new span element
+          const newSpan = document.createElement('span');
+          newSpan.classList.add('purple-air-reading');
+          newSpan.textContent = span.textContent;
+          newSpan.style.background = 'red';
           newSpan.style.color = 'white';
           newSpan.style.borderRadius = '1000px';
           newSpan.style.padding = '0.5em 0.5em';
