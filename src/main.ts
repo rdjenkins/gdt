@@ -229,6 +229,19 @@ document.addEventListener('DOMContentLoaded', () => {
     "To show what is possible with open data and community effort.",
     "To demonstrate how small digital projects can beat 'big tech' for local relevance.",
     "This could be a public touch screen in the village hall or shop.",
+    "To help everyone find local info fast.",
+    "To show how sharing info online can help our town.",
+    "To make weather and nature facts easy to find for Grampound.",
+    "To get people excited about local events and places.",
+    "To have one website for maps, weather, and how clean our air and water is.",
+    "To be honest and open about our local environment.",
+    "To try out new tech ideas for places like ours.",
+    "To make planning walks and trips around Grampound simple.",
+    "To show how tech can help people connect with where they live.",
+    "To share other cool websites that already exist for Grampound.",
+    "To show what we can do when we share information and work together.",
+    "To prove a small local website can be more useful than big websites or apps for our town.",
+    "This could also be a public computer screen in the village hall or shop."
   ];
   const whyButton = document.getElementById('why-button');
   const whyContent = document.getElementById('why-content');
