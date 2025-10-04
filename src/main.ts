@@ -15,6 +15,9 @@ console.log('GDT Version:', packageJson.version);
 
 let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
 let currentDateTime = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false });
+const urlparams = new URLSearchParams(window.location.search);
+const nolog = (urlparams.has('nolog')) ? true : false;
+let waterqualitytrafficlightHTML = "";
 
 async function waterqualitytrafficlight() {
   const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
@@ -22,8 +25,27 @@ async function waterqualitytrafficlight() {
   return text;
 }
 
-let waterqualitytrafficlightHTML = "";
+// Function to submit anonymous logs to the server to see which functions are being used
+async function submitLg(lg: string, u: string = ''): Promise<string> {
+  if (nolog) {
+    console.log('GDT Logging disabled');
+    return 'nolog';
+  }
+  let theresponse = '';
+  const response = await fetch('https://deanjenkins.me/repack.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
+  });
+  theresponse = await response.text();
+  console.log('GDT Logging:', theresponse);
+  return theresponse;
+}
 
+
+// Open Street Map search box and button
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
 searchBox.placeholder = 'Find an address or place...';
@@ -57,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Define the main HTML structure with placeholders for weather info
+
+// Define and load the main HTML structure
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
     <h1>Grampound</h1>
@@ -165,6 +188,17 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <p class="version">Version: ${packageJson.version}</p>
   </div>
 `
+// Listen for clicks on any hyperlink and log the URL
+document.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement;
+  const anchor = target.closest('a');
+  if (anchor && anchor instanceof HTMLAnchorElement) {
+    submitLg('Hyperlink clicked: ', anchor.href);
+  }
+  if (target.id === 'search-button') {
+    submitLg('Search button clicked: ' + (searchBox.value || '').trim());
+  }
+});
 
 // Move the search box and button into the #search-container after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -186,19 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-async function submitLg(lg: string, u: string = ''): Promise<string> {
-  let theresponse = '';
-  const response = await fetch('https://deanjenkins.me/repack.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
-  });
-  theresponse = await response.text();
-  console.log('GDT Logging:', theresponse);
-  return theresponse;
-}
 
 // Fetch weather data from Open-Meteo
 // Example coordinates for Grampound: 50.2993°N, -4.9005°E
@@ -249,8 +270,8 @@ const url = "https://api.open-meteo.com/v1/forecast";
     },
   };
 
-  // Load WMO weather code descriptions from wmo-codes.json and display the appropriate description
 
+  // Load WMO weather code descriptions from wmo-codes.json and display the appropriate description
   function isDayTime(date: Date): boolean {
     const hour = date.getHours();
     return hour >= 6 && hour < 18; // crude day/night check, adjust as needed
@@ -323,6 +344,7 @@ const url = "https://api.open-meteo.com/v1/forecast";
 })();
 
 
+// Fetch flood data from Open-Meteo
 (async () => {
   const params = {
 	"latitude": 50.2993,
@@ -374,10 +396,11 @@ if (floodInfo) {
   console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
   submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
   floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
-    `Current (GloFAS estimated) river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
+    `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
     (${flowDescription})`;
 }
 })();
+
 
 
 // Append the PurpleAir script to the document body after DOMContentLoaded
@@ -385,18 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const script = document.createElement('script');
   script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
   document.body.appendChild(script);
-});
-
-// Listen for clicks on any hyperlink and log the URL
-document.addEventListener('click', (event) => {
-  const target = event.target as HTMLElement;
-  const anchor = target.closest('a');
-  if (anchor && anchor instanceof HTMLAnchorElement) {
-    submitLg('Hyperlink clicked: ', anchor.href);
-  }
-  if (target.id === 'search-button') {
-    submitLg('Search button clicked: ' + (searchBox.value || '').trim());
-  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
