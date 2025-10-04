@@ -7,6 +7,7 @@ import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
+import busicon from '/ISO_7001_PI_TF_006.svg'
 import packageJson from '../package.json';
 import { fetchWeatherApi } from 'openmeteo';
 import wmoCodes from './wmo-codes.json';
@@ -101,18 +102,19 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
+    <img src="${busicon}" class="icon"><br>
       <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E" target="_blank">
         <button>To Truro</button>
       </a>
       <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c" target="_blank">
         <button>To St Austell</button>
       </a>
-      <p>Find the next bus from Grampound.</p>
+      <p>Buses from Grampound.</p>
     </li>
 
     <li class="flex-item">
       <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
-        <button>Pepo Trenowth (1½ hrs)</button>
+        <button>Trenowth (1½ hrs)</button>
       </a>
       <a href="https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909" target="_blank">
         <button>Creed Circuit (1 hr)</button>

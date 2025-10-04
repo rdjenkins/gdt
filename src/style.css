@@ -56,6 +56,11 @@ p.left {
   text-align: left;
 }
 
+.icon{
+  height:1.5em;
+  vertical-align: bottom;
+}
+
 .logo {
   height: 6em;
 /*  padding: 1.5em; */
