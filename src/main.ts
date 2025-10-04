@@ -88,7 +88,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     digital twin project
     </p>
 
-<h2>Maps</h2>
+<h2>Maps and travel</h2>
     <ul class="flex-container">
       <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank" class="flex-item">
         <img src="${openstreetmaplogo}" class="logo vanilla" alt="OpenStreetMap logo" />
@@ -101,6 +101,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
+      <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E" target="_blank">
+        <button>To Truro</button>
+      </a>
+      <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c" target="_blank">
+        <button>To St Austell</button>
+      </a>
+      <p>Find the next bus from Grampound.</p>
+    </li>
+
+    <li class="flex-item">
       <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
         <button>Pepo Trenowth (1½ hrs)</button>
       </a>
@@ -110,6 +120,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Circular walks near Grampound.</p>
     </li>
     </ul>
+
 
     <h2>What's on</h2>
     <ul class="flex-container">
