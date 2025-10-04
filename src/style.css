@@ -107,7 +107,8 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #300604; /* from the calendar icon */
+  background-color: #FCE3C3; /* from the calendar icon */
 }
 button:focus,
 button:focus-visible {
@@ -148,12 +149,6 @@ button:focus-visible {
 
 a.flex-item:hover {
   color: black;
-}
-
-#search-container button {
-    border: 1px solid #242424;
-    background-color: lightgray;
-    margin: 0.5em;
 }
 
 #search-container input {
