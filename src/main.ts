@@ -142,7 +142,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </ul>
 
 <h2>Environment</h2>
-<p class="left">Updated ${currentDateTime}.</p>
+<p class="left">Updated ${currentDateTime}</p>
     <ul class="flex-container">
 
       <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" target="_blank" class="flex-item">
@@ -229,15 +229,15 @@ const params = {
 	"latitude": 50.2993,
 	"longitude": -4.9005,
 	"models": "ukmo_seamless",
-	"current": ["weather_code", "temperature_2m", "wind_speed_10m", "rain"],
+	"current": ["weather_code", "temperature_2m", "wind_speed_10m", "rain", "is_day"],
 	"timezone": "Europe/London",
 	"forecast_days": 1,
 	"wind_speed_unit": "ms",
 };
-const url = "https://api.open-meteo.com/v1/forecast";
+const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Wrap the weather fetch and processing in an async IIFE to ensure it runs asynchronously
 (async () => {
-  const responses = await fetchWeatherApi(url, params);
+  const responses = await fetchWeatherApi(forecasturl, params);
 
   // Process first location. Add a for-loop for multiple locations or weather models
   const response = responses[0];
@@ -267,18 +267,13 @@ const url = "https://api.open-meteo.com/v1/forecast";
       temperature_2m: current.variables(1)!.value(),
       wind_speed_10m: current.variables(2)!.value(),
       rain: current.variables(3)!.value(),
+      is_day: current.variables(4)!.value(),
     },
   };
 
 
   // Load WMO weather code descriptions from wmo-codes.json and display the appropriate description
-  function isDayTime(date: Date): boolean {
-    const hour = date.getHours();
-    return hour >= 6 && hour < 18; // crude day/night check, adjust as needed
-  }
-
   const weatherCode = weatherData.current.weather_code;
-  const currentTime = weatherData.current.time as Date;
   let weather_code_description = '';
   let weather_code_image = '';
   let weather_code_image_background = '';
@@ -289,15 +284,15 @@ const url = "https://api.open-meteo.com/v1/forecast";
     );
     if (codeEntry) {
       const [, value] = codeEntry;
-      weather_code_description = isDayTime(currentTime)
-        ? value.day.description
-        : value.night.description;
-      weather_code_image = isDayTime(currentTime)
-        ? value.day.image
-        : value.night.image;
-      weather_code_image_background = isDayTime(currentTime)
-        ? 'lightblue'
-        : 'lightgray';
+      if (weatherData.current.is_day === 1) {
+        weather_code_description = value.day.description;
+        weather_code_image = value.day.image;
+        weather_code_image_background = 'lightblue';
+      } else {
+        weather_code_description = value.night.description;
+        weather_code_image = value.night.image;
+        weather_code_image_background = 'lightgray';
+      }
     }
   }
 
@@ -309,6 +304,7 @@ const url = "https://api.open-meteo.com/v1/forecast";
     `\nCurrent temperature_2m: ${weatherData.current.temperature_2m}`,
     `\nCurrent wind_speed_10m: ${weatherData.current.wind_speed_10m}`,
     `\nCurrent rain: ${weatherData.current.rain}`,
+    `\nIs it day? ${weatherData.current.is_day === 1 ? 'Yes' : 'No'}`,
   );
 
   // wind speed as Beaufort scale description
