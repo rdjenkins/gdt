@@ -192,17 +192,62 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h2>More info</h2>
 <p class="left">Find out more about this project and how to contribute.</p>
     <ul class="flex-container">
+
+    <li class="flex-item">
+        <button id="why-button">
+          Why?
+        </button>
+        <p id="why-content">Keep hitting the why button to learn more.</p>
+      </li>
+
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
       <p>Find this project on GitHub.</p>
       </a>
-
       
     </ul>
 
     <p class="version">Version: ${packageJson.version}</p>
   </div>
 `
+
+// Add event listener for why-button to update why-content with a random reason
+let last_idx = -1;
+document.addEventListener('DOMContentLoaded', () => {
+  const whySentences = [
+    "To help us find useful local information quickly.",
+    "To demonstrate how open data and digital tools can benefit our community.",
+    "To make environmental and travel data more accessible for Grampound.",
+    "To encourage us to engage with local resources and events.",
+    "To provide a single place for maps, weather, air and water quality, and more.",
+    "To support transparency and awareness about local environmental conditions.",
+    "To experiment with digital projects for rural areas.",
+    "To make it easier to plan journeys and walks around Grampound.",
+    "To showcase how technology can connect people with their local area.",
+    "To encourage contributions and improvements from anyone who wants to get involved.",
+    "To share some excellent digital resources that already exist for Grampound.",
+    "To show what is possible with open data and community effort.",
+    "To demonstrate how small digital projects can beat 'big tech' for local relevance.",
+    "This could be a public touch screen in the village hall or shop.",
+  ];
+  const whyButton = document.getElementById('why-button');
+  const whyContent = document.getElementById('why-content');
+  if (whyButton && whyContent) {
+    whyButton.addEventListener('click', () => {
+      let idx: number;
+      if (whySentences.length > 1) {
+        do {
+          idx = Math.floor(Math.random() * whySentences.length);
+        } while (idx === last_idx);
+      } else {
+        idx = 0;
+      }
+      last_idx = idx;
+      whyContent.textContent = whySentences[idx];
+      whyButton.innerText = 'Why again?';
+    });
+  }
+});
 // Listen for clicks on any hyperlink and log the URL
 document.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
