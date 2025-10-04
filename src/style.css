@@ -52,6 +52,10 @@ h2 {
   text-align: center;
 }
 
+p.left {
+  text-align: left;
+}
+
 .logo {
   height: 6em;
 /*  padding: 1.5em; */
@@ -76,6 +80,12 @@ h2 {
   font-size: 1.6em;
   color: #888;
   margin-top: 1px;
+  font-variant-caps: all-small-caps;
+}
+
+.version {
+  font-size: 0.5em;
+  color: #888;
   font-variant-caps: all-small-caps;
 }
 

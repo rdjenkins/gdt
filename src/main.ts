@@ -14,6 +14,7 @@ import wmoCodes from './wmo-codes.json';
 console.log('GDT Version:', packageJson.version);
 
 let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
+let currentDateTime = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false });
 
 async function waterqualitytrafficlight() {
   const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
@@ -105,7 +106,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Grampound Heritage Project photo archive.</p>
       </a>
 
-      <a href="https://www.geograph.org.uk/mapper/combined.php#15/50.3010/-4.9012" target="_blank" class="flex-item">
+      <a href="https://www.geograph.org.uk/near/SW93484841" target="_blank" class="flex-item">
         <img src="${geographlogo}" class="logo vanilla" alt="Geograph logo" />
       <p>Geograph photographs of Grampound.</p>
       </a>
@@ -118,6 +119,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </ul>
 
 <h2>Environment</h2>
+<p class="left">Updated ${currentDateTime}.</p>
     <ul class="flex-container">
 
       <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" target="_blank" class="flex-item">
@@ -150,6 +152,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </ul>
   
 <h2>More info</h2>
+<p class="left">Find out more about this project and how to contribute.</p>
     <ul class="flex-container">
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
@@ -158,6 +161,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
       
     </ul>
+
+    <p class="version">Version: ${packageJson.version}</p>
   </div>
 `
 
