@@ -7,7 +7,8 @@ import waterqualitylogo from '/Water-quality-sewage.png'
 import creedchurchyardlogo from '/creed-churchyard.png'
 import geographlogo from '/geograph-logo.svg'
 import githublogo from '/github-mark.svg'
-import busicon from '/ISO_7001_PI_TF_006.svg'
+import busicon from '/ISO_7001_PI_TF_006.svg' // Original from https://commons.wikimedia.org/wiki/File:ISO_7001_PI_TF_006.svg
+import hikericon from '/hiker.svg' // Original from https://commons.wikimedia.org/wiki/File:Big_guy_637%27s_hiking_icon.svg
 import packageJson from '../package.json';
 import { fetchWeatherApi } from 'openmeteo';
 import wmoCodes from './wmo-codes.json';
@@ -102,7 +103,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
-    <img src="${busicon}" class="icon"><br>
+    <img src="${busicon}" alt="bus icon" class="icon"><br>
       <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E" target="_blank">
         <button>To Truro</button>
       </a>
@@ -113,6 +114,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </li>
 
     <li class="flex-item">
+    <img src="${hikericon}" alt="hiker icon" class="icon"><br>
       <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
         <button>Trenowth (1½ hrs)</button>
       </a>
