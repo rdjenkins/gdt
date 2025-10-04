@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
       last_idx = idx;
       whyContent.textContent = whySentences[idx];
       whyButton.innerText = 'Why again?';
+      submitLg('Why button clicked: ', String(idx));
     });
   }
 });
