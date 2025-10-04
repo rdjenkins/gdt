@@ -104,10 +104,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <li class="flex-item">
     <img src="${busicon}" alt="bus icon" class="icon"><br>
-      <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E" target="_blank">
+      <a href="https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt" target="_blank">
         <button>To Truro</button>
       </a>
-      <a href="https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c" target="_blank">
+      <a href="https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt" target="_blank">
         <button>To St Austell</button>
       </a>
       <p>Buses from Grampound.</p>
