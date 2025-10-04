@@ -241,7 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
     "To share other cool websites that already exist for Grampound.",
     "To show what we can do when we share information and work together.",
     "To prove a small local website can be more useful than big websites or apps for our town.",
-    "This could also be a public computer screen in the village hall or shop."
+    "This could also be a public computer screen in the village hall or shop.",
+    "To find out what's happening in the village this week.",
+    "To prove a local site can be more useful than big tech apps.",
+    "To make planning walks, bus trips, and journeys simpler.",
+    "To be the one-stop website for everything in Grampound.",
+    "To help you find local info quickly and easily.",
+    "To show what we can achieve when we share information and work together.",
   ];
   const whyButton = document.getElementById('why-button');
   const whyContent = document.getElementById('why-content');
