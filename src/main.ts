@@ -20,6 +20,10 @@ let currentDateTime = new Date().toLocaleString('en-GB', { timeZone: 'Europe/Lon
 const urlparams = new URLSearchParams(window.location.search);
 const nolog = (urlparams.has('nolog')) ? true : false;
 let waterqualitytrafficlightHTML = "";
+let firstbustrurourl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E";
+let firstbusstaustellurl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c";
+let travellinetrurourl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt";
+let travellinestaustellurl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt";
 
 async function waterqualitytrafficlight() {
   const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
@@ -104,13 +108,19 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <li class="flex-item">
     <img src="${busicon}" alt="bus icon" class="icon"><br>
-      <a href="https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt" target="_blank">
-        <button>To Truro</button>
-      </a>
-      <a href="https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt" target="_blank">
-        <button>To St Austell</button>
-      </a>
-      <p>Buses from Grampound.</p>
+      <div style="margin-top:1em;">
+        <label for="bus-toggle" id="bus-toggle-traveline" style="font-weight:bold;">Traveline</label>
+        <label class="switch">
+          <input type="checkbox" id="bus-toggle">
+          <span class="slider"></span>
+        </label>
+        <span id="bus-toggle-firstbus" style="margin-left:0.5em;">First Bus</span>
+        <div id="bus-links" style="margin-top:0.5em;">
+          <a href="${travellinetrurourl}" target="_blank"><button>To Truro</button></a>
+          <a href="${travellinestaustellurl}" target="_blank"><button>To St Austell</button></a>
+        </div>
+        <p>Buses from Grampound.</p>
+      </div>
     </li>
 
     <li class="flex-item">
@@ -209,7 +219,79 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <p class="version">Version: ${packageJson.version}</p>
   </div>
-`
+
+  <style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      vertical-align: middle;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .2s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+/*      background-color: #2196F3; */
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+  </style>
+`;
+
+// Bus toggle logic
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('bus-toggle') as HTMLInputElement | null;
+  const linksDiv = document.getElementById('bus-links');
+  const toggleLabelTraveline = document.getElementById('bus-toggle-traveline');
+  const togglelabelFirstbus = document.getElementById('bus-toggle-firstbus');
+  if (toggle && linksDiv) {
+    toggle.addEventListener('change', () => {
+    let togglechecked = (toggle && toggle.checked) ? true : false;
+      console.log('Bus toggle changed to', togglechecked);
+      if (togglechecked) {
+        togglelabelFirstbus!.style.fontWeight = 'bold';
+        toggleLabelTraveline!.style.fontWeight = 'normal';
+        linksDiv.innerHTML = `
+          <a href="${firstbustrurourl}" target="_blank"><button>To Truro</button></a>
+          <a href="${firstbusstaustellurl}" target="_blank"><button>To St Austell</button></a>
+        `;
+      } else {
+        togglelabelFirstbus!.style.fontWeight = 'normal';
+        toggleLabelTraveline!.style.fontWeight = 'bold';
+        linksDiv.innerHTML = `
+          <a href="${travellinetrurourl}" target="_blank"><button>To Truro</button></a>
+          <a href="${travellinestaustellurl}" target="_blank"><button>To St Austell</button></a>
+        `;
+      }
+    });
+  }
+});
 
 // Add event listener for why-button to update why-content with a random reason
 let last_idx = -1;
