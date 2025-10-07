@@ -350,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 // Listen for clicks on any hyperlink and log the URL
 document.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
@@ -495,7 +496,7 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
     wind ${Math.round(weatherData.current.wind_speed_10m)} m/s (${wind_description})<br>
     rain ${weatherData.current.rain.toFixed(1)} mm (${rain_description})`;
     weatherInfo.innerHTML = 
-    `<img src="${weather_code_image}" alt="${weather_code_description}" style="background:${weather_code_image_background};border-radius:10px;" /><br>
+    `<img src="${weather_code_image}" alt="${weather_code_description}" class="logo" style="background:${weather_code_image_background};border-radius:10px;" /><br>
     ${weather_summary}`;
     submitLg(`${weather_summary}`);
   }
