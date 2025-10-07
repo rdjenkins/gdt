@@ -77,6 +77,10 @@ p.left {
   filter: drop-shadow(0 0 2em #c3c631aa);
 }
 
+.logo.grey:hover {
+  filter: drop-shadow(0 0 2em #888888aa);
+}
+
 .card {
   padding: 2em;
 }

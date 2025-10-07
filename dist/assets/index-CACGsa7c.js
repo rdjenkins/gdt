@@ -192,7 +192,7 @@ Current wind_speed_10m: ${t.current.wind_speed_10m}`,`
 Current rain: ${t.current.rain}`,`
 Is it day? ${t.current.is_day===1?"Yes":"No"}`);const v=t.current.wind_speed_10m<=.2?"calm":t.current.wind_speed_10m<=1.5?"light air":t.current.wind_speed_10m<=3.3?"light breeze":t.current.wind_speed_10m<=5.4?"gentle breeze":t.current.wind_speed_10m<=7.9?"moderate breeze":t.current.wind_speed_10m<=10.7?"fresh breeze":t.current.wind_speed_10m<=13.8?"strong breeze":t.current.wind_speed_10m<=17.1?"near gale":t.current.wind_speed_10m<=20.7?"gale":t.current.wind_speed_10m<=24.4?"severe gale":t.current.wind_speed_10m<=28.4?"storm":t.current.wind_speed_10m<=32.6?"violent storm":"hurricane",l=t.current.rain===0?"no rain":t.current.rain<2.5?"light rain":t.current.rain<7.6?"moderate rain":t.current.rain<50?"heavy rain":t.current.rain<100?"very heavy rain":"extreme rain",d=document.getElementById("weather-info");if(d){const m=`${p} ${Math.round(t.current.temperature_2m)}°C<br>
     wind ${Math.round(t.current.wind_speed_10m)} m/s (${v})<br>
-    rain ${t.current.rain.toFixed(1)} mm (${l})`;d.innerHTML=`<img src="${u}" alt="${p}" class="logo" style="background:${T};border-radius:10px;" /><br>
+    rain ${t.current.rain.toFixed(1)} mm (${l})`;d.innerHTML=`<img src="${u}" alt="${p}" class="logo grey" style="background:${T};border-radius:10px;" /><br>
     ${m}`,L(`${m}`)}})();(async()=>{const _={latitude:50.2993,longitude:-4.9005,daily:"river_discharge",forecast_days:7},o=(await se.fetchWeatherApi("https://flood-api.open-meteo.com/v1/flood",_))[0],a=o.latitude(),h=o.longitude(),c=o.elevation(),s=o.utcOffsetSeconds();console.log(`
 Coordinates: ${a}°N ${h}°E`,`
 Elevation: ${c}m asl`,`
