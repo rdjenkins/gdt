@@ -149,7 +149,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h2>Photos and more</h2>
     <ul class="flex-container">
 
-      <a href="https://photos.grampound.org.uk/" target="_blank" class="flex-item">
+      <a href="https://photos.grampound.org.uk/photos.php" target="_blank" class="flex-item">
         <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
       <p>Grampound Heritage Project photo archive.</p>
       </a>
