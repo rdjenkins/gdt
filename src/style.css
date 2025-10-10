@@ -204,7 +204,8 @@ a.flex-item:hover {
       border-radius: 50%;
     }
     input:checked + .slider {
-/*      background-color: #2196F3; */
+      background-color: #ccc;
+      /* background-color: #2196F3; */
     }
     input:checked + .slider:before {
       transform: translateX(20px);
