@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       modalContent.style.textAlign = 'center';
 
       const title = document.createElement('h2');
-      title.textContent = 'Photo archive options';
+      title.textContent = 'Photo archive';
       title.style.textAlign = 'center';
       modalContent.appendChild(title);
 
