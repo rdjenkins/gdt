@@ -125,13 +125,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <li class="flex-item">
     <img src="${hikericon}" alt="hiker icon" class="icon"><br>
-      <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
-        <button>Trenowth (1½ hrs)</button>
+      <a href="https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067" target="_blank">
+        <button>Fal (40 mins)</button>
       </a>
       <a href="https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909" target="_blank">
         <button>Creed Circuit (1 hr)</button>
       </a>
-      <p>Circular walks near Grampound.</p>
+      <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
+        <button>Trenowth (1½ hrs)</button>
+      </a>
+      <p>Circular walks.</p>
     </li>
     </ul>
 
