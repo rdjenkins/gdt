@@ -26,7 +26,7 @@ let travellinetrurourl = "https://nationaljourneyplanner.travelinesw.com/swe/tri
 let travellinestaustellurl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt";
 
 async function waterqualitytrafficlight() {
-  const response = await fetch('https://deanjenkins.me/repack.php?id=grampoundwaterDOM');
+  const response = await fetch('https://photos.grampound.org.uk/repack.php?id=grampoundwaterDOM');
   const text = await response.text();
   return text;
 }
@@ -38,7 +38,7 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
     return 'nolog';
   }
   let theresponse = '';
-  const response = await fetch('https://deanjenkins.me/repack.php', {
+  const response = await fetch('https://photos.grampound.org.uk/repack.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -203,7 +203,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </ul>
   
 <h2>More info</h2>
-<p class="left">Find out more about this project and how to contribute.</p>
+<p class="left">About this project and how to contribute.</p>
     <ul class="flex-container">
 
     <li class="flex-item">
@@ -213,6 +213,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <p id="why-content">Keep hitting the why button to learn more.</p>
       </li>
 
+      <li class="flex-item">
+        <button id="message-button">
+          Message
+        </button>
+        <p>Send a message to us or Grampound with Creed Parish Council.</p>
+      </li>
+
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
         <img src="${githublogo}" class="logo" alt="GitHub Logo" />
       <p>Find this project on GitHub.</p>
@@ -220,9 +227,159 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       
     </ul>
 
+
+    <p>Grampound Digital Twin is a project that reports to Grampound with Creed Parish Council.</p>
     <p class="version">Version: ${packageJson.version}</p>
   </div>
 `;
+
+// Modal contact form logic
+document.addEventListener('DOMContentLoaded', () => {
+  const messageBtn = document.getElementById('message-button');
+  if (messageBtn) {
+    messageBtn.addEventListener('click', () => {
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.background = 'rgba(0,0,0,0.5)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.zIndex = '1000';
+
+      const modalContent = document.createElement('div');
+      modalContent.style.background = 'white';
+      modalContent.style.padding = '2em';
+      modalContent.style.borderRadius = '10px';
+      modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+      modalContent.style.textAlign = 'center';
+      modalContent.style.position = 'relative';
+
+      const title = document.createElement('h2');
+      title.textContent = 'Contact Grampound Digital Twin';
+      title.style.textAlign = 'center';
+      modalContent.appendChild(title);
+
+      const description = document.createElement('p');
+      description.textContent = 'You may also use this form to report or suggest something to the Parish Council.';
+      description.style.textAlign = 'center';
+      modalContent.appendChild(description);
+
+      const form = document.createElement('form');
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+      form.style.alignItems = 'center';
+      form.style.gap = '1em';
+
+      // Name input
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.name = 'fn';
+      nameInput.placeholder = 'Your name';
+      nameInput.required = false;
+      nameInput.style.width = '100%';
+      form.appendChild(nameInput);
+
+      // Email input
+      const emailInput = document.createElement('input');
+      emailInput.type = 'email';
+      emailInput.name = 'fe';
+      emailInput.placeholder = 'Your email (optional)';
+      emailInput.required = false;
+      emailInput.style.width = '100%';
+      form.appendChild(emailInput);
+
+      // Message textarea
+      const messageInput = document.createElement('textarea');
+      messageInput.name = 'fm';
+      messageInput.placeholder = 'Your message';
+      messageInput.required = true;
+      messageInput.rows = 4;
+      messageInput.style.width = '100%';
+      form.appendChild(messageInput);
+
+      // Simple arithmetic test for spam prevention
+      const num1 = Math.floor(Math.random() * 10) + 1;
+      const num2 = Math.floor(Math.random() * 10) + 1;
+      const testLabel = document.createElement('label');
+      testLabel.textContent = `Checking you are human. What is ${num1} + ${num2}? `;
+      testLabel.style.marginTop = '1em';
+      testLabel.htmlFor = 'arithmetic-test';
+      form.appendChild(testLabel);
+
+      const testInput = document.createElement('input');
+      testInput.type = 'number';
+      testInput.id = 'arithmetic-test';
+      testInput.required = true;
+      testInput.style.width = '4em';
+      form.appendChild(testInput);
+
+      // Submit button
+      const submitBtn = document.createElement('button');
+      submitBtn.type = 'submit';
+      submitBtn.textContent = 'Send';
+      submitBtn.style.marginTop = '1em';
+      submitBtn.disabled = true;
+      form.appendChild(submitBtn);
+
+      // Enable submit only if arithmetic test is correct
+      testInput.addEventListener('input', () => {
+        submitBtn.disabled = Number(testInput.value) !== num1 + num2;
+      });
+
+      // Status message
+      const statusMsg = document.createElement('div');
+      statusMsg.style.marginTop = '1em';
+      statusMsg.style.color = 'green';
+      form.appendChild(statusMsg);
+
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        statusMsg.textContent = 'Sending...';
+        try {
+          const res = await fetch('https://photos.grampound.org.uk/repack.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `fn=${encodeURIComponent(nameInput.value)}&fe=${encodeURIComponent(emailInput.value)}&fm=${encodeURIComponent(messageInput.value)}`
+          });
+          const text = await res.text();
+          statusMsg.textContent = 'Message sent! Thank you.';
+          console.log('Message sent:', text);
+          submitBtn.disabled = false;
+          form.reset();
+        } catch (err) {
+          statusMsg.textContent = 'Error sending message. Please try again.';
+          submitBtn.disabled = false;
+        }
+      };
+
+      modalContent.appendChild(form);
+
+      // Close button
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = '✕';
+      closeBtn.setAttribute('aria-label', 'Close');
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '0.2em';
+      closeBtn.style.right = '0.2em';
+      closeBtn.style.background = 'transparent';
+      closeBtn.style.border = 'none';
+      closeBtn.style.fontSize = '1.5em';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.onclick = () => {
+        document.body.removeChild(modal);
+      };
+      modalContent.appendChild(closeBtn);
+
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+    });
+  }
+});
 
 // GHP modal link(s) setup
 document.addEventListener('DOMContentLoaded', () => {
@@ -636,7 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
           newSpan.classList.add('purple-air-reading');
           newSpan.textContent = span.textContent;
           newSpan.style.background = 'yellow';
-          newSpan.style.color = 'white';
+          newSpan.style.color = 'black';
           newSpan.style.borderRadius = '1000px';
           newSpan.style.padding = '0.5em 0.5em';
           widgetDiv.innerHTML = '';
