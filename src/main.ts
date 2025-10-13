@@ -66,6 +66,72 @@ function shuffleStringArray(array: string[]) {
   }
 }
 
+function showChoiceModal(name: string, buttons: { text: string, url: string }[]) {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100vw';
+  modal.style.height = '100vh';
+  modal.style.background = 'rgba(0,0,0,0.5)';
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  modal.style.zIndex = '1000';
+
+  const modalContent = document.createElement('div');
+  modalContent.style.background = 'white';
+  modalContent.style.padding = '2em';
+  modalContent.style.borderRadius = '10px';
+  modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+  modalContent.style.textAlign = 'center';
+  modalContent.style.position = 'relative';
+
+  const title = document.createElement('h2');
+  title.textContent = name;
+  title.style.textAlign = 'center';
+  modalContent.appendChild(title);
+
+  buttons.forEach(btn => {
+    const anchor = document.createElement('a');
+    anchor.href = btn.url;
+    anchor.target = '_blank';
+    anchor.innerHTML = `<button style="margin:1em;">${btn.text}</button>`;
+    anchor.onclick = () => {
+      document.body.removeChild(modal);
+    };
+    modalContent.appendChild(anchor);
+  });
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  closeBtn.setAttribute('aria-label', 'Close');
+  closeBtn.style.position = 'absolute';
+  closeBtn.style.top = '0.2em';
+  closeBtn.style.right = '0.2em';
+  closeBtn.style.background = 'transparent';
+  closeBtn.style.border = 'none';
+  closeBtn.style.fontSize = '1.5em';
+  closeBtn.style.cursor = 'pointer';
+  closeBtn.onclick = () => {
+    document.body.removeChild(modal);
+  };
+  modalContent.appendChild(closeBtn);
+
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+}
+
+function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
+  const link = document.getElementById(linkId) as HTMLAnchorElement | null;
+    if (link) {
+      link.addEventListener('click', (event) => {
+      event.preventDefault();
+      showChoiceModal(name, buttons);
+    });
+  }
+};
+
 // Open Street Map search box and button
 const searchBox = document.createElement('input');
 searchBox.type = 'text';
@@ -188,7 +254,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <p class="left">Updated ${currentDateTime}</p>
     <ul class="flex-container">
 
-      <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" target="_blank" class="flex-item">
+      <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" id="weather-links" target="_blank" class="flex-item">
         <p id="weather-info">
           Weather (UK Met Office)
         </p>
@@ -396,77 +462,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// GHP modal link(s) setup
-document.addEventListener('DOMContentLoaded', () => {
-  const ghplink = document.getElementById('ghp-link') as HTMLAnchorElement | null;
-  if (ghplink) {
-    ghplink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const modal = document.createElement('div');
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100vw';
-      modal.style.height = '100vh';
-      modal.style.background = 'rgba(0,0,0,0.5)';
-      modal.style.display = 'flex';
-      modal.style.alignItems = 'center';
-      modal.style.justifyContent = 'center';
-      modal.style.zIndex = '1000';
+addChoiceModalLink('ghp-link', 'Photo Archive', ([
+        { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
+        { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
+      ]));
 
-      const modalContent = document.createElement('div');
-      modalContent.style.background = 'white';
-      modalContent.style.padding = '2em';
-      modalContent.style.borderRadius = '10px';
-      modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-      modalContent.style.textAlign = 'center';
-
-      const title = document.createElement('h2');
-      title.textContent = 'Photo archive';
-      title.style.textAlign = 'center';
-      modalContent.appendChild(title);
-
-      const btn1 = document.createElement('a');
-      btn1.href = 'https://photos.grampound.org.uk/photos.php';
-      btn1.target = '_blank';
-      btn1.innerHTML = '<button style="margin:1em;">Photo search</button>';
-      btn1.onclick = () => {
-        document.body.removeChild(modal);
-      }
-
-      const btn2 = document.createElement('a');
-      btn2.href = 'https://photos.grampound.org.uk/slideshow.php';
-      btn2.target = '_blank';
-      btn2.innerHTML = '<button style="margin:1em;">Slide show</button>';
-      btn2.onclick = () => {
-        document.body.removeChild(modal);
-      };
-
-      modalContent.appendChild(btn1);
-      modalContent.appendChild(btn2);
-
-      const closeBtn = document.createElement('button');
-      closeBtn.textContent = '✕';
-      closeBtn.setAttribute('aria-label', 'Close');
-      closeBtn.style.position = 'absolute';
-      closeBtn.style.top = '0.2em';
-      closeBtn.style.right = '0.2em';
-      closeBtn.style.background = 'transparent';
-      closeBtn.style.border = 'none';
-      closeBtn.style.fontSize = '1.5em';
-      closeBtn.style.cursor = 'pointer';
-      closeBtn.onclick = () => {
-        document.body.removeChild(modal);
-      };
-      // Make modalContent position:relative so absolute positioning works
-      modalContent.style.position = 'relative';
-      modalContent.appendChild(closeBtn);
-
-      modal.appendChild(modalContent);
-      document.body.appendChild(modal);
-    });
-  }
-});
+addChoiceModalLink('weather-links', 'Forecasts', ([
+        { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+        { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
+      ]));
 
 // Bus toggle logic
 document.addEventListener('DOMContentLoaded', () => {
