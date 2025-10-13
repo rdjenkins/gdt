@@ -34,7 +34,7 @@ async function waterqualitytrafficlight() {
 // Function to submit anonymous logs to the server to see which functions are being used
 async function submitLg(lg: string, u: string = ''): Promise<string> {
   if (nolog) {
-    console.log('GDT Logging disabled');
+    console.log('GDT Logging disabled:', lg || ' ', u || ' ');
     return 'nolog';
   }
   let theresponse = '';
@@ -50,6 +50,21 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
   return theresponse;
 }
 
+function shuffleStringArray(array: string[]) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
 
 // Open Street Map search box and button
 const searchBox = document.createElement('input');
@@ -483,7 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add event listener for why-button to update why-content with a random reason
-let last_idx = -1;
 document.addEventListener('DOMContentLoaded', () => {
   const whySentences = [
     "To help us find useful local information quickly.",
@@ -522,20 +536,24 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const whyButton = document.getElementById('why-button');
   const whyContent = document.getElementById('why-content');
+  let whysentencescopy = [...whySentences];
+  let whytext = "";
+  shuffleStringArray(whysentencescopy);
+  let whybuttons = Array('Why again?', 'But why?', 'Why though?', 'Please, why?', 'Why, why, why?', 'But really?')
   if (whyButton && whyContent) {
     whyButton.addEventListener('click', () => {
-      let idx: number;
-      if (whySentences.length > 1) {
-        do {
-          idx = Math.floor(Math.random() * whySentences.length);
-        } while (idx === last_idx);
+
+      if (whysentencescopy.length > 0) {
+        whytext = whysentencescopy.pop() || "";
       } else {
-        idx = 0;
+        submitLg('Why sentences exhausted, reshuffling');
+        whysentencescopy = [...whySentences];
+        shuffleStringArray(whysentencescopy);
+        whytext = whysentencescopy.pop() || "";
       }
-      last_idx = idx;
-      whyContent.textContent = whySentences[idx];
-      whyButton.innerText = 'Why again?';
-      submitLg('Why button clicked: ', String(idx));
+      whyButton.innerText = whybuttons[Math.floor(Math.random() * whybuttons.length)];
+      whyContent.innerText = whytext;
+      submitLg('Why button clicked: ', whytext);
     });
   }
 });
