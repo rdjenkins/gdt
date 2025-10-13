@@ -12,6 +12,9 @@ import hikericon from '/hiker.svg' // Original from https://commons.wikimedia.or
 import packageJson from '../package.json';
 import { fetchWeatherApi } from 'openmeteo';
 import wmoCodes from './wmo-codes.json';
+import creedcircuitgpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url';
+import falfootpathgpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url';
+import trenowthwalkgpx from '/grampound_walk_pepo_trenowth.gpx?url';
 
 console.log('GDT Version:', packageJson.version);
 
@@ -206,13 +209,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <li class="flex-item">
     <img src="${hikericon}" alt="hiker icon" class="icon"><br>
-      <a href="https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067" target="_blank">
+      <a id="fal-footpath" href="#" target="_blank">
         <button>Fal (40 mins)</button>
       </a>
-      <a href="https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909" target="_blank">
+      <a id="creed-circuit" href="#" target="_blank">
         <button>Creed Circuit (1 hr)</button>
       </a>
-      <a href="https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960" target="_blank">
+      <a id="trenowth" href="#" target="_blank">
         <button>Trenowth (1½ hrs)</button>
       </a>
       <p>Circular walks.</p>
@@ -470,6 +473,21 @@ addChoiceModalLink('ghp-link', 'Photo Archive', ([
 addChoiceModalLink('weather-links', 'Forecasts', ([
         { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
         { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
+      ]));
+
+addChoiceModalLink('creed-circuit', 'Creed Circuit Walk', ([
+        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909' },
+        { text: 'Download GPX', url: creedcircuitgpx }
+      ]));
+
+addChoiceModalLink('fal-footpath', 'Fal Footpath Old Hill walk', ([
+        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067' },
+        { text: 'Download GPX', url: falfootpathgpx }
+      ]));
+
+addChoiceModalLink('trenowth', 'Trenowth walk', ([
+        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960' },
+        { text: 'Download GPX', url: trenowthwalkgpx }
       ]));
 
 // Bus toggle logic
