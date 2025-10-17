@@ -37,6 +37,7 @@ async function waterqualitytrafficlight() {
 
 // Function to submit anonymous logs to the server to see which functions are being used
 async function submitLg(lg: string, u: string = ''): Promise<string> {
+
   if (nolog) {
     console.log('GDT Logging disabled:', lg || ' ', u || ' ');
     return 'nolog';
@@ -262,7 +263,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <p class="left">Updated ${currentDateTime}</p>
     <ul class="flex-container">
 
-      <a href="https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)" id="weather-links" target="_blank" class="flex-item">
+      <a href="#" id="weather-links" target="_blank" class="flex-item">
         <p id="weather-info">
           Weather (UK Met Office)
         </p>
@@ -590,7 +591,8 @@ document.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
   const anchor = target.closest('a');
   if (anchor && anchor instanceof HTMLAnchorElement) {
-    submitLg('Hyperlink clicked: ', anchor.href);
+    let u = (anchor.href.endsWith('#')) ? anchor.id + ' choice' : anchor.href;
+    submitLg('Hyperlink clicked: ', u);
   }
   if (target.id === 'search-button') {
     submitLg('Search button clicked: ' + (searchBox.value || '').trim());
