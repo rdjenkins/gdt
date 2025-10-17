@@ -22,6 +22,7 @@ let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EP
 let currentDateTime = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false });
 const urlparams = new URLSearchParams(window.location.search);
 const nolog = (urlparams.has('nolog')) ? true : false;
+const QR = (urlparams.has('QR')) ? true : false;
 let waterqualitytrafficlightHTML = "";
 let firstbustrurourl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E";
 let firstbusstaustellurl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c";
@@ -51,6 +52,10 @@ async function submitLg(lg: string, u: string = ''): Promise<string> {
   theresponse = await response.text();
   console.log('GDT Logging:', theresponse);
   return theresponse;
+}
+
+if (QR) {
+  submitLg('QR accessed');
 }
 
 function shuffleStringArray(array: string[]) {
@@ -127,8 +132,8 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
 
 function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
   const link = document.getElementById(linkId) as HTMLAnchorElement | null;
-    if (link) {
-      link.addEventListener('click', (event) => {
+  if (link) {
+    link.addEventListener('click', (event) => {
       event.preventDefault();
       showChoiceModal(name, buttons);
     });
@@ -466,29 +471,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 addChoiceModalLink('ghp-link', 'Photo Archive', ([
-        { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
-        { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
-      ]));
+  { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
+  { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
+]));
 
 addChoiceModalLink('weather-links', 'Forecasts', ([
-        { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
-        { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
-      ]));
+  { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+  { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
+]));
 
 addChoiceModalLink('creed-circuit', 'Creed Circuit Walk', ([
-        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909' },
-        { text: 'Download GPX', url: creedcircuitgpx }
-      ]));
+  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909' },
+  { text: 'Download GPX', url: creedcircuitgpx }
+]));
 
 addChoiceModalLink('fal-footpath', 'Fal Footpath Old Hill walk', ([
-        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067' },
-        { text: 'Download GPX', url: falfootpathgpx }
-      ]));
+  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067' },
+  { text: 'Download GPX', url: falfootpathgpx }
+]));
 
 addChoiceModalLink('trenowth', 'Trenowth walk', ([
-        { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960' },
-        { text: 'Download GPX', url: trenowthwalkgpx }
-      ]));
+  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960' },
+  { text: 'Download GPX', url: trenowthwalkgpx }
+]));
 
 // Bus toggle logic
 document.addEventListener('DOMContentLoaded', () => {
@@ -498,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const togglelabelFirstbus = document.getElementById('bus-toggle-firstbus');
   if (toggle && linksDiv) {
     toggle.addEventListener('change', () => {
-    let togglechecked = (toggle && toggle.checked) ? true : false;
+      let togglechecked = (toggle && toggle.checked) ? true : false;
       console.log('Bus toggle changed to', togglechecked);
       if (togglechecked) {
         togglelabelFirstbus!.style.fontWeight = 'bold';
@@ -608,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     waterqualitytrafficlightHTML = html;
     const waterQualityDiv = document.querySelector('#water-quality-traffic-light');
     if (waterQualityDiv) {
-      waterQualityDiv.innerHTML =  waterqualitytrafficlightHTML + '<div>Get more detail on floodmapper ↗</div>';
+      waterQualityDiv.innerHTML = waterqualitytrafficlightHTML + '<div>Get more detail on floodmapper ↗</div>';
     }
   });
 });
@@ -618,13 +623,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Documentation: https://open-meteo.com/en/docs
 // API starting code from: https://open-meteo.com/en/docs/ukmo-api?latitude=50.2993&longitude=-4.9005&timezone=Europe%2FLondon&hourly=&wind_speed_unit=ms&forecast_days=1&current=weather_code,temperature_2m,wind_speed_10m,rain
 const params = {
-	"latitude": 50.2993,
-	"longitude": -4.9005,
-	"models": "ukmo_seamless",
-	"current": ["weather_code", "temperature_2m", "wind_speed_10m", "rain", "is_day"],
-	"timezone": "Europe/London",
-	"forecast_days": 1,
-	"wind_speed_unit": "ms",
+  "latitude": 50.2993,
+  "longitude": -4.9005,
+  "models": "ukmo_seamless",
+  "current": ["weather_code", "temperature_2m", "wind_speed_10m", "rain", "is_day"],
+  "timezone": "Europe/London",
+  "forecast_days": 1,
+  "wind_speed_unit": "ms",
 };
 const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Wrap the weather fetch and processing in an async IIFE to ensure it runs asynchronously
@@ -702,30 +707,30 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
   // wind speed as Beaufort scale description
   const wind_description = weatherData.current.wind_speed_10m <= 0.2 ? 'calm' :
     weatherData.current.wind_speed_10m <= 1.5 ? 'light air' :
-    weatherData.current.wind_speed_10m <= 3.3 ? 'light breeze' :
-    weatherData.current.wind_speed_10m <= 5.4 ? 'gentle breeze' :
-    weatherData.current.wind_speed_10m <= 7.9 ? 'moderate breeze' :
-    weatherData.current.wind_speed_10m <= 10.7 ? 'fresh breeze' :
-    weatherData.current.wind_speed_10m <= 13.8 ? 'strong breeze' :
-    weatherData.current.wind_speed_10m <= 17.1 ? 'near gale' :
-    weatherData.current.wind_speed_10m <= 20.7 ? 'gale' :
-    weatherData.current.wind_speed_10m <= 24.4 ? 'severe gale' :
-    weatherData.current.wind_speed_10m <= 28.4 ? 'storm' :
-    weatherData.current.wind_speed_10m <= 32.6 ? 'violent storm' : 'hurricane';
+      weatherData.current.wind_speed_10m <= 3.3 ? 'light breeze' :
+        weatherData.current.wind_speed_10m <= 5.4 ? 'gentle breeze' :
+          weatherData.current.wind_speed_10m <= 7.9 ? 'moderate breeze' :
+            weatherData.current.wind_speed_10m <= 10.7 ? 'fresh breeze' :
+              weatherData.current.wind_speed_10m <= 13.8 ? 'strong breeze' :
+                weatherData.current.wind_speed_10m <= 17.1 ? 'near gale' :
+                  weatherData.current.wind_speed_10m <= 20.7 ? 'gale' :
+                    weatherData.current.wind_speed_10m <= 24.4 ? 'severe gale' :
+                      weatherData.current.wind_speed_10m <= 28.4 ? 'storm' :
+                        weatherData.current.wind_speed_10m <= 32.6 ? 'violent storm' : 'hurricane';
 
   const rain_description = weatherData.current.rain === 0 ? 'no rain' :
     weatherData.current.rain < 2.5 ? 'light rain' :
-    weatherData.current.rain < 7.6 ? 'moderate rain' :
-    weatherData.current.rain < 50 ? 'heavy rain' :
-    weatherData.current.rain < 100 ? 'very heavy rain' : 'extreme rain';
-  
+      weatherData.current.rain < 7.6 ? 'moderate rain' :
+        weatherData.current.rain < 50 ? 'heavy rain' :
+          weatherData.current.rain < 100 ? 'very heavy rain' : 'extreme rain';
+
   const weatherInfo = document.getElementById('weather-info');
   if (weatherInfo) {
     const weather_summary = `${weather_code_description} ${Math.round(weatherData.current.temperature_2m)}°C<br>
     wind ${Math.round(weatherData.current.wind_speed_10m)} m/s (${wind_description})<br>
     rain ${weatherData.current.rain.toFixed(1)} mm (${rain_description})`;
-    weatherInfo.innerHTML = 
-    `<img src="${weather_code_image}" alt="${weather_code_description}" class="logo grey" style="background:${weather_code_image_background};border-radius:10px;" /><br>
+    weatherInfo.innerHTML =
+      `<img src="${weather_code_image}" alt="${weather_code_description}" class="logo grey" style="background:${weather_code_image_background};border-radius:10px;" /><br>
     ${weather_summary}`;
     submitLg(`${weather_summary}`);
   }
@@ -735,58 +740,58 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Fetch flood data from Open-Meteo
 (async () => {
   const params = {
-	"latitude": 50.2993,
-	"longitude": -4.9005,
-	"daily": "river_discharge",
-	"forecast_days": 7,
-};
-const url = "https://flood-api.open-meteo.com/v1/flood";
-const responses = await fetchWeatherApi(url, params);
+    "latitude": 50.2993,
+    "longitude": -4.9005,
+    "daily": "river_discharge",
+    "forecast_days": 7,
+  };
+  const url = "https://flood-api.open-meteo.com/v1/flood";
+  const responses = await fetchWeatherApi(url, params);
 
-// Process first location. Add a for-loop for multiple locations or weather models
-const response = responses[0];
+  // Process first location. Add a for-loop for multiple locations or weather models
+  const response = responses[0];
 
-// Attributes for timezone and location
-const latitude = response.latitude();
-const longitude = response.longitude();
-const elevation = response.elevation();
-const utcOffsetSeconds = response.utcOffsetSeconds();
+  // Attributes for timezone and location
+  const latitude = response.latitude();
+  const longitude = response.longitude();
+  const elevation = response.elevation();
+  const utcOffsetSeconds = response.utcOffsetSeconds();
 
-console.log(
-	`\nCoordinates: ${latitude}°N ${longitude}°E`,
-	`\nElevation: ${elevation}m asl`,
-	`\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
-);
+  console.log(
+    `\nCoordinates: ${latitude}°N ${longitude}°E`,
+    `\nElevation: ${elevation}m asl`,
+    `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
+  );
 
-const daily = response.daily()!;
+  const daily = response.daily()!;
 
-// Note: The order of weather variables in the URL query and the indices below need to match!
-const floodData = {
-	daily: {
-		time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
-			(_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
-		),
-		river_discharge: daily.variables(0)!.valuesArray(),
-	},
-};
+  // Note: The order of weather variables in the URL query and the indices below need to match!
+  const floodData = {
+    daily: {
+      time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
+        (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
+      ),
+      river_discharge: daily.variables(0)!.valuesArray(),
+    },
+  };
 
-// 'floodData' now contains a simple structure with arrays with datetime and weather data
-console.log("\nDaily river flow data GloFAS", floodData.daily)
+  // 'floodData' now contains a simple structure with arrays with datetime and weather data
+  console.log("\nDaily river flow data GloFAS", floodData.daily)
 
-const floodInfo = document.getElementById('flood-info');
-if (floodInfo) {
-  const nextFlow = (floodData.daily.river_discharge) ? floodData.daily.river_discharge[0] : -1;
-  // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
-  const flowDescription = (nextFlow === -1) ? 'No data' :
-    (nextFlow < 5) ? 'Low flow' :
-    (nextFlow < 10) ? 'Medium flow' :
-    (nextFlow < 15) ? 'High flow' : 'Very high flow';
-  console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
-  submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
-  floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
-    `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
+  const floodInfo = document.getElementById('flood-info');
+  if (floodInfo) {
+    const nextFlow = (floodData.daily.river_discharge) ? floodData.daily.river_discharge[0] : -1;
+    // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
+    const flowDescription = (nextFlow === -1) ? 'No data' :
+      (nextFlow < 5) ? 'Low flow' :
+        (nextFlow < 10) ? 'Medium flow' :
+          (nextFlow < 15) ? 'High flow' : 'Very high flow';
+    console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
+    submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
+    floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
+      `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
     (${flowDescription})`;
-}
+  }
 })();
 
 
@@ -827,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.innerHTML = '';
           widgetDiv.appendChild(newSpan);
         }
-        if (!isNaN(pmValue) && pmValue >=50 && pmValue < 100) {
+        if (!isNaN(pmValue) && pmValue >= 50 && pmValue < 100) {
           // Create a new span element
           const newSpan = document.createElement('span');
           newSpan.classList.add('purple-air-reading');
@@ -839,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.innerHTML = '';
           widgetDiv.appendChild(newSpan);
         }
-        if (!isNaN(pmValue) && pmValue >=100) {
+        if (!isNaN(pmValue) && pmValue >= 100) {
           // Create a new span element
           const newSpan = document.createElement('span');
           newSpan.classList.add('purple-air-reading');
@@ -856,7 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
           sent = true;
         }
         //observer.disconnect();
-      } 
+      }
     }
   });
 
