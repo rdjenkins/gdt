@@ -740,12 +740,13 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
 
 
 // Fetch flood data from Open-Meteo
+// https://flood-api.open-meteo.com/v1/flood?latitude=50.299266&longitude=-4.903521&daily=river_discharge_mean&timezone=Europe%2FLondon&forecast_days=1
 (async () => {
   const params = {
-    "latitude": 50.2993,
-    "longitude": -4.9005,
-    "daily": "river_discharge",
-    "forecast_days": 7,
+    "latitude": 50.299266,
+    "longitude": -4.903521,
+    "daily": "river_discharge_mean",
+    "forecast_days": 1,
   };
   const url = "https://flood-api.open-meteo.com/v1/flood";
   const responses = await fetchWeatherApi(url, params);
@@ -773,7 +774,7 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
       time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
         (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
       ),
-      river_discharge: daily.variables(0)!.valuesArray(),
+      river_discharge_mean: daily.variables(0)!.valuesArray(),
     },
   };
 
@@ -782,13 +783,13 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
 
   const floodInfo = document.getElementById('flood-info');
   if (floodInfo) {
-    const nextFlow = (floodData.daily.river_discharge) ? floodData.daily.river_discharge[0] : -1;
+    const nextFlow = (floodData.daily.river_discharge_mean) ? floodData.daily.river_discharge_mean[0] : -1;
     // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
     const flowDescription = (nextFlow === -1) ? 'No data' :
       (nextFlow < 5) ? 'Low flow' :
         (nextFlow < 10) ? 'Medium flow' :
           (nextFlow < 15) ? 'High flow' : 'Very high flow';
-    console.log(`\nNext river flow: ${nextFlow} m³/s (${flowDescription})`);
+    console.log(`\nNext river flow mean: ${nextFlow} m³/s (${flowDescription})`);
     submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
     floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
       `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
