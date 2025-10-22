@@ -284,7 +284,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </a>
 
       <a href="https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00" target="_blank" class="flex-item">
-        <button>Go to gov.UK for flood warnings for Grampound.</button>
+        <button id="flood-warning-button">Go to gov.UK for flood warnings for Grampound.</button>
         <p id="flood-info">
           Flood data loading...
         </p>
@@ -619,6 +619,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// Fetch and append flood gauge widget
+(async () => {
+  try {
+    const response = await fetch('https://photos.grampound.org.uk/repack.php?id=EAfloodgaugeWidget');
+    const html = await response.text();
+    const floodButton = document.getElementById('flood-warning-button');
+    if (floodButton && html.trim() !== '') {
+      floodButton.innerHTML = 'Check for Gov.uk flood alerts<br><br>' + html;
+      const textOnly = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      submitLg('EA flood gauge: ', textOnly);
+    }
+  } catch (error) {
+    console.error('Error fetching flood gauge widget:', error);
+  }
+})();
+
 
 // Fetch weather data from Open-Meteo
 // Example coordinates for Grampound: 50.2993°N, -4.9005°E
