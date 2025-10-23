@@ -561,6 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "To be the one-stop website for everything in Grampound.",
     "To help you find local info quickly and easily.",
     "To show what we can achieve when we share information and work together.",
+    "To demonstrate 'digital sovereignty' - that small local projects can beat big tech.",
   ];
   const whyButton = document.getElementById('why-button');
   const whyContent = document.getElementById('why-content');
