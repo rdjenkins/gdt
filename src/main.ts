@@ -1,65 +1,65 @@
 import './style.css'
-import openstreetmaplogo from '/OpenStreetMap-logo-with-text.svg'
-import ghplogo from '/gwchp-logo-coloured-600x600.png'
-import calendarlogo from '/calendar.svg'
-import airqualitylogo from '/PurpleAir-Cornwall-Map.png'
-import waterqualitylogo from '/Water-quality-sewage.png'
-import creedchurchyardlogo from '/creed-churchyard.png'
-import geographlogo from '/geograph-logo.svg'
-import githublogo from '/github-mark.svg'
-import busicon from '/ISO_7001_PI_TF_006.svg' // Original from https://commons.wikimedia.org/wiki/File:ISO_7001_PI_TF_006.svg
-import hikericon from '/hiker.svg' // Original from https://commons.wikimedia.org/wiki/File:Big_guy_637%27s_hiking_icon.svg
+import openStreetMapLogo from '/OpenStreetMap-logo-with-text.svg'
+import ghpLogo from '/gwchp-logo-coloured-600x600.png'
+import calendarLogo from '/calendar.svg'
+import airQualityLogo from '/PurpleAir-Cornwall-Map.png'
+import waterQualityLogo from '/Water-quality-sewage.png'
+import creedChurchyardLogo from '/creed-churchyard.png'
+import geographLogo from '/geograph-logo.svg'
+import githubLogo from '/github-mark.svg'
+import busIcon from '/ISO_7001_PI_TF_006.svg' // Original from https://commons.wikimedia.org/wiki/File:ISO_7001_PI_TF_006.svg
+import hikerIcon from '/hiker.svg' // Original from https://commons.wikimedia.org/wiki/File:Big_guy_637%27s_hiking_icon.svg
 import packageJson from '../package.json';
 import { fetchWeatherApi } from 'openmeteo';
 import wmoCodes from './wmo-codes.json';
-import creedcircuitgpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url';
-import falfootpathgpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url';
-import trenowthwalkgpx from '/grampound_walk_pepo_trenowth.gpx?url';
+import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url';
+import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url';
+import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url';
 
 console.log('GDT Version:', packageJson.version);
 
-let nearestPurpleAirSensorwidget = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
-let currentDateTime = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false });
-const urlparams = new URLSearchParams(window.location.search);
-const nolog = (urlparams.has('nolog')) ? true : false;
-const QR = (urlparams.has('QR')) ? true : false;
-let waterqualitytrafficlightHTML = "";
-let firstbustrurourl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E";
-let firstbusstaustellurl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c";
-let travellinetrurourl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt";
-let travellinestaustellurl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt";
+const NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
+const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false })
+const URL_PARAMS = new URLSearchParams(window.location.search)
+const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
+const QR = (URL_PARAMS.has('QR')) ? true : false
+let waterQualityTrafficLightHTML = ""
+let firstBusTruroUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E"
+let firstBusStAustellUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c"
+let travelineTruroUrl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
+let travelineStAustellUrl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
 
-async function waterqualitytrafficlight() {
+async function fetchWaterQualityTrafficLight() {
   const response = await fetch('https://photos.grampound.org.uk/repack.php?id=grampoundwaterDOM');
-  const text = await response.text();
-  return text;
+  const TEXT = await response.text();
+  return TEXT;
 }
 
 // Function to submit anonymous logs to the server to see which functions are being used
-async function submitLg(lg: string, u: string = ''): Promise<string> {
+async function submitLog(lg: string, u: string = ''): Promise<string> {
 
-  if (nolog) {
+  if (NO_LOG) {
     console.log('GDT Logging disabled:', lg || ' ', u || ' ');
-    return 'nolog';
+    return ''; // return empty string not logging anything
   }
-  let theresponse = '';
-  const response = await fetch('https://photos.grampound.org.uk/repack.php', {
+  let theResponse = '';
+  const RESPONSE = await fetch('https://photos.grampound.org.uk/repack.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
   });
-  theresponse = await response.text();
-  console.log('GDT Logging:', theresponse);
-  return theresponse;
+  theResponse = await RESPONSE.text();
+  console.log('GDT Logging:', theResponse);
+  return theResponse;
 }
 
 if (QR) {
-  submitLg('QR accessed');
+  submitLog('QR accessed');
 }
 
-function shuffleStringArray(array: string[]) {
+function shuffleArray(array: string[]) {
   let currentIndex = array.length;
 
   // While there remain elements to shuffle...
@@ -76,7 +76,7 @@ function shuffleStringArray(array: string[]) {
 }
 
 function showChoiceModal(name: string, buttons: { text: string, url: string }[]) {
-  const modal = document.createElement('div');
+  let modal = document.createElement('div');
   modal.style.position = 'fixed';
   modal.style.top = '0';
   modal.style.left = '0';
@@ -88,7 +88,7 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
   modal.style.justifyContent = 'center';
   modal.style.zIndex = '1000';
 
-  const modalContent = document.createElement('div');
+  let modalContent = document.createElement('div');
   modalContent.style.background = 'white';
   modalContent.style.padding = '2em';
   modalContent.style.borderRadius = '10px';
@@ -96,13 +96,13 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
   modalContent.style.textAlign = 'center';
   modalContent.style.position = 'relative';
 
-  const title = document.createElement('h2');
+  let title = document.createElement('h2');
   title.textContent = name;
   title.style.textAlign = 'center';
   modalContent.appendChild(title);
 
   buttons.forEach(btn => {
-    const anchor = document.createElement('a');
+    let anchor = document.createElement('a');
     anchor.href = btn.url;
     anchor.target = '_blank';
     anchor.innerHTML = `<button style="margin:1em;">${btn.text}</button>`;
@@ -112,7 +112,7 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
     modalContent.appendChild(anchor);
   });
 
-  const closeBtn = document.createElement('button');
+  let closeBtn = document.createElement('button');
   closeBtn.textContent = '✕';
   closeBtn.setAttribute('aria-label', 'Close');
   closeBtn.style.position = 'absolute';
@@ -142,18 +142,18 @@ function addChoiceModalLink(linkId: string, name: string, buttons: { text: strin
 };
 
 // Open Street Map search box and button
-const searchBox = document.createElement('input');
+let searchBox = document.createElement('input');
 searchBox.type = 'text';
 searchBox.placeholder = 'Find an address or place...';
 
-const searchButton = document.createElement('button');
+let searchButton = document.createElement('button');
 searchButton.textContent = 'Search';
 searchButton.id = 'search-button';
 
 searchButton.onclick = () => {
-  const query = encodeURIComponent(`${searchBox.value} "Grampound with Creed"`);
-  const url = `https://www.openstreetmap.org/search?query=${query}&zoom=19&minlon=-4.903727173805238&minlat=50.298594007719345&maxlon=-4.900551438331605&maxlat=50.29984131703836#map=17/50.298894/-4.900718`;
-  window.open(url, '_blank');
+  const QUERY = encodeURIComponent(`${searchBox.value} "Grampound with Creed"`);
+  const URL = `https://www.openstreetmap.org/search?query=${QUERY}&zoom=19&minlon=-4.903727173805238&minlat=50.298594007719345&maxlon=-4.900551438331605&maxlat=50.29984131703836#map=17/50.298894/-4.900718`;
+  window.open(URL, '_blank');
 };
 
 searchBox.addEventListener('keydown', (e) => {
@@ -165,13 +165,13 @@ searchBox.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = document.querySelector<HTMLDivElement>('#app');
-  if (app) {
+  const APP = document.querySelector<HTMLDivElement>('#app');
+  if (APP) {
     const searchContainer = document.createElement('div');
     searchContainer.style.marginBottom = '1em';
     searchContainer.appendChild(searchBox);
     searchContainer.appendChild(searchButton);
-    app.prepend(searchContainer);
+    APP.prepend(searchContainer);
   }
 });
 
@@ -187,7 +187,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h2>Maps and travel</h2>
     <ul class="flex-container">
       <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank" class="flex-item">
-        <img src="${openstreetmaplogo}" class="logo vanilla" alt="OpenStreetMap logo" />
+  <img src="${openStreetMapLogo}" class="logo vanilla" alt="OpenStreetMap logo" />
       <p>Map of Grampound with Creed.</p>
       </a>
 
@@ -196,8 +196,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Search for an address or place in Grampound with Creed.</p>
     </li>
 
-    <li class="flex-item">
-    <img src="${busicon}" alt="bus icon" class="icon"><br>
+  <li class="flex-item">
+  <img src="${busIcon}" alt="bus icon" class="icon"><br>
       <div style="margin-top:1em;">
         <label for="bus-toggle" id="bus-toggle-traveline" style="font-weight:bold;">Traveline</label>
         <label class="switch">
@@ -206,15 +206,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </label>
         <span id="bus-toggle-firstbus" style="margin-left:0.5em;">First Bus</span>
         <div id="bus-links" style="margin-top:0.5em;">
-          <a href="${travellinetrurourl}" target="_blank"><button>To Truro</button></a>
-          <a href="${travellinestaustellurl}" target="_blank"><button>To St Austell</button></a>
+          <a href="${travelineTruroUrl}" target="_blank"><button>To Truro</button></a>
+          <a href="${travelineStAustellUrl}" target="_blank"><button>To St Austell</button></a>
         </div>
         <p>Buses from Grampound.</p>
       </div>
     </li>
 
-    <li class="flex-item">
-    <img src="${hikericon}" alt="hiker icon" class="icon"><br>
+  <li class="flex-item">
+  <img src="${hikerIcon}" alt="hiker icon" class="icon"><br>
       <a id="fal-footpath" href="#" target="_blank">
         <button>Fal (40 mins)</button>
       </a>
@@ -233,7 +233,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <ul class="flex-container">
 
       <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank" class="flex-item">
-        <img src="${calendarlogo}" class="logo" alt="Grampound calendar logo" />
+  <img src="${calendarLogo}" class="logo" alt="Grampound calendar logo" />
       <p>Calendar of events.</p>
       </a>
 
@@ -243,24 +243,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <ul class="flex-container">
 
       <a id="ghp-link" href="#" target="_blank" class="flex-item">
-        <img src="${ghplogo}" class="logo green" alt="Grampound Heritage Project logo" />
+  <img src="${ghpLogo}" class="logo green" alt="Grampound Heritage Project logo" />
       <p>Grampound Heritage Project photo archive.</p>
       </a>
 
       <a href="https://www.geograph.org.uk/near/SW93484841" target="_blank" class="flex-item">
-        <img src="${geographlogo}" class="logo vanilla" alt="Geograph logo" />
+  <img src="${geographLogo}" class="logo vanilla" alt="Geograph logo" />
       <p>Geograph photographs of Grampound.</p>
       </a>
 
       <a href="https://stcrida.co.uk/cs.php" target="_blank" class="flex-item">
-        <img src="${creedchurchyardlogo}" class="logo green" alt="Creed Churchyard logo" />
+  <img src="${creedChurchyardLogo}" class="logo green" alt="Creed Churchyard logo" />
       <p>Creed Churchyard search.</p>
       </a>
 
       </ul>
 
 <h2>Environment</h2>
-<p class="left">Updated ${currentDateTime}</p>
+<p class="left">Updated ${CURRENT_DATE_TIME}</p>
     <ul class="flex-container">
 
       <a href="#" id="weather-links" target="_blank" class="flex-item">
@@ -270,15 +270,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </a>
 
       <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
-        <img src="${airqualitylogo}" class="logo" alt="Air Quality, PurpleAir logo" />
-      <p>${nearestPurpleAirSensorwidget}</p>
+        <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
+      <p>${NEAREST_PURPLEAIR_SENSOR_WIDGET}</p>
       <p>Air quality in Cornwall.</p>
       </a>
 
       <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank" class="flex-item">
         <div id="water-quality-traffic-light">
-          ${waterqualitytrafficlightHTML}
-          <img src="${waterqualitylogo}" class="logo" alt="Sewage discharges logo" />
+          ${waterQualityTrafficLightHTML}
+          <img src="${waterQualityLogo}" class="logo" alt="Sewage discharges logo" />
         </div>
       <p>Water quality for the River Fal.</p>
       </a>
@@ -311,7 +311,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </li>
 
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
-        <img src="${githublogo}" class="logo" alt="GitHub Logo" />
+  <img src="${githubLogo}" class="logo" alt="GitHub Logo" />
       <p>Find this project on GitHub.</p>
       </a>
       
@@ -325,10 +325,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 // Modal contact form logic
 document.addEventListener('DOMContentLoaded', () => {
-  const messageBtn = document.getElementById('message-button');
+  let messageBtn = document.getElementById('message-button');
   if (messageBtn) {
     messageBtn.addEventListener('click', () => {
-      const modal = document.createElement('div');
+      let modal = document.createElement('div');
       modal.style.position = 'fixed';
       modal.style.top = '0';
       modal.style.left = '0';
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.style.justifyContent = 'center';
       modal.style.zIndex = '1000';
 
-      const modalContent = document.createElement('div');
+      let modalContent = document.createElement('div');
       modalContent.style.background = 'white';
       modalContent.style.padding = '2em';
       modalContent.style.borderRadius = '10px';
@@ -348,24 +348,24 @@ document.addEventListener('DOMContentLoaded', () => {
       modalContent.style.textAlign = 'center';
       modalContent.style.position = 'relative';
 
-      const title = document.createElement('h2');
+      let title = document.createElement('h2');
       title.textContent = 'Contact Grampound Digital Twin';
       title.style.textAlign = 'center';
       modalContent.appendChild(title);
 
-      const description = document.createElement('p');
+      let description = document.createElement('p');
       description.textContent = 'You may also use this form to report or suggest something to the Parish Council.';
       description.style.textAlign = 'center';
       modalContent.appendChild(description);
 
-      const form = document.createElement('form');
+      let form = document.createElement('form');
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
       form.style.alignItems = 'center';
       form.style.gap = '1em';
 
       // Name input
-      const nameInput = document.createElement('input');
+      let nameInput = document.createElement('input');
       nameInput.type = 'text';
       nameInput.name = 'fn';
       nameInput.placeholder = 'Your name';
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.appendChild(nameInput);
 
       // Email input
-      const emailInput = document.createElement('input');
+      let emailInput = document.createElement('input');
       emailInput.type = 'email';
       emailInput.name = 'fe';
       emailInput.placeholder = 'Your email (optional)';
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.appendChild(emailInput);
 
       // Message textarea
-      const messageInput = document.createElement('textarea');
+      let messageInput = document.createElement('textarea');
       messageInput.name = 'fm';
       messageInput.placeholder = 'Your message';
       messageInput.required = true;
@@ -392,15 +392,15 @@ document.addEventListener('DOMContentLoaded', () => {
       form.appendChild(messageInput);
 
       // Simple arithmetic test for spam prevention
-      const num1 = Math.floor(Math.random() * 10) + 1;
-      const num2 = Math.floor(Math.random() * 10) + 1;
-      const testLabel = document.createElement('label');
-      testLabel.textContent = `Checking you are human. What is ${num1} + ${num2}? `;
+      const NUM_1 = Math.floor(Math.random() * 10) + 1;
+      const NUM_2 = Math.floor(Math.random() * 10) + 1;
+      let testLabel = document.createElement('label');
+      testLabel.textContent = `Checking you are human. What is ${NUM_1} + ${NUM_2}? `;
       testLabel.style.marginTop = '1em';
       testLabel.htmlFor = 'arithmetic-test';
       form.appendChild(testLabel);
 
-      const testInput = document.createElement('input');
+      let testInput = document.createElement('input');
       testInput.type = 'number';
       testInput.id = 'arithmetic-test';
       testInput.required = true;
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.appendChild(testInput);
 
       // Submit button
-      const submitBtn = document.createElement('button');
+      let submitBtn = document.createElement('button');
       submitBtn.type = 'submit';
       submitBtn.textContent = 'Send';
       submitBtn.style.marginTop = '1em';
@@ -417,11 +417,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Enable submit only if arithmetic test is correct
       testInput.addEventListener('input', () => {
-        submitBtn.disabled = Number(testInput.value) !== num1 + num2;
+        submitBtn.disabled = Number(testInput.value) !== NUM_1 + NUM_2;
       });
 
       // Status message
-      const statusMsg = document.createElement('div');
+      let statusMsg = document.createElement('div');
       statusMsg.style.marginTop = '1em';
       statusMsg.style.color = 'green';
       form.appendChild(statusMsg);
@@ -431,12 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
         statusMsg.textContent = 'Sending...';
         try {
-          const res = await fetch('https://photos.grampound.org.uk/repack.php', {
+          const RES = await fetch('https://photos.grampound.org.uk/repack.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `fn=${encodeURIComponent(nameInput.value)}&fe=${encodeURIComponent(emailInput.value)}&fm=${encodeURIComponent(messageInput.value)}`
           });
-          const text = await res.text();
+          const text = await RES.text();
           statusMsg.textContent = 'Message sent! Thank you.';
           console.log('Message sent:', text);
           submitBtn.disabled = false;
@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       modalContent.appendChild(form);
 
       // Close button
-      const closeBtn = document.createElement('button');
+      let closeBtn = document.createElement('button');
       closeBtn.textContent = '✕';
       closeBtn.setAttribute('aria-label', 'Close');
       closeBtn.style.position = 'absolute';
@@ -483,42 +483,42 @@ addChoiceModalLink('weather-links', 'Forecasts', ([
 
 addChoiceModalLink('creed-circuit', 'Creed Circuit Walk', ([
   { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909' },
-  { text: 'Download GPX', url: creedcircuitgpx }
+  { text: 'Download GPX', url: creedCircuitGpx }
 ]));
 
 addChoiceModalLink('fal-footpath', 'Fal Footpath Old Hill walk', ([
   { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067' },
-  { text: 'Download GPX', url: falfootpathgpx }
+  { text: 'Download GPX', url: falFootpathGpx }
 ]));
 
 addChoiceModalLink('trenowth', 'Trenowth walk', ([
   { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960' },
-  { text: 'Download GPX', url: trenowthwalkgpx }
+  { text: 'Download GPX', url: trenowthWalkGpx }
 ]));
 
 // Bus toggle logic
 document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('bus-toggle') as HTMLInputElement | null;
-  const linksDiv = document.getElementById('bus-links');
-  const toggleLabelTraveline = document.getElementById('bus-toggle-traveline');
-  const togglelabelFirstbus = document.getElementById('bus-toggle-firstbus');
-  if (toggle && linksDiv) {
-    toggle.addEventListener('change', () => {
-      let togglechecked = (toggle && toggle.checked) ? true : false;
-      console.log('Bus toggle changed to', togglechecked);
-      if (togglechecked) {
-        togglelabelFirstbus!.style.fontWeight = 'bold';
-        toggleLabelTraveline!.style.fontWeight = 'normal';
-        linksDiv.innerHTML = `
-          <a href="${firstbustrurourl}" target="_blank"><button>To Truro</button></a>
-          <a href="${firstbusstaustellurl}" target="_blank"><button>To St Austell</button></a>
+  const TOGGLE = document.getElementById('bus-toggle') as HTMLInputElement | null;
+  const LINKS_DIV = document.getElementById('bus-links');
+  const TOGGLE_LABEL_TRAVELLINE = document.getElementById('bus-toggle-traveline');
+  const TOGGLE_LABEL_FIRSTBUS = document.getElementById('bus-toggle-firstbus');
+  if (TOGGLE && LINKS_DIV) {
+    TOGGLE.addEventListener('change', () => {
+      let toggleChecked = (TOGGLE && TOGGLE.checked) ? true : false;
+      console.log('Bus toggle changed to', toggleChecked);
+      if (toggleChecked) {
+        TOGGLE_LABEL_FIRSTBUS!.style.fontWeight = 'bold';
+        TOGGLE_LABEL_TRAVELLINE!.style.fontWeight = 'normal';
+        LINKS_DIV.innerHTML = `
+          <a href="${firstBusTruroUrl}" target="_blank"><button>To Truro</button></a>
+          <a href="${firstBusStAustellUrl}" target="_blank"><button>To St Austell</button></a>
         `;
       } else {
-        togglelabelFirstbus!.style.fontWeight = 'normal';
-        toggleLabelTraveline!.style.fontWeight = 'bold';
-        linksDiv.innerHTML = `
-          <a href="${travellinetrurourl}" target="_blank"><button>To Truro</button></a>
-          <a href="${travellinestaustellurl}" target="_blank"><button>To St Austell</button></a>
+        TOGGLE_LABEL_FIRSTBUS!.style.fontWeight = 'normal';
+        TOGGLE_LABEL_TRAVELLINE!.style.fontWeight = 'bold';
+        LINKS_DIV.innerHTML = `
+          <a href="${travelineTruroUrl}" target="_blank"><button>To Truro</button></a>
+          <a href="${travelineStAustellUrl}" target="_blank"><button>To St Austell</button></a>
         `;
       }
     });
@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add event listener for why-button to update why-content with a random reason
 document.addEventListener('DOMContentLoaded', () => {
-  const whySentences = [
+  const WHY_SENTENCES = [
     "To help us find useful local information quickly.",
     "To demonstrate how open data and digital tools can benefit our community.",
     "To make environmental and travel data more accessible for Grampound.",
@@ -563,40 +563,40 @@ document.addEventListener('DOMContentLoaded', () => {
     "To show what we can achieve when we share information and work together.",
     "To demonstrate 'digital sovereignty' - that small local projects can beat big tech.",
   ];
-  const whyButton = document.getElementById('why-button');
-  const whyContent = document.getElementById('why-content');
-  let whysentencescopy = [...whySentences];
-  let whytext = "";
-  shuffleStringArray(whysentencescopy);
-  let whybuttons = Array('Why again?', 'But why?', 'Why though?', 'Please, why?', 'Why, why, why?', 'But really?')
-  if (whyButton && whyContent) {
-    whyButton.addEventListener('click', () => {
+  const WHY_BUTTON = document.getElementById('why-button');
+  const WHY_CONTENT = document.getElementById('why-content');
+  let whySentencesCopy = [...WHY_SENTENCES];
+  let whyText = "";
+  shuffleArray(whySentencesCopy);
+  let whyButtons = Array('Why again?', 'But why?', 'Why though?', 'Please, why?', 'Why, why, why?', 'But really?')
+  if (WHY_BUTTON && WHY_CONTENT) {
+    WHY_BUTTON.addEventListener('click', () => {
 
-      if (whysentencescopy.length > 0) {
-        whytext = whysentencescopy.pop() || "";
+      if (whySentencesCopy.length > 0) {
+        whyText = whySentencesCopy.pop() || "";
       } else {
-        submitLg('Why sentences exhausted, reshuffling');
-        whysentencescopy = [...whySentences];
-        shuffleStringArray(whysentencescopy);
-        whytext = whysentencescopy.pop() || "";
+        submitLog('Why sentences exhausted, reshuffling');
+        whySentencesCopy = [...WHY_SENTENCES];
+        shuffleArray(whySentencesCopy);
+        whyText = whySentencesCopy.pop() || "";
       }
-      whyButton.innerText = whybuttons[Math.floor(Math.random() * whybuttons.length)];
-      whyContent.innerText = whytext;
-      submitLg('Why button clicked: ', whytext);
+      WHY_BUTTON.innerText = whyButtons[Math.floor(Math.random() * whyButtons.length)];
+      WHY_CONTENT.innerText = whyText;
+      submitLog('Why button clicked: ', whyText);
     });
   }
 });
 
 // Listen for clicks on any hyperlink and log the URL
 document.addEventListener('click', (event) => {
-  const target = event.target as HTMLElement;
-  const anchor = target.closest('a');
+  let target = event.target as HTMLElement;
+  let anchor = target.closest('a');
   if (anchor && anchor instanceof HTMLAnchorElement) {
     let u = (anchor.href.endsWith('#')) ? anchor.id + ' choice' : anchor.href;
-    submitLg('Hyperlink clicked: ', u);
+    submitLog('Hyperlink clicked: ', u);
   }
   if (target.id === 'search-button') {
-    submitLg('Search button clicked: ' + (searchBox.value || '').trim());
+    submitLog('Search button clicked: ' + (searchBox.value || '').trim());
   }
 });
 
@@ -612,11 +612,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Fetch the water quality traffic light HTML and update the content
 document.addEventListener('DOMContentLoaded', () => {
-  waterqualitytrafficlight().then(html => {
-    waterqualitytrafficlightHTML = html;
+  fetchWaterQualityTrafficLight().then((html) => {
+    waterQualityTrafficLightHTML = html;
     const waterQualityDiv = document.querySelector('#water-quality-traffic-light');
     if (waterQualityDiv) {
-      waterQualityDiv.innerHTML = waterqualitytrafficlightHTML + '<div>Get more detail on floodmapper ↗</div>';
+      waterQualityDiv.innerHTML = waterQualityTrafficLightHTML + '<div>Get more detail on floodmapper ↗</div>';
     }
   });
 });
@@ -630,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (floodButton && html.trim() !== '') {
       floodButton.innerHTML = 'Check for Gov.uk flood alerts<br><br>' + html;
       const textOnly = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-      submitLg('EA flood gauge: ', textOnly);
+      submitLog('EA flood gauge: ', textOnly);
     }
   } catch (error) {
     console.error('Error fetching flood gauge widget:', error);
@@ -752,7 +752,7 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
     weatherInfo.innerHTML =
       `<img src="${weather_code_image}" alt="${weather_code_description}" class="logo grey" style="background:${weather_code_image_background};border-radius:10px;" /><br>
     ${weather_summary}`;
-    submitLg(`${weather_summary}`);
+    submitLog(`${weather_summary}`);
   }
 })();
 
@@ -808,7 +808,7 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
         (nextFlow < 10) ? 'Medium flow' :
           (nextFlow < 15) ? 'High flow' : 'Very high flow';
     console.log(`\nNext river flow mean: ${nextFlow} m³/s (${flowDescription})`);
-    submitLg(`River flow: ${nextFlow} m³/s (${flowDescription})`);
+    submitLog(`River flow: ${nextFlow} m³/s (${flowDescription})`);
     floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
       `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
     (${flowDescription})`;
@@ -878,7 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
           widgetDiv.appendChild(newSpan);
         }
         if (sent === false) { // only send once
-          submitLg(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
+          submitLog(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
           sent = true;
         }
         //observer.disconnect();
