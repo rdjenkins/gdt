@@ -11,7 +11,7 @@ import busIcon from '/ISO_7001_PI_TF_006.svg' // Original from https://commons.w
 import hikerIcon from '/hiker.svg' // Original from https://commons.wikimedia.org/wiki/File:Big_guy_637%27s_hiking_icon.svg
 import packageJson from '../package.json';
 import { fetchWeatherApi } from 'openmeteo';
-import wmoCodes from './wmo-codes.json';
+import wmoCodes from './wmo-codes.json'; // local copies of images to avoid hotlinking
 import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url';
 import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url';
 import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url';
