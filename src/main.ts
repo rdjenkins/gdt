@@ -28,6 +28,8 @@ let firstBusTruroUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey
 let firstBusStAustellUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c"
 let travelineTruroUrl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
 let travelineStAustellUrl = "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
+let tfcTruroUrl = 'https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=Truro&destination%5Blocation%5D%5Blat%5D=50.263317&destination%5Blocation%5D%5Blon%5D=-5.051811&time%5Bwhen%5D=now'
+let tfcStAustellUrl = 'https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=St+Austell&destination%5Blocation%5D%5Blat%5D=50.33814&destination%5Blocation%5D%5Blon%5D=-4.794184&time%5Bwhen%5D=now'
 
 async function fetchWaterQualityTrafficLight() {
   const response = await fetch('https://photos.grampound.org.uk/repack.php?id=grampoundwaterDOM');
@@ -199,15 +201,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <li class="flex-item">
   <img src="${busIcon}" alt="bus icon" class="icon"><br>
       <div style="margin-top:1em;">
-        <label for="bus-toggle" id="bus-toggle-traveline" style="font-weight:bold;">Traveline</label>
-        <label class="switch">
-          <input type="checkbox" id="bus-toggle">
-          <span class="slider"></span>
-        </label>
-        <span id="bus-toggle-firstbus" style="margin-left:0.5em;">First Bus</span>
         <div id="bus-links" style="margin-top:0.5em;">
-          <a href="${travelineTruroUrl}" target="_blank"><button>To Truro</button></a>
-          <a href="${travelineStAustellUrl}" target="_blank"><button>To St Austell</button></a>
+          <a id='bus-link-truro' href="#" target="_blank"><button>To Truro</button></a>
+          <a id='bus-link-st-austell' href="#" target="_blank"><button>To St Austell</button></a>
         </div>
         <p>Buses from Grampound.</p>
       </div>
@@ -496,34 +492,17 @@ addChoiceModalLink('trenowth', 'Trenowth walk', ([
   { text: 'Download GPX', url: trenowthWalkGpx }
 ]));
 
-// Bus toggle logic
-document.addEventListener('DOMContentLoaded', () => {
-  const TOGGLE = document.getElementById('bus-toggle') as HTMLInputElement | null;
-  const LINKS_DIV = document.getElementById('bus-links');
-  const TOGGLE_LABEL_TRAVELLINE = document.getElementById('bus-toggle-traveline');
-  const TOGGLE_LABEL_FIRSTBUS = document.getElementById('bus-toggle-firstbus');
-  if (TOGGLE && LINKS_DIV) {
-    TOGGLE.addEventListener('change', () => {
-      let toggleChecked = (TOGGLE && TOGGLE.checked) ? true : false;
-      console.log('Bus toggle changed to', toggleChecked);
-      if (toggleChecked) {
-        TOGGLE_LABEL_FIRSTBUS!.style.fontWeight = 'bold';
-        TOGGLE_LABEL_TRAVELLINE!.style.fontWeight = 'normal';
-        LINKS_DIV.innerHTML = `
-          <a href="${firstBusTruroUrl}" target="_blank"><button>To Truro</button></a>
-          <a href="${firstBusStAustellUrl}" target="_blank"><button>To St Austell</button></a>
-        `;
-      } else {
-        TOGGLE_LABEL_FIRSTBUS!.style.fontWeight = 'normal';
-        TOGGLE_LABEL_TRAVELLINE!.style.fontWeight = 'bold';
-        LINKS_DIV.innerHTML = `
-          <a href="${travelineTruroUrl}" target="_blank"><button>To Truro</button></a>
-          <a href="${travelineStAustellUrl}" target="_blank"><button>To St Austell</button></a>
-        `;
-      }
-    });
-  }
-});
+addChoiceModalLink('bus-link-truro', 'Bus times to Truro', ([
+  { text: 'Transport for Cornwall', url: tfcTruroUrl },
+  { text: 'First Bus', url: firstBusTruroUrl },
+  { text: 'Traveline SW', url: travelineTruroUrl }
+]));
+
+addChoiceModalLink('bus-link-st-austell', 'Bus times to St Austell', [
+  { text: 'Transport for Cornwall', url: tfcStAustellUrl },
+  { text: 'First Bus', url: firstBusStAustellUrl },
+  { text: 'Traveline SW', url: travelineStAustellUrl }
+]);
 
 // Add event listener for why-button to update why-content with a random reason
 document.addEventListener('DOMContentLoaded', () => {
