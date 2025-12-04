@@ -18,7 +18,21 @@ import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url';
 
 console.log('GDT Version:', packageJson.version);
 
-const NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'>Loading nearest sensor ...</div>`
+const PURPLE_AIR_CHOICE = "Grampound"
+const PURPLEAIR_TRURO_ID = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
+const PURPLEAIR_TRURO_URL = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
+const PURPLEAIR_GRAMPOUND_ID = 'PurpleAirWidget_288300_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
+const PURPLEAIR_GRAMPOUND_URL = 'https://www.purpleair.com/pa.widget.js?key=GK7Z257AJL4IWPJC&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_288300_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
+if (PURPLE_AIR_CHOICE === "Grampound") {
+  var NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='` + PURPLEAIR_GRAMPOUND_ID + `'>Loading nearest sensor ...</div>`
+  var NEAREST_PURPLEAIR_SENSOR_WIDGET_ID = PURPLEAIR_GRAMPOUND_ID
+  var NEAREST_PURPLEAIR_SENSOR_URL = PURPLEAIR_GRAMPOUND_URL
+
+} else {
+  var NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='` + PURPLEAIR_TRURO_ID + `'>Loading nearest sensor ...</div>`
+  var NEAREST_PURPLEAIR_SENSOR_WIDGET_ID = PURPLEAIR_TRURO_ID
+  var NEAREST_PURPLEAIR_SENSOR_URL = PURPLEAIR_TRURO_URL
+}
 const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false })
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
@@ -312,7 +326,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </a>
       
     </ul>
-
 
     <p>Grampound Digital Twin is a project that reports to Grampound with Creed Parish Council.</p>
     <p class="version">Version: ${packageJson.version}</p>
@@ -799,12 +812,15 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Append the PurpleAir script to the document body after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   const script = document.createElement('script');
-  script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  script.id = "purpleair"
+  //script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  script.src = NEAREST_PURPLEAIR_SENSOR_URL;
   document.body.appendChild(script);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const targetId = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  //const targetId = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
+  const targetId = NEAREST_PURPLEAIR_SENSOR_WIDGET_ID;
   let sent = false;
   const observer = new MutationObserver(() => {
     const widgetDiv = document.getElementById(targetId);
