@@ -27,7 +27,6 @@ if (PURPLE_AIR_CHOICE === "Grampound") {
   var NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='` + PURPLEAIR_GRAMPOUND_ID + `'>Loading nearest sensor ...</div>`
   var NEAREST_PURPLEAIR_SENSOR_WIDGET_ID = PURPLEAIR_GRAMPOUND_ID
   var NEAREST_PURPLEAIR_SENSOR_URL = PURPLEAIR_GRAMPOUND_URL
-
 } else {
   var NEAREST_PURPLEAIR_SENSOR_WIDGET = `<div id='` + PURPLEAIR_TRURO_ID + `'>Loading nearest sensor ...</div>`
   var NEAREST_PURPLEAIR_SENSOR_WIDGET_ID = PURPLEAIR_TRURO_ID
@@ -285,7 +284,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Air quality in Cornwall.</p>
       </a>
 
-      <a href="https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound" target="_blank" class="flex-item">
+      <a href="#" id="sewagelinks" target="_blank" class="flex-item">
         <div id="water-quality-traffic-light">
           ${waterQualityTrafficLightHTML}
           <img src="${waterQualityLogo}" class="logo" alt="Sewage discharges logo" />
@@ -486,8 +485,14 @@ addChoiceModalLink('ghp-link', 'Photo Archive', ([
 ]));
 
 addChoiceModalLink('weather-links', 'Forecasts', ([
-  { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+  { text: 'UK Met Office', url: 'https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound' },
   { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
+]));
+
+
+addChoiceModalLink('sewagelinks', 'Sewage map', ([
+  { text: 'Floodmapper', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+  { text: 'SWW overflow map', url: 'https://www.southwestwater.co.uk/environment/rivers-and-bathing-waters/waterfitlive/storm-overflow-map' }
 ]));
 
 addChoiceModalLink('creed-circuit', 'Creed Circuit Walk', ([
@@ -608,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     waterQualityTrafficLightHTML = html;
     const waterQualityDiv = document.querySelector('#water-quality-traffic-light');
     if (waterQualityDiv) {
-      waterQualityDiv.innerHTML = waterQualityTrafficLightHTML + '<div>Get more detail on floodmapper ↗</div>';
+      waterQualityDiv.innerHTML = waterQualityTrafficLightHTML + '<div>Get more detail on Floodmapper<br>or SWW ↗</div>';
     }
   });
 });
@@ -812,8 +817,6 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Append the PurpleAir script to the document body after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   const script = document.createElement('script');
-  script.id = "purpleair"
-  //script.src = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI';
   script.src = NEAREST_PURPLEAIR_SENSOR_URL;
   document.body.appendChild(script);
 });
