@@ -284,7 +284,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Air quality in Cornwall.</p>
       </a>
 
-      <a href="#" id="sewagelinks" target="_blank" class="flex-item">
+      <a href="#" id="sewage-links" target="_blank" class="flex-item">
         <div id="water-quality-traffic-light">
           ${waterQualityTrafficLightHTML}
           <img src="${waterQualityLogo}" class="logo" alt="Sewage discharges logo" />
@@ -489,8 +489,7 @@ addChoiceModalLink('weather-links', 'Forecasts', ([
   { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
 ]));
 
-
-addChoiceModalLink('sewagelinks', 'Sewage map', ([
+addChoiceModalLink('sewage-links', 'Sewage map', ([
   { text: 'Floodmapper', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
   { text: 'SWW overflow map', url: 'https://www.southwestwater.co.uk/environment/rivers-and-bathing-waters/waterfitlive/storm-overflow-map' }
 ]));
