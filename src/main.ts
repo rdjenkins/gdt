@@ -485,12 +485,12 @@ addChoiceModalLink('ghp-link', 'Photo Archive', ([
 ]));
 
 addChoiceModalLink('weather-links', 'Forecasts', ([
-  { text: 'UK Met Office', url: 'https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound' },
+  { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
   { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
 ]));
 
 addChoiceModalLink('sewage-links', 'Sewage map', ([
-  { text: 'Floodmapper', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+  { text: 'Floodmapper', url: 'https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound' },
   { text: 'SWW overflow map', url: 'https://www.southwestwater.co.uk/environment/rivers-and-bathing-waters/waterfitlive/storm-overflow-map' }
 ]));
 
