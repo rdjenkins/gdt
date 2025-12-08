@@ -107,3 +107,16 @@ export function addChoiceModalLink(linkId: string, name: string, buttons: { text
         });
     }
 };
+
+function sendScrollHeight() {
+    const scrollHeight = document.body.scrollHeight;
+    window.parent.postMessage({ height: scrollHeight }, '*');
+}
+
+window.onload = () => {
+    sendScrollHeight();
+};
+
+window.onscroll = () => {
+    sendScrollHeight();
+};
