@@ -26,6 +26,24 @@ if (QR) {
     submitLog('QR accessed');
 }
 
+// Listen for clicks on any hyperlink and log the URL
+document.addEventListener('click', (event) => {
+    let target = event.target as HTMLElement;
+    let anchor = target.closest('a');
+    if (anchor && anchor instanceof HTMLAnchorElement) {
+        let u = (anchor.href.endsWith('#')) ? anchor.id + ' choice' : anchor.href;
+        submitLog('Hyperlink clicked: ', u);
+    }
+    if (target.id === 'search-button') {
+        var searchInput = document.getElementById('search-box') as HTMLInputElement | null;
+        if (searchInput) {
+            submitLog('Search button clicked: ' + (searchInput.value).trim());
+        } else {
+            submitLog('Search button clicked.')
+        }
+    }
+});
+
 export function shuffleArray(array: string[]) {
     let currentIndex = array.length;
 
@@ -108,6 +126,10 @@ export function addChoiceModalLink(linkId: string, name: string, buttons: { text
     }
 };
 
+// for embedding on other websites as an iframe
+// the code would be e.g. <script src="https://deanjenkins.me/gdt.js?APIkey=GwCPC"></script>
+// which injects the code to call this app
+//   and the postmessage functionality to adjust the iframe height size
 function sendScrollHeight() {
     const scrollHeight = document.body.scrollHeight;
     window.parent.postMessage({ height: scrollHeight }, '*');

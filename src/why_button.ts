@@ -1,14 +1,14 @@
 import { shuffleArray, submitLog } from './utils'
 
-export function showWhyButton() {
+export function showWhyButton(id = 'why-button') {
     return `
-        <button id="why-button">
+        <button id="${id}">
           Why?
         </button>
         <p id="why-content">Keep hitting the why button to learn more.</p>`
 }
 
-export function setup_why() {
+export function setup_why(id = 'why-button') {
     // Add event listener for why-button to update why-content with a random reason
     document.addEventListener('DOMContentLoaded', () => {
         const WHY_SENTENCES = [
@@ -47,7 +47,7 @@ export function setup_why() {
             "To show what we can achieve when we share information and work together.",
             "To demonstrate 'digital sovereignty' - that small local projects can beat big tech.",
         ];
-        const WHY_BUTTON = document.getElementById('why-button');
+        const WHY_BUTTON = document.getElementById(id);
         const WHY_CONTENT = document.getElementById('why-content');
         let whySentencesCopy = [...WHY_SENTENCES];
         let whyText = "";
