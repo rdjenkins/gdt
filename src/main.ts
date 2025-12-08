@@ -15,6 +15,8 @@ import wmoCodes from './wmo-codes.json'; // local copies of images to avoid hotl
 import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url';
 import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url';
 import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url';
+import { submitLog, addChoiceModalLink } from './utils'
+import { setup_why, showWhyButton } from './why_button'
 
 console.log('GDT Version:', packageJson.version);
 
@@ -33,9 +35,7 @@ if (PURPLE_AIR_CHOICE === "Grampound") {
   var NEAREST_PURPLEAIR_SENSOR_URL = PURPLEAIR_TRURO_URL
 }
 const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false })
-const URL_PARAMS = new URLSearchParams(window.location.search)
-const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
-const QR = (URL_PARAMS.has('QR')) ? true : false
+
 let waterQualityTrafficLightHTML = ""
 let firstBusTruroUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E"
 let firstBusStAustellUrl = "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c"
@@ -49,112 +49,6 @@ async function fetchWaterQualityTrafficLight() {
   const TEXT = await response.text();
   return TEXT;
 }
-
-// Function to submit anonymous logs to the server to see which functions are being used
-async function submitLog(lg: string, u: string = ''): Promise<string> {
-
-  if (NO_LOG) {
-    console.log('GDT Logging disabled:', lg || ' ', u || ' ');
-    return ''; // return empty string not logging anything
-  }
-  let theResponse = '';
-  const RESPONSE = await fetch('https://photos.grampound.org.uk/repack.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
-  });
-  theResponse = await RESPONSE.text();
-  console.log('GDT Logging:', theResponse);
-  return theResponse;
-}
-
-if (QR) {
-  submitLog('QR accessed');
-}
-
-function shuffleArray(array: string[]) {
-  let currentIndex = array.length;
-
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-}
-
-function showChoiceModal(name: string, buttons: { text: string, url: string }[]) {
-  let modal = document.createElement('div');
-  modal.style.position = 'fixed';
-  modal.style.top = '0';
-  modal.style.left = '0';
-  modal.style.width = '100vw';
-  modal.style.height = '100vh';
-  modal.style.background = 'rgba(0,0,0,0.5)';
-  modal.style.display = 'flex';
-  modal.style.alignItems = 'center';
-  modal.style.justifyContent = 'center';
-  modal.style.zIndex = '1000';
-
-  let modalContent = document.createElement('div');
-  modalContent.style.background = 'white';
-  modalContent.style.padding = '2em';
-  modalContent.style.borderRadius = '10px';
-  modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-  modalContent.style.textAlign = 'center';
-  modalContent.style.position = 'relative';
-
-  let title = document.createElement('h2');
-  title.textContent = name;
-  title.style.textAlign = 'center';
-  modalContent.appendChild(title);
-
-  buttons.forEach(btn => {
-    let anchor = document.createElement('a');
-    anchor.href = btn.url;
-    anchor.target = '_blank';
-    anchor.innerHTML = `<button style="margin:1em;">${btn.text}</button>`;
-    anchor.onclick = () => {
-      document.body.removeChild(modal);
-    };
-    modalContent.appendChild(anchor);
-  });
-
-  let closeBtn = document.createElement('button');
-  closeBtn.textContent = '✕';
-  closeBtn.setAttribute('aria-label', 'Close');
-  closeBtn.style.position = 'absolute';
-  closeBtn.style.top = '0.2em';
-  closeBtn.style.right = '0.2em';
-  closeBtn.style.background = 'transparent';
-  closeBtn.style.border = 'none';
-  closeBtn.style.fontSize = '1.5em';
-  closeBtn.style.cursor = 'pointer';
-  closeBtn.onclick = () => {
-    document.body.removeChild(modal);
-  };
-  modalContent.appendChild(closeBtn);
-
-  modal.appendChild(modalContent);
-  document.body.appendChild(modal);
-}
-
-function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
-  const link = document.getElementById(linkId) as HTMLAnchorElement | null;
-  if (link) {
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      showChoiceModal(name, buttons);
-    });
-  }
-};
 
 // Open Street Map search box and button
 let searchBox = document.createElement('input');
@@ -306,10 +200,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <ul class="flex-container">
 
     <li class="flex-item">
-        <button id="why-button">
-          Why?
-        </button>
-        <p id="why-content">Keep hitting the why button to learn more.</p>
+      ${showWhyButton()}
       </li>
 
       <li class="flex-item">
@@ -521,67 +412,7 @@ addChoiceModalLink('bus-link-st-austell', 'Bus times to St Austell', [
   { text: 'Traveline SW', url: travelineStAustellUrl }
 ]);
 
-// Add event listener for why-button to update why-content with a random reason
-document.addEventListener('DOMContentLoaded', () => {
-  const WHY_SENTENCES = [
-    "To help us find useful local information quickly.",
-    "To demonstrate how open data and digital tools can benefit our community.",
-    "To make environmental and travel data more accessible for Grampound.",
-    "To encourage us to engage with local resources and events.",
-    "To provide a single place for maps, weather, air and water quality, and more.",
-    "To support transparency and awareness about local environmental conditions.",
-    "To experiment with digital projects for rural areas.",
-    "To make it easier to plan journeys and walks around Grampound.",
-    "To showcase how technology can connect people with their local area.",
-    "To encourage contributions and improvements from anyone who wants to get involved.",
-    "To share some excellent digital resources that already exist for Grampound.",
-    "To show what is possible with open data and community effort.",
-    "To demonstrate how small digital projects can beat 'big tech' for local relevance.",
-    "This could be a public touch screen in the village hall or shop.",
-    "To help everyone find local info fast.",
-    "To show how sharing info online can help our town.",
-    "To make weather and nature facts easy to find for Grampound.",
-    "To get people excited about local events and places.",
-    "To have one website for maps, weather, and how clean our air and water is.",
-    "To be honest and open about our local environment.",
-    "To try out new tech ideas for places like ours.",
-    "To make planning walks and trips around Grampound simple.",
-    "To show how tech can help people connect with where they live.",
-    "To share other cool websites that already exist for Grampound.",
-    "To show what we can do when we share information and work together.",
-    "To prove a small local website can be more useful than big websites or apps for our town.",
-    "This could also be a public computer screen in the village hall or shop.",
-    "To find out what's happening in the village this week.",
-    "To prove a local site can be more useful than big tech apps.",
-    "To make planning walks, bus trips, and journeys simpler.",
-    "To be the one-stop website for everything in Grampound.",
-    "To help you find local info quickly and easily.",
-    "To show what we can achieve when we share information and work together.",
-    "To demonstrate 'digital sovereignty' - that small local projects can beat big tech.",
-  ];
-  const WHY_BUTTON = document.getElementById('why-button');
-  const WHY_CONTENT = document.getElementById('why-content');
-  let whySentencesCopy = [...WHY_SENTENCES];
-  let whyText = "";
-  shuffleArray(whySentencesCopy);
-  let whyButtons = Array('Why again?', 'But why?', 'Why though?', 'Please, why?', 'Why, why, why?', 'But really?')
-  if (WHY_BUTTON && WHY_CONTENT) {
-    WHY_BUTTON.addEventListener('click', () => {
-
-      if (whySentencesCopy.length > 0) {
-        whyText = whySentencesCopy.pop() || "";
-      } else {
-        submitLog('Why sentences exhausted, reshuffling');
-        whySentencesCopy = [...WHY_SENTENCES];
-        shuffleArray(whySentencesCopy);
-        whyText = whySentencesCopy.pop() || "";
-      }
-      WHY_BUTTON.innerText = whyButtons[Math.floor(Math.random() * whyButtons.length)];
-      WHY_CONTENT.innerText = whyText;
-      submitLog('Why button clicked: ', whyText);
-    });
-  }
-});
+setup_why()
 
 // Listen for clicks on any hyperlink and log the URL
 document.addEventListener('click', (event) => {
