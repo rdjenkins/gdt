@@ -1,3 +1,5 @@
+import { getSearchButtonID } from "./mapsearch" // this seems awkward
+
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
 const QR = (URL_PARAMS.has('QR')) ? true : false
@@ -34,7 +36,7 @@ document.addEventListener('click', (event) => {
         let u = (anchor.href.endsWith('#')) ? anchor.id + ' choice' : anchor.href;
         submitLog('Hyperlink clicked: ', u);
     }
-    if (target.id === 'search-button') {
+    if (target.id === getSearchButtonID()) {
         var searchInput = document.getElementById('search-box') as HTMLInputElement | null;
         if (searchInput) {
             submitLog('Search button clicked: ' + (searchInput.value).trim());

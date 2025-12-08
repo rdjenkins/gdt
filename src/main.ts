@@ -20,6 +20,7 @@ import { showMessageButton } from './messenger'
 import { showWeather } from './weather'
 import { showFloodWarning } from './floodwarning'
 import { waterQualityTrafficLight } from './water'
+import { showSearchContainer } from './mapsearch'
 
 console.log('GDT Version:', packageJson.version);
 
@@ -33,50 +34,7 @@ let travelineStAustellUrl = "https://nationaljourneyplanner.travelinesw.com/swe/
 let tfcTruroUrl = 'https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=Truro&destination%5Blocation%5D%5Blat%5D=50.263317&destination%5Blocation%5D%5Blon%5D=-5.051811&time%5Bwhen%5D=now'
 let tfcStAustellUrl = 'https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=St+Austell&destination%5Blocation%5D%5Blat%5D=50.33814&destination%5Blocation%5D%5Blon%5D=-4.794184&time%5Bwhen%5D=now'
 
-// Open Street Map search box and button
-let searchBox = document.createElement('input');
-searchBox.type = 'text';
-searchBox.id = 'search-box'
-searchBox.placeholder = 'Find an address or place...';
 
-let searchButton = document.createElement('button');
-searchButton.textContent = 'Search';
-searchButton.id = 'search-button';
-
-searchButton.onclick = () => {
-  const QUERY = encodeURIComponent(`${searchBox.value} "Grampound with Creed"`);
-  const URL = `https://www.openstreetmap.org/search?query=${QUERY}&zoom=19&minlon=-4.903727173805238&minlat=50.298594007719345&maxlon=-4.900551438331605&maxlat=50.29984131703836#map=17/50.298894/-4.900718`;
-  window.open(URL, '_blank');
-};
-
-searchBox.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    if (typeof searchButton.onclick === 'function') {
-      searchButton.click();
-    }
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const APP = document.querySelector<HTMLDivElement>('#app');
-  if (APP) {
-    const searchContainer = document.createElement('div');
-    searchContainer.style.marginBottom = '1em';
-    searchContainer.appendChild(searchBox);
-    searchContainer.appendChild(searchButton);
-    APP.prepend(searchContainer);
-  }
-});
-
-// Move the search box and button into the #search-container after DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  const searchContainer = document.querySelector<HTMLDivElement>('#search-container');
-  if (searchContainer) {
-    searchContainer.appendChild(searchBox);
-    searchContainer.appendChild(searchButton);
-    searchContainer.style.marginBottom = '1em';
-  }
-});
 
 // Define and load the main HTML structure
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -94,8 +52,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </a>
 
     <li class="flex-item">
-        <div id="search-container"></div>
-      <p>Search for an address or place in Grampound with Creed.</p>
+${showSearchContainer()}
     </li>
 
   <li class="flex-item">
