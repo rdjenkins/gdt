@@ -2,11 +2,12 @@ import { fetchWeatherApi } from 'openmeteo'
 import wmoCodes from './wmo-codes.json' // local copies of images to avoid hotlinking
 import { submitLog } from './utils'
 
+const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
 
 export function showWeather() {
     return `
-        <p id="weather-info">
-          Weather (UK Met Office)
+        <p id="${WEATHER_INFO_ID}">
+            Weather (UK Met Office)
         </p>`
 }
 
@@ -116,7 +117,7 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
                 weatherData.current.rain < 50 ? 'heavy rain' :
                     weatherData.current.rain < 100 ? 'very heavy rain' : 'extreme rain';
 
-    const weatherInfo = document.getElementById('weather-info');
+    const weatherInfo = document.getElementById(WEATHER_INFO_ID);
     if (weatherInfo) {
         const weather_summary = `${weather_code_description} ${Math.round(weatherData.current.temperature_2m)}°C<br>
     wind ${Math.round(weatherData.current.wind_speed_10m)} m/s (${wind_description})<br>

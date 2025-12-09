@@ -1,3 +1,5 @@
+import { submitLog } from "./utils"
+
 const SEARCH_CONTAINER_ID = 'search-container'
 const SEARCH_BOX_ID = 'search-box'
 const SEARCH_BUTTON_ID = 'search-button'
@@ -55,5 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
         searchContainer.appendChild(searchBox);
         searchContainer.appendChild(searchButton);
         searchContainer.style.marginBottom = '1em';
+    }
+});
+
+// Listen for clicks on the search button
+document.addEventListener('click', (event) => {
+    let target = event.target as HTMLElement;
+    if (target.id === SEARCH_BUTTON_ID) {
+        var searchInput = document.getElementById('search-box') as HTMLInputElement | null;
+        if (searchInput) {
+            submitLog('Search button clicked: ' + (searchInput.value).trim());
+        } else {
+            submitLog('Search button clicked.')
+        }
     }
 });

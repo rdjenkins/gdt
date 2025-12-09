@@ -14,13 +14,13 @@ import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url
 import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url'
 import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url'
 import { addChoiceModalLink } from './utils' // event listeners also setup these modules
-import { setup_why, showWhyButton } from './why_button'
+import { showWhyButton } from './why_button'
 import { purpleAirSensorWidget } from './purpleair'
 import { showMessageButton } from './messenger'
-import { showWeather } from './weather'
-import { showFloodWarning } from './floodwarning'
-import { waterQualityTrafficLight } from './water'
-import { showSearchContainer } from './mapsearch'
+import { showWeather } from './weather' // show weather content
+import { showFloodWarning } from './floodwarning' // show a flood warning (from the EA) if there is one
+import { waterQualityTrafficLight } from './water' // get the water quality traffic light for Grampound
+import { showSearchContainer } from './mapsearch' // show the custom OSM map search
 
 console.log('GDT Version:', packageJson.version);
 
@@ -145,7 +145,7 @@ ${showSearchContainer()}
     <ul class="flex-container">
 
     <li class="flex-item">
-      ${showWhyButton('why-button')}
+      ${showWhyButton()}
       </li>
 
       <li class="flex-item">
@@ -206,8 +206,6 @@ addChoiceModalLink('bus-link-st-austell', 'Bus times to St Austell', [
   { text: 'First Bus', url: firstBusStAustellUrl },
   { text: 'Traveline SW', url: travelineStAustellUrl }
 ]);
-
-setup_why('why-button')
 
 
 

@@ -86,6 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     sent = true;
                 }
                 //observer.disconnect();
+            } else {
+                widgetDiv.innerHTML = "<button>Visit Purple Air Map</button>"
+                observer.disconnect() // TODO how would we then try another one?
+                submitLog(`PurpleAir response does not show an obvious Pm2.5 figure`)
             }
         }
     });

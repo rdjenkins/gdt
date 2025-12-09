@@ -1,10 +1,12 @@
 import { fetchWeatherApi } from 'openmeteo'
 import { submitLog } from './utils'
 
+const FLOOD_INFO_ID = 'flood-info' // the id of the HTML element where the flood info will go.
+
 export function showFloodWarning() {
     return `
         <button id="flood-warning-button">Go to gov.UK for flood warnings for Grampound.</button>
-        <p id="flood-info">
+        <p id="${FLOOD_INFO_ID}">
             Flood data loading...
         </p>`
 }
@@ -68,7 +70,7 @@ export function showFloodWarning() {
     // 'floodData' now contains a simple structure with arrays with datetime and weather data
     console.log("\nDaily river flow data GloFAS", floodData.daily)
 
-    const floodInfo = document.getElementById('flood-info');
+    const floodInfo = document.getElementById(FLOOD_INFO_ID);
     if (floodInfo) {
         const nextFlow = (floodData.daily.river_discharge_mean) ? floodData.daily.river_discharge_mean[0] : -1;
         // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
