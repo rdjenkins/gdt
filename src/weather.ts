@@ -1,6 +1,7 @@
 import { fetchWeatherApi } from 'openmeteo'
 import wmoCodes from './wmo-codes.json' // local copies of images to avoid hotlinking
 import { submitLog } from './utils'
+import { addChoiceModalLink } from './utils'
 
 const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
 
@@ -128,3 +129,8 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
         submitLog(`${weather_summary}`);
     }
 })();
+
+addChoiceModalLink('weather-links', 'Forecasts', ([
+    { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
+    { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
+]));

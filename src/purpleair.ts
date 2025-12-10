@@ -1,5 +1,7 @@
 // code for PurpleAir widget functionality
 import { submitLog } from "./utils"
+import airQualityLogo from '/PurpleAir-Cornwall-Map.png'
+
 
 var PURPLE_AIR_CHOICE = "Grampound"
 const PURPLEAIR_TRURO_ID = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
@@ -16,8 +18,16 @@ if (PURPLE_AIR_CHOICE === "Grampound") {
     var NEAREST_PURPLEAIR_SENSOR_URL = PURPLEAIR_TRURO_URL
 }
 
-export function purpleAirSensorWidget() {
+function purpleAirSensorWidget() {
     return NEAREST_PURPLEAIR_SENSOR_WIDGET
+}
+
+export function showPurpleAir() {
+    return `
+    <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
+        <p>${purpleAirSensorWidget()}</p>
+        <p>Air quality in Cornwall.</p>
+    `
 }
 
 // Append the PurpleAir script to the document body after DOMContentLoaded

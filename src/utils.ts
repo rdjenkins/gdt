@@ -108,15 +108,22 @@ export function showChoiceModal(name: string, buttons: { text: string, url: stri
     document.body.appendChild(modal);
 }
 
-export function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
-    const link = document.getElementById(linkId) as HTMLAnchorElement | null;
-    if (link) {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            showChoiceModal(name, buttons);
-        });
+export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
+    const setupListener = () => {
+        const link = document.getElementById(linkId) as HTMLAnchorElement | null;
+        if (link) {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                showChoiceModal(name, buttons);
+            });
+        }
+    };
+    if (document.readyState !== 'complete') { // === 'loading' is never true it seems
+        document.addEventListener('DOMContentLoaded', setupListener);
+    } else {
+        setupListener();
     }
-};
+}
 
 // for embedding on other websites as an iframe
 // the code would be e.g. <script src="https://deanjenkins.me/gdt.js?APIkey=GwCPC"></script>
