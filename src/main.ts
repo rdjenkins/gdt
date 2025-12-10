@@ -5,13 +5,10 @@ import calendarLogo from '/calendar.svg'
 import creedChurchyardLogo from '/creed-churchyard.png'
 import geographLogo from '/geograph-logo.svg'
 import githubLogo from '/github-mark.svg'
-import hikerIcon from '/hiker.svg' // Original from https://commons.wikimedia.org/wiki/File:Big_guy_637%27s_hiking_icon.svg
 import packageJson from '../package.json'
-import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url'
-import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url'
-import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url'
 import { addChoiceModalLink } from './utils' // event listeners also setup these modules
 import { showBuses } from './buses'
+import { showWalks } from './walks'
 import { showWhyButton } from './why_button'
 import { showPurpleAir } from './purpleair'
 import { showMessageButton } from './messenger'
@@ -35,11 +32,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </p>
 
 <h2>Maps and travel</h2>
-    <ul class="flex-container">
-      <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank" class="flex-item">
-  <img src="${openStreetMapLogo}" class="logo vanilla" alt="OpenStreetMap logo" />
+  <ul class="flex-container">
+    <a href="https://www.openstreetmap.org/#map=19/50.298719/-4.903400" target="_blank" class="flex-item">
+      <img src="${openStreetMapLogo}" class="logo vanilla" alt="OpenStreetMap logo" />
       <p>Map of Grampound with Creed.</p>
-      </a>
+    </a>
 
     <li class="flex-item">
       ${showSearchContainer()}
@@ -49,20 +46,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${showBuses()}
     </li>
 
-  <li class="flex-item">
-  <img src="${hikerIcon}" alt="hiker icon" class="icon"><br>
-      <a id="fal-footpath" href="#" target="_blank">
-        <button>Fal (40 mins)</button>
-      </a>
-      <a id="creed-circuit" href="#" target="_blank">
-        <button>Creed Circuit (1 hr)</button>
-      </a>
-      <a id="trenowth" href="#" target="_blank">
-        <button>Trenowth (1½ hrs)</button>
-      </a>
-      <p>Circular walks.</p>
+    <li class="flex-item">
+      ${showWalks()}
     </li>
-    </ul>
+  </ul>
 
 
     <h2>What's on</h2>
@@ -145,21 +132,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 addChoiceModalLink('ghp-link', 'Photo Archive', ([
   { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
   { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
-]));
-
-addChoiceModalLink('creed-circuit', 'Creed Circuit Walk', ([
-  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909' },
-  { text: 'Download GPX', url: creedCircuitGpx }
-]));
-
-addChoiceModalLink('fal-footpath', 'Fal Footpath Old Hill walk', ([
-  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067' },
-  { text: 'Download GPX', url: falFootpathGpx }
-]));
-
-addChoiceModalLink('trenowth', 'Trenowth walk', ([
-  { text: 'View on Map', url: 'https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960' },
-  { text: 'Download GPX', url: trenowthWalkGpx }
 ]));
 
 
