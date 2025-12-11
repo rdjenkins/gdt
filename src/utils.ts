@@ -36,23 +36,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-export function shuffleArray(array: string[]) {
-    let currentIndex = array.length;
-
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-
-        // Pick a remaining element...
-        let randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
-    }
-}
-
-export function showChoiceModal(name: string, buttons: { text: string, url: string }[]) {
+function showChoiceModal(name: string, buttons: { text: string, url: string }[]) {
     let modal = document.createElement('div');
     modal.style.position = 'fixed';
     modal.style.top = '0';

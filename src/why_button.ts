@@ -1,4 +1,4 @@
-import { shuffleArray, submitLog } from './utils'
+import { submitLog } from './utils'
 
 const WHY_BUTTON_ID = 'why-button'
 
@@ -10,6 +10,22 @@ export function showWhyButton() {
         <p id="why-content">Keep hitting the why button to learn more.</p>`
 }
 
+// shuffle array function
+function shuffleArray(array: string[]) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+}
 
 // Add event listener for why-button to update why-content with a random reason
 document.addEventListener('DOMContentLoaded', () => {

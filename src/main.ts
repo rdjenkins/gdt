@@ -1,14 +1,13 @@
 import './style.css'
 import openStreetMapLogo from '/OpenStreetMap-logo-with-text.svg'
-import ghpLogo from '/gwchp-logo-coloured-600x600.png'
 import calendarLogo from '/calendar.svg'
 import creedChurchyardLogo from '/creed-churchyard.png'
 import geographLogo from '/geograph-logo.svg'
 import githubLogo from '/github-mark.svg'
 import packageJson from '../package.json'
-import { addChoiceModalLink } from './utils' // event listeners also setup these modules
 import { showBuses } from './buses'
 import { showWalks } from './walks'
+import { showPhotoArchive } from './photoArchive'
 import { showWhyButton } from './why_button'
 import { showPurpleAir } from './purpleair'
 import { showMessageButton } from './messenger'
@@ -66,8 +65,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <ul class="flex-container">
 
       <a id="ghp-link" href="#" target="_blank" class="flex-item">
-  <img src="${ghpLogo}" class="logo green" alt="Grampound Heritage Project logo" />
-      <p>Grampound Heritage Project photo archive.</p>
+        ${showPhotoArchive()}
       </a>
 
       <a href="https://www.geograph.org.uk/near/SW93484841" target="_blank" class="flex-item">
@@ -129,10 +127,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `;
 
-addChoiceModalLink('ghp-link', 'Photo Archive', ([
-  { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
-  { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
-]));
 
 
 
