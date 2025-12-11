@@ -24,9 +24,11 @@ function purpleAirSensorWidget() {
 
 export function showPurpleAir() {
     return `
-    <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
+    <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
+        <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
         <p>${purpleAirSensorWidget()}</p>
         <p>Air quality in Cornwall.</p>
+    </a>
     `
 }
 

@@ -7,9 +7,12 @@ const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
 
 export function showWeather() {
     return `
+    <a href="#" id="weather-links" target="_blank" class="flex-item">
         <p id="${WEATHER_INFO_ID}">
             Weather (UK Met Office)
-        </p>`
+        </p>
+    </a>
+    `
 }
 
 // Fetch weather data from Open-Meteo

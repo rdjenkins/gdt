@@ -6,6 +6,7 @@ import { addChoiceModalLink } from './utils'
 
 export function showWalks() {
     return `
+    <li class="flex-item">
     <img src="${hikerIcon}" alt="hiker icon" class="icon"><br>
     <a id="fal-footpath" href="#" target="_blank">
         <button>Fal (40 mins)</button>
@@ -17,6 +18,7 @@ export function showWalks() {
         <button>Trenowth (1½ hrs)</button>
     </a>
     <p>Circular walks.</p>
+    </li>
     `
 }
 

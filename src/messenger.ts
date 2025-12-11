@@ -1,10 +1,14 @@
 var id = 'message-button-for-gdt'
 
-export function showMessageButton() {
+export function showMessenger() {
     return `
+    <li class="flex-item">
         <button id=${id}>
             Message
-        </button>`
+        </button>
+        <p>Send a message to us or Grampound with Creed Parish Council.</p>
+    </li>
+    `
 }
 
 // Modal contact form logic

@@ -10,7 +10,7 @@ import { showWalks } from './walks'
 import { showPhotoArchive } from './photoArchive'
 import { showWhyButton } from './why_button'
 import { showPurpleAir } from './purpleair'
-import { showMessageButton } from './messenger'
+import { showMessenger } from './messenger'
 import { showWeather } from './weather' // show weather content
 import { showFloodWarning } from './floodwarning' // show a flood warning (from the EA) if there is one
 import { showSewage } from './sewage'
@@ -21,6 +21,7 @@ console.log('GDT Version:', packageJson.version);
 
 const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false })
 
+// TODO consider how to do the styling so the show...() modules could style themselves in other projects
 
 // Define and load the main HTML structure
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -37,17 +38,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p>Map of Grampound with Creed.</p>
     </a>
 
-    <li class="flex-item">
-      ${showSearchContainer()}
-    </li>
+    ${showSearchContainer()}
 
-    <li class="flex-item">
-      ${showBuses()}
-    </li>
+    ${showBuses()}
 
-    <li class="flex-item">
-      ${showWalks()}
-    </li>
+    ${showWalks()}
+
   </ul>
 
 
@@ -64,9 +60,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h2>Photos and more</h2>
     <ul class="flex-container">
 
-      <a id="ghp-link" href="#" target="_blank" class="flex-item">
-        ${showPhotoArchive()}
-      </a>
+      ${showPhotoArchive()}
 
       <a href="https://www.geograph.org.uk/near/SW93484841" target="_blank" class="flex-item">
   <img src="${geographLogo}" class="logo vanilla" alt="Geograph logo" />
@@ -84,36 +78,23 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <p class="left">Updated ${CURRENT_DATE_TIME}</p>
     <ul class="flex-container">
 
-      <a href="#" id="weather-links" target="_blank" class="flex-item">
-        ${showWeather()}
-      </a>
+      ${showWeather()}
 
-      <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
-        ${showPurpleAir()}
-      </a>
+      ${showPurpleAir()}
 
-      <a href="#" id="sewage-links" target="_blank" class="flex-item">
-        ${showSewage()}
-      </a>
+      ${showSewage()}
 
-      <a href="https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00" target="_blank" class="flex-item">
-        ${showFloodWarning()}
-      </a>
+      ${showFloodWarning()}
 
-      </ul>
+    </ul>
   
 <h2>More info</h2>
 <p class="left">About this project and how to contribute.</p>
     <ul class="flex-container">
 
-    <li class="flex-item">
       ${showWhyButton()}
-      </li>
 
-      <li class="flex-item">
-      ${showMessageButton()}
-        <p>Send a message to us or Grampound with Creed Parish Council.</p>
-      </li>
+      ${showMessenger()}
 
       <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
   <img src="${githubLogo}" class="logo" alt="GitHub Logo" />

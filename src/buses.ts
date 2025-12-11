@@ -11,6 +11,7 @@ let tfcStAustellUrl = 'https://www.transportforcornwall.co.uk/directions?origin%
 
 export function showBuses() {
     return `
+        <li class="flex-item">
         <img src="${busIcon}" alt="bus icon" class="icon"><br>
         <div style="margin-top:1em;">
             <div id="bus-links" style="margin-top:0.5em;">
@@ -19,6 +20,7 @@ export function showBuses() {
             </div>
             <p>Buses from Grampound.</p>
         </div>
+        </li>
     `
 }
 

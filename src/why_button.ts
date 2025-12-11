@@ -4,10 +4,13 @@ const WHY_BUTTON_ID = 'why-button'
 
 export function showWhyButton() {
     return `
+    <li class="flex-item">
         <button id="${WHY_BUTTON_ID}">
             Why?
         </button>
-        <p id="why-content">Keep hitting the why button to learn more.</p>`
+        <p id="why-content">Keep hitting the why button to learn more.</p>
+    </li>
+    `
 }
 
 // shuffle array function

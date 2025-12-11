@@ -5,10 +5,13 @@ const FLOOD_INFO_ID = 'flood-info' // the id of the HTML element where the flood
 
 export function showFloodWarning() {
     return `
+    <a href="https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00" target="_blank" class="flex-item">
         <button id="flood-warning-button">Go to gov.UK for flood warnings for Grampound.</button>
         <p id="${FLOOD_INFO_ID}">
             Flood data loading...
-        </p>`
+        </p>
+    </a>
+    `
 }
 
 // Fetch and append flood gauge widget

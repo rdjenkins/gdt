@@ -10,8 +10,10 @@ export function getSearchButtonID() {
 
 export function showSearchContainer() {
     return `
-    <div id="${SEARCH_CONTAINER_ID}"></div>
+    <li class="flex-item">
+        <div id="${SEARCH_CONTAINER_ID}"></div>
         <p>Search for an address or place in Grampound with Creed.</p>
+    </li>
     `
 }
 
