@@ -1,12 +1,14 @@
 import { fetchWeatherApi } from 'openmeteo'
 import { submitLog } from './utils'
 
+const FLOOD_TARGET_AREA_URL = 'https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00'
 const FLOOD_INFO_ID = 'flood-info' // the id of the HTML element where the flood info will go.
+const FLOOD_WARNING_BUTTON_ID = 'flood-warning-button'
 
 export function showFloodWarning() {
     return `
-    <a href="https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00" target="_blank" class="flex-item">
-        <button id="flood-warning-button">Go to gov.UK for flood warnings for Grampound.</button>
+    <a href="${FLOOD_TARGET_AREA_URL}" target="_blank" class="flex-item">
+        <button id="${FLOOD_WARNING_BUTTON_ID}">Go to gov.UK for flood warnings for Grampound.</button>
         <p id="${FLOOD_INFO_ID}">
             Flood data loading...
         </p>
@@ -20,10 +22,14 @@ export function showFloodWarning() {
     try {
         const response = await fetch('https://photos.grampound.org.uk/repack.php?id=EAfloodgaugeWidget');
         const html = await response.text();
-        const floodButton = document.getElementById('flood-warning-button');
+        const floodButton = document.getElementById(FLOOD_WARNING_BUTTON_ID);
         if (floodButton && html.trim() !== '') {
             floodButton.innerHTML = 'Check for Gov.uk flood alerts<br><br>' + html;
-            const textOnly = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+        const textOnly = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        if (textOnly === '') {
+            submitLog('EA flood gauge: ', 'none');
+        } else {
             submitLog('EA flood gauge: ', textOnly);
         }
     } catch (error) {

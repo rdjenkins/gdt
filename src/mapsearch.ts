@@ -4,10 +4,6 @@ const SEARCH_CONTAINER_ID = 'search-container'
 const SEARCH_BOX_ID = 'search-box'
 const SEARCH_BUTTON_ID = 'search-button'
 
-export function getSearchButtonID() {
-    return SEARCH_BUTTON_ID
-}
-
 export function showSearchContainer() {
     return `
     <li class="flex-item">
@@ -33,6 +29,7 @@ searchButton.onclick = () => {
     window.open(URL, '_blank');
 };
 
+// listen for when someone hits enter in the search box
 searchBox.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         if (typeof searchButton.onclick === 'function') {
