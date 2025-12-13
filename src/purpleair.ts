@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check if the text is a number and the font size is large
                 const isNumber = !isNaN(parseFloat(text));
                 const fontSize = window.getComputedStyle(s).fontSize;
-                return isNumber && parseFloat(fontSize) >= 60;
+                return isNumber && parseFloat(fontSize) >= 50;
             });
             if (span) {
                 console.log('PurpleAir Pm2.5 span found');
