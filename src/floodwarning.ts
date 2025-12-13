@@ -1,4 +1,3 @@
-import { fetchWeatherApi } from 'openmeteo'
 import { submitLog } from './utils'
 
 const FLOOD_TARGET_AREA_URL = 'https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00'
@@ -10,7 +9,7 @@ export function showFloodWarning() {
     <a href="${FLOOD_TARGET_AREA_URL}" target="_blank" class="flex-item">
         <button id="${FLOOD_WARNING_BUTTON_ID}">Go to gov.UK for flood warnings for Grampound.</button>
         <p id="${FLOOD_INFO_ID}">
-            Flood data loading...
+            River data loading...
         </p>
     </a>
     `
@@ -37,60 +36,49 @@ export function showFloodWarning() {
     }
 })();
 
-// Fetch flood data from Open-Meteo
-// https://flood-api.open-meteo.com/v1/flood?latitude=50.299266&longitude=-4.903521&daily=river_discharge_mean&timezone=Europe%2FLondon&forecast_days=1
 (async () => {
-    const params = {
-        "latitude": 50.299266,
-        "longitude": -4.903521,
-        "daily": "river_discharge_mean",
-        "forecast_days": 1,
-    };
-    const url = "https://flood-api.open-meteo.com/v1/flood";
-    const responses = await fetchWeatherApi(url, params);
-
-    // Process first location. Add a for-loop for multiple locations or weather models
-    const response = responses[0];
-
-    // Attributes for timezone and location
-    const latitude = response.latitude();
-    const longitude = response.longitude();
-    const elevation = response.elevation();
-    const utcOffsetSeconds = response.utcOffsetSeconds();
-
-    console.log(
-        `\nCoordinates: ${latitude}°N ${longitude}°E`,
-        `\nElevation: ${elevation}m asl`,
-        `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
-    );
-
-    const daily = response.daily()!;
-
-    // Note: The order of weather variables in the URL query and the indices below need to match!
-    const floodData = {
-        daily: {
-            time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
-                (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
-            ),
-            river_discharge_mean: daily.variables(0)!.valuesArray(),
-        },
-    };
-
-    // 'floodData' now contains a simple structure with arrays with datetime and weather data
-    console.log("\nDaily river flow data GloFAS", floodData.daily)
-
+    // getting the EA API via repack means it is fetched and cached nicely
+    const TrenowthURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=trenowth'
+    const TregonyURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=tregony'
+    const TrenowthResponse = await fetch(TrenowthURL)
+    const TrenowthRiverLevel = await TrenowthResponse.json()
+    const TregonythResponse = await fetch(TregonyURL)
+    const TregonyRiverLevel = await TregonythResponse.json()
     const floodInfo = document.getElementById(FLOOD_INFO_ID);
-    if (floodInfo) {
-        const nextFlow = (floodData.daily.river_discharge_mean) ? floodData.daily.river_discharge_mean[0] : -1;
-        // thresholds based on data from https://nrfa.ceh.ac.uk/data/search for Fal at Trenowth and Tregony
-        const flowDescription = (nextFlow === -1) ? 'No data' :
-            (nextFlow < 5) ? 'Low flow' :
-                (nextFlow < 10) ? 'Medium flow' :
-                    (nextFlow < 15) ? 'High flow' : 'Very high flow';
-        console.log(`\nNext river flow mean: ${nextFlow} m³/s (${flowDescription})`);
-        submitLog(`River flow: ${nextFlow} m³/s (${flowDescription})`);
-        floodInfo.innerHTML = (nextFlow === -1) ? 'No river flow data' :
-            `Current estimated river flow:<br>${nextFlow.toFixed(2)} m³/s<br>
-    (${flowDescription})`;
+
+    var output = 'River Fal height'
+    var valid = false
+
+    if (TrenowthRiverLevel && typeof TrenowthRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number') {
+        if (TrenowthRiverLevel.riverHeight >= TrenowthRiverLevel.riverHeightHigh) {
+            output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (HIGH)</span>'
+        } else {
+            output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight + ' m'
+        }
+        valid = true
+    }
+    if (TregonyRiverLevel && typeof TregonyRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number') {
+        if (TrenowthRiverLevel.riverHeight >= TregonyRiverLevel.riverHeightHigh) {
+            output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (HIGH)</span>'
+        } else {
+            output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight + ' m'
+        }
+        valid = true
+    }
+
+
+    if (valid) {
+        if (floodInfo) {
+            floodInfo.innerHTML = output
+            submitLog(`output`);
+        } else {
+            console.log(`output`);
+        }
+    } else {
+        if (floodInfo) {
+            floodInfo.innerHTML = 'River level data not available'
+            submitLog(`invalid river level data`);
+        }
+        console.error('Invalid river level data');
     }
 })();
