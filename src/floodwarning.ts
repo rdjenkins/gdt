@@ -66,13 +66,14 @@ export function showFloodWarning() {
         valid = true
     }
 
+    const textOnly = output.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 
     if (valid) {
         if (floodInfo) {
             floodInfo.innerHTML = output
-            submitLog(`output`);
+            submitLog(textOnly);
         } else {
-            console.log(`output`);
+            console.log(output);
         }
     } else {
         if (floodInfo) {
