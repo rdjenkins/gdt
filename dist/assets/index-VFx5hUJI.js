@@ -165,7 +165,7 @@ Is it day? ${n.current.is_day===1?"Yes":"No"}`);const f=n.current.wind_speed_10m
 
       ${Ze()}
 
-      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
+      <a href="https://github.com/rdjenkins/gdt" target="_blank" class="flex-item">
   <img src="${Ee}" class="logo" alt="GitHub Logo" />
       <p>Find this project on GitHub.</p>
       </a>

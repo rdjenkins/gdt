@@ -96,7 +96,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
       ${showMessenger()}
 
-      <a href="https://github.com/rdjenkins/gdt/discussions" target="_blank" class="flex-item">
+      <a href="https://github.com/rdjenkins/gdt" target="_blank" class="flex-item">
   <img src="${githubLogo}" class="logo" alt="GitHub Logo" />
       <p>Find this project on GitHub.</p>
       </a>
