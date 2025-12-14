@@ -40,26 +40,38 @@ export function showFloodWarning() {
     // getting the EA API via repack means it is fetched and cached nicely
     const TrenowthURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=trenowth'
     const TregonyURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=tregony'
-    const TrenowthResponse = await fetch(TrenowthURL) // TODO make these two parallel
-    const TrenowthRiverLevel = await TrenowthResponse.json()
-    const TregonythResponse = await fetch(TregonyURL)
-    const TregonyRiverLevel = await TregonythResponse.json()
+    let TrenowthRiverLevel, TregonyRiverLevel;
+    try {
+        const [TrenowthResponse, TregonyResponse] = await Promise.all([
+            fetch(TrenowthURL), // TODO make these two parallel
+            fetch(TregonyURL)
+        ]);
+        TrenowthRiverLevel = await TrenowthResponse.json();
+        TregonyRiverLevel = await TregonyResponse.json();
+    } catch (error) {
+        console.error('Error fetching river level data:', error);
+    }
+
     const floodInfo = document.getElementById(FLOOD_INFO_ID);
 
     var output = 'River Fal height'
     var valid = false
 
-    if (TrenowthRiverLevel && typeof TrenowthRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number') {
+    if (TrenowthRiverLevel && typeof TrenowthRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number' && typeof TrenowthRiverLevel.riverHeightLow === 'number') {
         if (TrenowthRiverLevel.riverHeight >= TrenowthRiverLevel.riverHeightHigh) {
             output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (HIGH)</span>'
+        } else if (TrenowthRiverLevel.riverHeight <= TrenowthRiverLevel.riverHeightLow) {
+            output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (LOW)</span>'
         } else {
             output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight + ' m'
         }
         valid = true
     }
-    if (TregonyRiverLevel && typeof TregonyRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number') {
-        if (TrenowthRiverLevel.riverHeight >= TregonyRiverLevel.riverHeightHigh) {
+    if (TregonyRiverLevel && typeof TregonyRiverLevel.riverHeight === 'number' && typeof TregonyRiverLevel.riverHeightHigh === 'number' && typeof TregonyRiverLevel.riverHeightLow === 'number') {
+        if (TregonyRiverLevel.riverHeight >= TregonyRiverLevel.riverHeightHigh) {
             output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (HIGH)</span>'
+        } else if (TregonyRiverLevel.riverHeight <= TregonyRiverLevel.riverHeightLow) {
+            output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (LOW)</span>'
         } else {
             output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight + ' m'
         }
