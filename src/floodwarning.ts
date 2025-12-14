@@ -40,7 +40,7 @@ export function showFloodWarning() {
     // getting the EA API via repack means it is fetched and cached nicely
     const TrenowthURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=trenowth'
     const TregonyURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=EAriverlevel&sensor=tregony'
-    const TrenowthResponse = await fetch(TrenowthURL)
+    const TrenowthResponse = await fetch(TrenowthURL) // TODO make these two parallel
     const TrenowthRiverLevel = await TrenowthResponse.json()
     const TregonythResponse = await fetch(TregonyURL)
     const TregonyRiverLevel = await TregonythResponse.json()
