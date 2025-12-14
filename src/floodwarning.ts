@@ -43,7 +43,7 @@ export function showFloodWarning() {
     let TrenowthRiverLevel, TregonyRiverLevel;
     try {
         const [TrenowthResponse, TregonyResponse] = await Promise.all([
-            fetch(TrenowthURL), // TODO make these two parallel
+            fetch(TrenowthURL),
             fetch(TregonyURL)
         ]);
         TrenowthRiverLevel = await TrenowthResponse.json();
