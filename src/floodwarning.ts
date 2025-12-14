@@ -15,6 +15,17 @@ export function showFloodWarning() {
     `
 }
 
+// draw a river column datadashboard showing the proportion it is between low and high water
+function colMaker(fillHeight = 50, width = 8, height = 22) {
+    fillHeight = Math.round((height - 2) * (fillHeight / 100))
+    return `
+    <svg width="${width}px" height = "${height}px" xmlns = "http://www.w3.org/2000/svg" >
+        <rect x="0" y="0" width="${width}" height="${height}" fill="#e0e0e0" stroke="#000" stroke-width="1" />
+        <rect x="1" y="${height - fillHeight - 1}" width = "${width - 2}" height="${fillHeight}" fill="#385E8B" />
+    </svg>
+    `
+}
+
 // Fetch and append flood gauge widget
 // repack sets a little warning html if there is a warning
 (async () => {
@@ -63,7 +74,11 @@ export function showFloodWarning() {
         } else if (TrenowthRiverLevel.riverHeight <= TrenowthRiverLevel.riverHeightLow) {
             output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (LOW)</span>'
         } else {
-            output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight + ' m'
+            var range = (TrenowthRiverLevel.riverHeightHigh - TrenowthRiverLevel.riverHeightLow)
+            if (range === 0) { range = 0.0001 }
+            var aboveLow = (TrenowthRiverLevel.riverHeight - TrenowthRiverLevel.riverHeightLow)
+            var TrenowthProportion = Math.round(100 * (aboveLow / range))
+            output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight + ' m' + colMaker(TrenowthProportion)
         }
         valid = true
     }
@@ -73,7 +88,11 @@ export function showFloodWarning() {
         } else if (TregonyRiverLevel.riverHeight <= TregonyRiverLevel.riverHeightLow) {
             output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (LOW)</span>'
         } else {
-            output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight + ' m'
+            var range = (TregonyRiverLevel.riverHeightHigh - TregonyRiverLevel.riverHeightLow)
+            if (range === 0) { range = 0.0001 }
+            var aboveLow = (TregonyRiverLevel.riverHeight - TregonyRiverLevel.riverHeightLow)
+            var TregonyProportion = Math.round(100 * (aboveLow / range))
+            output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight + ' m' + colMaker(TregonyProportion)
         }
         valid = true
     }
