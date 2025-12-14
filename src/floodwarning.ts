@@ -78,7 +78,7 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
             if (range === 0) { range = 0.0001 }
             var aboveLow = (TrenowthRiverLevel.riverHeight - TrenowthRiverLevel.riverHeightLow)
             var TrenowthProportion = Math.round(100 * (aboveLow / range))
-            output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight + ' m' + colMaker(TrenowthProportion)
+            output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight.toFixed(2) + ' m' + colMaker(TrenowthProportion)
         }
         valid = true
     }
@@ -92,7 +92,7 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
             if (range === 0) { range = 0.0001 }
             var aboveLow = (TregonyRiverLevel.riverHeight - TregonyRiverLevel.riverHeightLow)
             var TregonyProportion = Math.round(100 * (aboveLow / range))
-            output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight + ' m' + colMaker(TregonyProportion)
+            output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight.toFixed(2) + ' m' + colMaker(TregonyProportion)
         }
         valid = true
     }
