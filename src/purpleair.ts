@@ -4,6 +4,7 @@ import airQualityLogo from '/PurpleAir-Cornwall-Map.png'
 
 
 var PURPLE_AIR_CHOICE = "Grampound"
+//var PURPLE_AIR_CHOICE = "Truro"
 const PURPLEAIR_TRURO_ID = 'PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
 const PURPLEAIR_TRURO_URL = 'https://www.purpleair.com/pa.widget.js?key=DX82CA29U5Z4C6HO&module=US_EPA_AQI&conversion=C0&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_262781_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
 const PURPLEAIR_GRAMPOUND_ID = 'PurpleAirWidget_288300_module_US_EPA_AQI_conversion_C0_average_10_layer_US_EPA_AQI'
@@ -27,7 +28,7 @@ export function showPurpleAir() {
     <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
         <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
         <p>${purpleAirSensorWidget()}</p>
-        <p>Air quality in Cornwall.</p>
+        <p>Air quality in ${PURPLE_AIR_CHOICE}.</p>
     </a>
     `
 }
@@ -48,21 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const widgetDiv = document.getElementById(targetId);
         if (widgetDiv) {
             // Try to find the span by its text content and approximate style, since mobile may render differently
-            let span = Array.from(widgetDiv.querySelectorAll('span')).find(s => {
+            let PmSpan = Array.from(widgetDiv.querySelectorAll('span')).find(s => {
                 const text = s.textContent?.trim() || '';
                 // Check if the text is a number and the font size is large
                 const isNumber = !isNaN(parseFloat(text));
                 const fontSize = window.getComputedStyle(s).fontSize;
                 return isNumber && parseFloat(fontSize) >= 50; // three digit Pm2.5 is currently sized as 53
             });
-            if (span) {
+            if (PmSpan) {
                 console.log('PurpleAir Pm2.5 span found');
-                const pmValue = parseFloat(span.innerHTML);
+                const pmValue = parseFloat(PmSpan.innerHTML);
                 if (!isNaN(pmValue) && pmValue < 50) {
                     // Create a new span element
                     const newSpan = document.createElement('span');
                     newSpan.classList.add('purple-air-reading');
-                    newSpan.textContent = span.textContent;
+                    newSpan.textContent = PmSpan.textContent;
                     newSpan.style.background = 'green';
                     newSpan.style.color = 'white';
                     newSpan.style.borderRadius = '1000px';
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Create a new span element
                     const newSpan = document.createElement('span');
                     newSpan.classList.add('purple-air-reading');
-                    newSpan.textContent = span.textContent;
+                    newSpan.textContent = PmSpan.textContent;
                     newSpan.style.background = 'yellow';
                     newSpan.style.color = 'black';
                     newSpan.style.borderRadius = '1000px';
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Create a new span element
                     const newSpan = document.createElement('span');
                     newSpan.classList.add('purple-air-reading');
-                    newSpan.textContent = span.textContent;
+                    newSpan.textContent = PmSpan.textContent;
                     newSpan.style.background = 'red';
                     newSpan.style.color = 'white';
                     newSpan.style.borderRadius = '1000px';
@@ -99,15 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     sent = true;
                 }
                 //observer.disconnect();
-            } else {
-                // This below doesn't work if the Purple Air is delayed slightly.
-                //widgetDiv.innerHTML = "<button>Visit Purple Air Map</button>"
-                //                observer.disconnect() // TODO how would we then try another one?
-                //if (document.getElementById(NEAREST_PURPLEAIR_SENSOR_WIDGET_ID + '_script')) {
-                //    document.getElementById(NEAREST_PURPLEAIR_SENSOR_WIDGET_ID + '_script')?.remove
-                //}
-                // TODO also the PurpleAir script just keeps trying and changing this area of HTML
-                //submitLog(`PurpleAir response does not show an obvious Pm2.5 figure`)
+            }
+
+            if (widgetDiv.querySelector('div.popup-error-help')) {
+                widgetDiv.innerHTML = "<button>Visit Purple Air Map</button>"
+                submitLog(`PurpleAir response shows error element 'div.popup-error-help'`)
             }
         }
     });
