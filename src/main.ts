@@ -105,10 +105,27 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <p>Grampound Digital Twin is a project that reports to Grampound with Creed Parish Council.</p>
     <p class="version">Version: ${packageJson.version}</p>
+
+    <div class="acknowledge">
+      <a href="#licenses-content" id="licenses">Acknowledgements and licenses</a>
+      <div id="licenses-content" class="hidden">
+        Flood alert and river level data: <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">Environment Agency Real Time flood-monitoring API</a><br>
+        Weather alert: <a href="https://weather.metoffice.gov.uk/guides/rss" target="_blank">Met Office</a><br>
+        Weather summary: <a href="https://open-meteo.com/en/docs" target="_blank">Open-Meteo</a><br>
+        Sewage data: <a href="https://www.floodmapper.co.uk/" target="_blank">Floodmapper</a><br>
+        Air quality: <a href="https://www2.purpleair.com/" target="_blank">PurpleAir sensor network</a><br>
+      </div>
+    </div>
   </div>
 `;
 
-
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('licenses')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const content = document.getElementById('licenses-content');
+    content?.classList.toggle('hidden');
+  });
+});
 
 
 
