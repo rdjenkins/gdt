@@ -92,22 +92,46 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
     document.body.appendChild(modal);
 }
 
-export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string, url: string }[]) {
+
+export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string; url: string }[]) {
+    let listenerSetup = false;
     const setupListener = () => {
+        // Return early if listener is already set up for this linkId
+        if (listenerSetup) return;
+
         const link = document.getElementById(linkId) as HTMLAnchorElement | null;
         if (link) {
+            console.log('adding ' + linkId);
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 showChoiceModal(name, buttons);
             });
+            listenerSetup = true; // Mark the listener as set up
+        } else {
+            console.warn('Link not found: ' + linkId);
         }
     };
-    if (document.readyState !== 'complete') { // === 'loading' is never true it seems
-        document.addEventListener('DOMContentLoaded', setupListener);
-    } else {
+
+    if (document.readyState === 'complete') {
         setupListener();
+    } else {
+        // Use a polling mechanism to check for complete status
+        const checkReadyState = () => {
+            if (document.readyState === 'complete') {
+                setupListener();
+            } else {
+                setTimeout(checkReadyState, 100); // Check again after a short delay
+            }
+        };
+
+        // Initiate the check
+        checkReadyState();
+
+        // Also ensure listener is added after DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', setupListener);
     }
 }
+
 
 // for embedding on other websites as an iframe
 // the code would be e.g. <script src="https://deanjenkins.me/gdt.js?APIkey=GwCPC"></script>

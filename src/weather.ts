@@ -4,6 +4,7 @@ import { submitLog } from './utils'
 import { addChoiceModalLink } from './utils'
 
 const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
+const WEATHER_WARNING_ID = 'weather-warning' // if any
 
 export function showWeather() {
     return `
@@ -11,6 +12,7 @@ export function showWeather() {
         <p id="${WEATHER_INFO_ID}">
             Weather (UK Met Office)
         </p>
+        <span id="${WEATHER_WARNING_ID}"></span>
     </a>
     `
 }
@@ -133,7 +135,36 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
     }
 })();
 
-addChoiceModalLink('weather-links', 'Forecasts', ([
+const STANDARD_LINKS = [
     { text: 'UK Met Office', url: 'https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)' },
     { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
-]));
+];
+
+// Fetch and display weather warnings
+(async () => {
+    try {
+        const response = await fetch('https://photos.grampound-pc.gov.uk/repack.php?id=weatherWarningRSS');
+        const warnings = await response.json();
+
+        if (warnings.length > 0) {
+            const weatherWarning = document.getElementById(WEATHER_WARNING_ID);
+            if (weatherWarning) {
+                weatherWarning.innerHTML += '<span style="color:orange;font-weight:bold;">⚠️ Weather Warning</span>';
+            }
+
+            const warningLinks = warnings.map(([title, url]: [string, string]) => ({
+                text: title,
+                url: url
+            }));
+            addChoiceModalLink('weather-links', 'Forecasts', [
+                ...STANDARD_LINKS,
+                ...warningLinks
+            ]);
+        } else {
+            addChoiceModalLink('weather-links', 'Forecasts', STANDARD_LINKS);
+        }
+    } catch (error) {
+        console.error('Error fetching weather warnings:', error);
+        addChoiceModalLink('weather-links', 'Forecasts', STANDARD_LINKS);
+    }
+})();
