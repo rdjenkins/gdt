@@ -132,6 +132,14 @@ export async function addChoiceModalLink(linkId: string, name: string, buttons: 
     }
 }
 
+export function formatDateWithSuffix(date: Date): string {
+    const day = date.getDate();
+    const suffix = day % 10 === 1 && day !== 11 ? 'st' :
+        day % 10 === 2 && day !== 12 ? 'nd' :
+            day % 10 === 3 && day !== 13 ? 'rd' : 'th';
+    const formatted = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    return formatted.replace(/(\d+)/, `$1${suffix}`);
+}
 
 // for embedding on other websites as an iframe
 // the code would be e.g. <script src="https://deanjenkins.me/gdt.js?APIkey=GwCPC"></script>

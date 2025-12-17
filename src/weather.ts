@@ -1,6 +1,6 @@
 import { fetchWeatherApi } from 'openmeteo'
 import wmoCodes from './wmo-codes.json' // local copies of images to avoid hotlinking
-import { submitLog } from './utils'
+import { submitLog, formatDateWithSuffix } from './utils'
 import { addChoiceModalLink } from './utils'
 
 const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
@@ -149,13 +149,22 @@ const STANDARD_LINKS = [
         if (warnings.length > 0) {
             const weatherWarning = document.getElementById(WEATHER_WARNING_ID);
             if (weatherWarning) {
-                weatherWarning.innerHTML += '<span style="color:orange;font-weight:bold;">⚠️ Weather Warning</span>';
+                if (warnings.length === 1) {
+                    weatherWarning.innerHTML += '<span style="color:orange;font-weight:bold;">⚠️ Weather Warning</span>';
+                } else {
+                    weatherWarning.innerHTML += `<span style="color:orange;font-weight:bold;">⚠️ ${warnings.length} Weather Warnings</span>`;
+                }
             }
 
-            const warningLinks = warnings.map(([title, url]: [string, string]) => ({
-                text: title,
-                url: url
-            }));
+            const warningLinks = warnings
+                .sort(([, , , dateA]: [string, string, string, string], [, , , dateB]: [string, string, string, string]) =>
+                    new Date(dateA).getTime() - new Date(dateB).getTime()
+                )
+                .map(([title, url, , date]: [string, string, string, string]) => ({
+                    text: `(${formatDateWithSuffix(new Date(date))}) ${title}`,
+                    url: url
+                }));
+
             addChoiceModalLink('weather-links', 'Forecasts', [
                 ...STANDARD_LINKS,
                 ...warningLinks
