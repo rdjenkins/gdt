@@ -103,19 +103,41 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       
     </ul>
 
+    <div class="acknowledge">
+      <a href="#licenses-content" id="licenses">Acknowledgements and licenses <span class="licenses-more-icon">▼</span></a>
+      <div id="licenses-content" class="hidden">
+        <table class="responsive-table">
+          <tr>
+            <td>Flood alert and river level data</td>
+            <td><a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">Environment Agency Real Time flood-monitoring API</a></td>
+          </tr>
+          <tr>
+            <td>Weather alert</td>
+            <td><a href="https://weather.metoffice.gov.uk/guides/rss" target="_blank">Met Office</a></td>
+          </tr>
+          <tr>
+            <td>Weather summary</td>
+            <td><a href="https://open-meteo.com/en/docs" target="_blank">Open-Meteo</a></td>
+          </tr>
+          <tr>
+            <td>Sewage data</td>
+            <td><a href="https://www.floodmapper.co.uk/" target="_blank">Floodmapper</a></td>
+          </tr>
+          <tr>
+            <td>Air quality</td>
+            <td><a href="https://www2.purpleair.com/" target="_blank">PurpleAir sensor network</a></td>
+          </tr>
+          <tr>
+            <td>Open StreetMap data</td>
+            <td><a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
     <p>Grampound Digital Twin is a project that reports to Grampound with Creed Parish Council.</p>
     <p class="version">Version: ${packageJson.version}</p>
 
-    <div class="acknowledge">
-      <a href="#licenses-content" id="licenses">Acknowledgements and licenses</a>
-      <div id="licenses-content" class="hidden">
-        Flood alert and river level data: <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">Environment Agency Real Time flood-monitoring API</a><br>
-        Weather alert: <a href="https://weather.metoffice.gov.uk/guides/rss" target="_blank">Met Office</a><br>
-        Weather summary: <a href="https://open-meteo.com/en/docs" target="_blank">Open-Meteo</a><br>
-        Sewage data: <a href="https://www.floodmapper.co.uk/" target="_blank">Floodmapper</a><br>
-        Air quality: <a href="https://www2.purpleair.com/" target="_blank">PurpleAir sensor network</a><br>
-      </div>
-    </div>
   </div>
 `;
 
@@ -124,6 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const content = document.getElementById('licenses-content');
     content?.classList.toggle('hidden');
+    const icon = document.querySelector('.licenses-more-icon');
+    if (content && icon) {
+      if (content.classList.contains('hidden')) {
+        icon.textContent = '▼';
+      } else {
+        icon.textContent = '▲';
+      }
+    }
   });
 });
 
