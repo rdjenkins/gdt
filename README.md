@@ -1,6 +1,6 @@
 Grampound Digital Twin project
 
-Development
+1) Frontend Vite Development
 ---
 
 npm install
@@ -11,3 +11,10 @@ Build
 ---
 
 npm run build
+
+
+2) Tauri cross-platform app development
+
+npx tauri dev
+
+
