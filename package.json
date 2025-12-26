@@ -1,7 +1,7 @@
 {
   "name": "grampound-digital-twin",
   "private": true,
-  "version": "0.7.21",
+  "version": "0.7.21-capacitor",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,11 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/local-notifications": "^8.0.0",
     "openmeteo": "^1.2.1"
   }
 }

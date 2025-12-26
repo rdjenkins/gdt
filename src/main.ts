@@ -15,6 +15,7 @@ import { showWeather } from './weather' // show weather content
 import { showFloodWarning } from './floodwarning' // show a flood warning (from the EA) if there is one
 import { showSewage } from './sewage'
 import { showSearchContainer } from './mapsearch' // show the custom OSM map search
+import { } from './notices'
 
 console.log('GDT Version:', packageJson.version);
 
