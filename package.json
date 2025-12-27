@@ -1,11 +1,12 @@
 {
   "name": "grampound-digital-twin",
   "private": true,
-  "version": "0.8",
+  "version": "0.8.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && npm update && vite build",
+    "android": "tsc && npm update && vite build && npx cap sync && npx cap run android",
     "preview": "vite preview"
   },
   "devDependencies": {
