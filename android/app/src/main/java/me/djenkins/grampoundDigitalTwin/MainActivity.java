@@ -1,4 +1,4 @@
-package me.djenkins.grampoundDigitalTwin;
+package me.deanjenkins.grampoundDigitalTwin;
 
 import com.getcapacitor.BridgeActivity;
 

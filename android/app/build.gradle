@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "me.djenkins.grampoundDigitalTwin"
+    namespace = "me.deanjenkins.grampoundDigitalTwin"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "me.djenkins.grampoundDigitalTwin"
+        applicationId "me.deanjenkins.grampoundDigitalTwin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'me.djenkins.grampoundDigitalTwin',
+  appId: 'me.deanjenkins.grampoundDigitalTwin',
   appName: 'Grampound Digital Twin',
   webDir: 'dist'
 };
