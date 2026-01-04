@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Grampound Digital Twin</string>
+    <string name="title_activity_main">Grampound Digital Twin</string>
+    <string name="package_name">me.deanjenkins.grampoundDigitalTwin</string>
+    <string name="custom_url_scheme">me.deanjenkins.grampoundDigitalTwin</string>
+</resources>

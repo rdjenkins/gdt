@@ -1,0 +1,29 @@
+{
+  "name": "grampound-digital-twin",
+  "private": true,
+  "version": "0.8.8",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && npm update && vite build",
+    "android": "tsc && npm update && vite build && npx cap sync && npx cap run android",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.2"
+  },
+  "dependencies": {
+    "@capacitor-community/fcm": "^8.1.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/local-notifications": "^8.0.0",
+    "@capacitor/push-notifications": "^8.0.0",
+    "@capacitor/toast": "^8.0.0",
+    "@ionic/pwa-elements": "^3.3.0",
+    "openmeteo": "^1.2.1"
+  }
+}
