@@ -10,9 +10,9 @@ npm run dev
 Build
 ---
 
-# for web
+// for web
 npm run build
 
-# for Android
-# first install Android Studio then ...
+// for Android
+// first install Android Studio then ...
 npm run android
