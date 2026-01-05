@@ -6,7 +6,7 @@ export function showMessenger() {
         <button id=${id}>
             Message
         </button>
-        <p>Send a message to us or Grampound with Creed Parish Council.</p>
+        <p>Send us a message, feedback, or offer support.</p>
     </li>
     `
 }
@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let modalContent = document.createElement('div');
             modalContent.style.background = 'white';
-            modalContent.style.padding = '2em';
+            modalContent.style.padding = '1em';
+            modalContent.style.margin = '1em';
             modalContent.style.borderRadius = '10px';
             modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
             modalContent.style.textAlign = 'center';
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalContent.appendChild(title);
 
             let description = document.createElement('p');
-            description.textContent = 'You may also use this form to report or suggest something to the Parish Council.';
+            description.textContent = 'Please do not share confidential information.';
             description.style.textAlign = 'center';
             modalContent.appendChild(description);
 

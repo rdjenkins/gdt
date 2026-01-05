@@ -55,6 +55,7 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
     let modalContent = document.createElement('div');
     modalContent.style.background = 'white';
     modalContent.style.padding = '2em';
+    modalContent.style.margin = '1em';
     modalContent.style.borderRadius = '10px';
     modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
     modalContent.style.textAlign = 'center';

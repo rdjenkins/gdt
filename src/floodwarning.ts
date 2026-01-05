@@ -7,7 +7,7 @@ const FLOOD_WARNING_BUTTON_ID = 'flood-warning-button'
 export function showFloodWarning() {
     return `
     <a href="${FLOOD_TARGET_AREA_URL}" target="_blank" class="flex-item">
-        <button id="${FLOOD_WARNING_BUTTON_ID}">Go to gov.UK for flood warnings for Grampound.</button>
+        <button id="${FLOOD_WARNING_BUTTON_ID}">Check for flood warnings for Grampound.</button>
         <p id="${FLOOD_INFO_ID}">
             River data loading...
         </p>

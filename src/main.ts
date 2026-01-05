@@ -94,7 +94,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </ul>
   
 <h2>More info</h2>
-<p class="left">About this project and how to contribute.</p>
     <ul class="flex-container">
 
       ${showWhyButton()}
@@ -109,8 +108,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </ul>
 
     <div class="acknowledge">
-      <a href="#licenses-content" id="licenses">Acknowledgements and licenses <span class="licenses-more-icon">▼</span></a>
+      <a href="#licenses-content" id="licenses">Important information <span class="licenses-more-icon">▼</span></a>
       <div id="licenses-content" class="hidden">
+        <p><b>Acknowledgements</b></p>
         <table class="responsive-table">
           <tr>
             <td>Flood alert and river level data</td>
@@ -136,11 +136,33 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <td>Open StreetMap data</td>
             <td><a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></td>
           </tr>
+         <tr>
+            <td>Development</td>
+            <td><a href="https://deanjenkins.me/#gdtapp" target="_blank">Developer's website</a></td>
+          </tr>
         </table>
+
+        <div id="disclaimer">
+          <p><b>Disclaimer</b></p>
+          <p>Grampound Digital Twin does not represent any
+            government agency and is not intended to replace official information.
+          </p>
+
+          <p>It provides information from, and links to, publicly available UK government data including:
+            <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference">Environment Agency
+            Real Time flood-monitoring API</a> for flood alert and river level data,
+            UK <a href="https://weather.metoffice.gov.uk/guides/rss">Met Office</a> for weather
+            alerts for the South West,
+            and planned roadworks from <a href="https://www.cornwall.gov.uk/transport-parking-and-streets/roads-highways-and-pavements/roadworks/">Cornwall
+            Council</a>.
+          </p>
+        </div>
+
       </div>
+
+
     </div>
 
-    <p>Grampound Digital Twin is a project that reports to Grampound with Creed Parish Council.</p>
     <p class="version">Version: ${packageJson.version}</p>
 
   </div>
