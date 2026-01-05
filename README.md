@@ -7,6 +7,10 @@ npm install
 
 npm run dev
 
+// for Android first install Android Studio then ...
+
+npm run android
+
 Build
 ---
 
@@ -14,8 +18,4 @@ Build
 
 npm run build
 
-// for Android
-
-// first install Android Studio then ...
-
-npm run android
+// for Android - build in Android Studio
