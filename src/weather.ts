@@ -140,21 +140,36 @@ const STANDARD_LINKS = [
     { text: 'YR.no', url: 'https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound' }
 ];
 
+// search tool
+function findWarning(obj: any, searchVal: string) {
+    for (var i=0 ; i < obj.length ; i++)
+    {
+        console.log('checking warning:', obj[i][0]);
+        if (obj[i][0].toLowerCase().includes(searchVal.toLowerCase())) {
+            return true
+        }
+    }
+    return false
+}
+
 // Fetch and display weather warnings
 (async () => {
     try {
         const response = await fetch('https://photos.grampound-pc.gov.uk/repack.php?id=weatherWarningRSS');
         const warnings = await response.json();
+        var warningcolor = 'orange'
+        var warningText = '⚠️ Weather Warning'
 
         if (warnings.length > 0) {
             const weatherWarning = document.getElementById(WEATHER_WARNING_ID);
             if (weatherWarning) {
+                if (findWarning(warnings, 'red ')) { warningcolor = 'red' }
                 if (warnings.length === 1) {
-                    weatherWarning.innerHTML += '<span style="color:orange;font-weight:bold;">⚠️ Weather Warning</span>';
-                      showToast('⚠️ Weather Warning');
+                    weatherWarning.innerHTML += `<span style="color:${warningcolor};font-weight:bold;">${warningText}</span>`;
+                      showToast(warningText);
                 } else {
-                    weatherWarning.innerHTML += `<span style="color:orange;font-weight:bold;">⚠️ ${warnings.length} Weather Warnings</span>`;
-                    showToast(`${warnings.length} ⚠️ Weather Warnings`);
+                    weatherWarning.innerHTML += `<span style="color:${warningcolor};font-weight:bold;">${warnings.length} ${warningText}s</span>`;
+                    showToast(`${warnings.length} ${warningText}s`);
                 }
             }
 

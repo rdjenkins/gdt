@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function addListeners() {
   await PushNotifications.addListener('registration', token => {
-    console.info('Registration token: ', token.value);
+    submitLog('Registration token: ', token.value);
   });
 
   await PushNotifications.addListener('registrationError', err => {
@@ -121,7 +121,7 @@ async function addListeners() {
   });
 
   await PushNotifications.addListener('pushNotificationReceived', notification => {
-    console.log('Push notification received: ', notification);
+    submitLog('GDTTEST Push notification received: ', notification.title + ': ' + notification.body);
   });
 
   await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
@@ -132,7 +132,7 @@ async function addListeners() {
 // function to register for push notifications
 async function registerNotifications() {
   try {
-  const topic = 'gdt'; // topic for push notifications
+  const topic = 'gdt-test'; // topic for push notifications
   let permStatus = await PushNotifications.checkPermissions();
 
   if (permStatus.receive === 'prompt') {
