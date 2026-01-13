@@ -30,10 +30,10 @@ const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe
 // Define and load the main HTML structure
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-    <h1>Grampound</h1>
+    <a class="reload" href="./?nolog"><h1>Grampound</h1>
     <p class="subtitle">
     digital twin project
-    </p>
+    </p></a>
     ${checkNoticePermissions()}
 
 <h2>Maps and travel</h2>

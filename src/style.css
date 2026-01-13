@@ -189,6 +189,14 @@ a#licenses {
   text-decoration: none;
 }
 
+.reload a {
+  text-decoration: none;
+}
+
+.reload h1 {
+  color:#213547
+}
+
 .responsive-table {
   overflow-x: auto;
   border: #888 1px solid;
