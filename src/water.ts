@@ -1,7 +1,14 @@
 import { showToast } from "./utils";
 
 async function fetchWaterQualityTrafficLight() {
-    const response = await fetch('https://photos.grampound.org.uk/repack.php?id=grampoundwaterDOM');
+    const response = await fetch('https://photos.grampound.org.uk/repack.php?id=grampoundwaterDOM')
+    .catch((reason) => {
+        console.log('No response from sewage traffic light URL: ' + reason)
+    })
+    if (!response) {
+        console.log('No sewage traffic light - aborting')
+        return ""
+    }
     const TEXT = await response.text();
     return TEXT;
 }

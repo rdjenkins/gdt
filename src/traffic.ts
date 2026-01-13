@@ -17,7 +17,14 @@ export function showTraffic() {
 
 async function getTrafficIncidents() {
     try {
-        const response = await fetch(policeURL);
+        const response = await fetch(policeURL)
+        .catch((reason) => {
+            console.log('No response from police traffic URL: ' + reason)
+        })
+        if (!response) {
+            console.log('No traffic alert data - aborting')
+            return ""
+        }
         const html = await response.text();
         console.log('fetched police traffic updates');
 

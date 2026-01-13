@@ -30,7 +30,14 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
 // repack sets a little warning html if there is a warning
 (async () => {
     try {
-        const response = await fetch('https://photos.grampound.org.uk/repack.php?id=EAfloodgaugeWidget');
+        const response = await fetch('https://photos.grampound.org.uk/repack.php?id=EAfloodgaugeWidget')
+        .catch((reason) => {
+            console.log('EA flood alert not available: ' + reason)
+        })
+        if (!response) {
+            console.log('No EA Flood alert - aborting')
+            return
+        }
         const html = await response.text();
         const floodButton = document.getElementById(FLOOD_WARNING_BUTTON_ID);
         if (floodButton && html.trim() !== '') {
@@ -58,10 +65,10 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
             fetch(TrenowthURL),
             fetch(TregonyURL)
         ]);
-        TrenowthRiverLevel = await TrenowthResponse.json();
+        TrenowthRiverLevel = await TrenowthResponse.json()
         TregonyRiverLevel = await TregonyResponse.json();
     } catch (error) {
-        console.error('Error fetching river level data:', error);
+        console.log('Error fetching river level data:', error);
     }
 
     const floodInfo = document.getElementById(FLOOD_INFO_ID);
@@ -116,6 +123,6 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
             floodInfo.innerHTML = 'River level data not available'
             submitLog(`invalid river level data`);
         }
-        console.error('Invalid river level data');
+        console.log('Invalid river level data');
     }
 })();

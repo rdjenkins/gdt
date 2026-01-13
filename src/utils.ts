@@ -19,8 +19,14 @@ export async function submitLog(lg: string, u: string = ''): Promise<string> {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: `lg=${encodeURIComponent(lg)}&u=${encodeURIComponent(u)}`,
-    });
-    theResponse = await RESPONSE.text();
+    })
+    .catch((reason) => {
+        console.log('Aborting log call: ' + reason)
+    })
+    if (!RESPONSE) {
+        return 'Cancelled'
+    }
+    theResponse = await RESPONSE.text()
     console.log('GDT Logging:', theResponse);
     return theResponse;
 }

@@ -10,7 +10,7 @@ export function showWeather() {
     return `
     <a href="#" id="weather-links" target="_blank" class="flex-item">
         <p id="${WEATHER_INFO_ID}">
-            Weather (UK Met Office)
+            Loading weather forecast preview ...
         </p>
         <span id="${WEATHER_WARNING_ID}"></span>
     </a>
@@ -33,8 +33,19 @@ const params = {
 const forecasturl = "https://api.open-meteo.com/v1/forecast";
 // Wrap the weather fetch and processing in an async IIFE to ensure it runs asynchronously
 (async () => {
-    const responses = await fetchWeatherApi(forecasturl, params);
+    const responses = await fetchWeatherApi(forecasturl, params)
+    .catch((reason) => {
+            const weatherInfo = document.getElementById(WEATHER_INFO_ID);
+            if (weatherInfo) {
+                weatherInfo.innerHTML = `<button>Weather forecast</button>`
+            }
+            console.log('Weather forecast preview not loaded: ' + reason)
+    })
 
+    if (!responses) {
+        console.log('No forecast data - aborting.')
+        return
+    }
     // Process first location. Add a for-loop for multiple locations or weather models
     const response = responses[0];
 
@@ -155,8 +166,15 @@ function findWarning(obj: any, searchVal: string) {
 // Fetch and display weather warnings
 (async () => {
     try {
-        const response = await fetch('https://photos.grampound-pc.gov.uk/repack.php?id=weatherWarningRSS');
-        const warnings = await response.json();
+        const response = await fetch('https://photos.grampound-pc.gov.uk/repack.php?id=weatherWarningRSS')
+        .catch((reason) => {
+            console.log('Weather warnings data not found: ' + reason)
+        })
+        if (!response) {
+            console.log('No weather warnings data - aborting.')
+            return
+        }
+        const warnings = await response.json()
         var warningcolor = 'orange'
         var warningText = '⚠️ Weather Warning'
 
