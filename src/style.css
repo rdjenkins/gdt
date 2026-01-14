@@ -114,6 +114,13 @@ button {
   transition: border-color 0.25s;
 }
 
+/* to help with iOS styling */
+a button, .widgetlink {
+  text-decoration-color: black;
+  color: black;
+  -webkit-tap-highlight-color: transparent;
+}
+
 button:hover {
   border-color: #300604;
   /* from the calendar icon */

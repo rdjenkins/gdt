@@ -22,6 +22,7 @@ searchBox.placeholder = 'Find an address or place...';
 let searchButton = document.createElement('button');
 searchButton.textContent = 'Search';
 searchButton.id = `${SEARCH_BUTTON_ID}`;
+searchButton.classList.add('widgetlink')
 
 searchButton.onclick = () => {
     const QUERY = encodeURIComponent(`${searchBox.value} "Grampound with Creed"`);

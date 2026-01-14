@@ -3,7 +3,7 @@ var id = 'message-button-for-gdt'
 export function showMessenger() {
     return `
     <li class="flex-item">
-        <button id=${id}>
+        <button class="widgetlink" id=${id}>
             Message
         </button>
         <p>Send us a message, feedback, or offer support.</p>
@@ -106,7 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Enable submit only if arithmetic test is correct
             testInput.addEventListener('input', () => {
-                submitBtn.disabled = Number(testInput.value) !== NUM_1 + NUM_2;
+                if (Number(testInput.value) === NUM_1 + NUM_2) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.add('widgetlink')
+
+                }
+                else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.remove('widgetlink')
+                }
             });
 
             // Status message
