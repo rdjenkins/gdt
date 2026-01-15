@@ -132,7 +132,7 @@ async function addListeners() {
 // function to register for push notifications
 async function registerNotifications() {
   try {
-  const topic = 'gdt-test'; // topic for push notifications
+  const topic = 'gdt'; // topic for push notifications
   let permStatus = await PushNotifications.checkPermissions();
 
   if (permStatus.receive === 'prompt') {

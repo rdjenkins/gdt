@@ -22,5 +22,6 @@ npm run build
 // - make sure the config file (not included in git) is present and correct
 // - - android/app/google-services.json
 // - bump the version numbers in android\app\build.gradle
+// - check the push notification channel is correct in src\notices.ts
 // - build signed APK for single device testing
 // - build signed Bundle for Google Play Store
