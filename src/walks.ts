@@ -1,8 +1,14 @@
 import hikerIcon from '/hiker.svg'
-import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url'
-import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url'
-import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url'
+//import creedCircuitGpx from '/creed_circuit_avoiding_most_of_fore_street.gpx?url'
+//import falFootpathGpx from '/fal_footpath__barteliver_wood__bareliver_hill.gpx?url'
+//import trenowthWalkGpx from '/grampound_walk_pepo_trenowth.gpx?url'
 import { addChoiceModalLink } from './utils'
+
+// TODO make these dynamically load from another function of repack as maintaining them in the app will be tedious
+const GPX_delivery = 'https://photos.grampound.org.uk/repack.php?id=gpx_'
+const creedCircuitGpx = GPX_delivery + 'creed_circuit_avoiding_most_of_fore_street'
+const falFootpathGpx = GPX_delivery + 'fal_footpath__barteliver_wood__bareliver_hill'
+const trenowthWalkGpx = GPX_delivery + 'grampound_walk_pepo_trenowth'
 
 export function showWalks() {
     return `
