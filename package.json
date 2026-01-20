@@ -25,6 +25,7 @@
     "@capacitor/push-notifications": "^8.0.0",
     "@capacitor/toast": "^8.0.0",
     "@ionic/pwa-elements": "^3.3.0",
-    "openmeteo": "^1.2.1"
+    "openmeteo": "^1.2.1",
+    "ts-md5": "^2.0.1"
   }
 }
