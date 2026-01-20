@@ -19,6 +19,7 @@ import { checkNoticePermissions } from './notices'
 import { showTraffic } from './traffic'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
 import { showApps } from './apps'
+import { getMotd } from './update'
 
 console.log('GDT Version:', packageJson.version);
 
@@ -166,6 +167,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
 
     <p class="version">Version: ${packageJson.version}</p>
+    <p>${getMotd()}</p>
 
   </div>
 `;
