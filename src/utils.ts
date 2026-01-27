@@ -190,17 +190,23 @@ function sendScrollHeight() {
     window.parent.postMessage({ height: scrollHeight }, '*');
 }
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
     sendScrollHeight();
-};
+    setTimeout(sendScrollHeight, 100); // Additional timeout
+});
 
 window.onresize = () => {
     sendScrollHeight();
-}
+};
 
 window.onscroll = () => {
     sendScrollHeight();
 };
+
+// Observe changes in the body
+const observer = new MutationObserver(sendScrollHeight);
+observer.observe(document.body, { childList: true, subtree: true });
+
 
 
 // If the digital twin has been unattended for sometime then it should reload to keep up to date.
