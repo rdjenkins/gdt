@@ -111,7 +111,7 @@ export async function addChoiceModalLink(linkId: string, name: string, buttons: 
 
         const link = document.getElementById(linkId) as HTMLAnchorElement | null;
         if (link) {
-            console.log('adding ' + linkId);
+            //console.log('adding ' + linkId);
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 showChoiceModal(name, buttons);
@@ -194,6 +194,10 @@ window.onload = () => {
     sendScrollHeight();
 };
 
+window.onresize = () => {
+    sendScrollHeight();
+}
+
 window.onscroll = () => {
     sendScrollHeight();
 };
@@ -207,20 +211,20 @@ const reloadTime = 15 * 60 * 1000; // Time in milliseconds (15 minutes)
 document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === 'hidden') {
         // Start timer when the page is hidden
-        console.log("Human has gone away.");
+        //console.log("Human has gone away.");
         timedOut = false; // Reset timedOut to false
         timer = window.setTimeout(() => {
-            console.log("Timer expired.");
+            //console.log("Timer expired.");
             timedOut = true; // Set timedOut to true when the timer expires
         }, reloadTime);
     } else if (document.visibilityState === 'visible') {
         // Clear the timer when the page becomes visible
-        console.log("Human is here.");
+        //console.log("Human is here.");
         clearTimeout(timer);
         
         // Check if the timer expired to decide on reload
         if (timedOut) {
-            console.log("Reloading the page.");
+            //console.log("Reloading the page.");
             location.reload();
         }
     }

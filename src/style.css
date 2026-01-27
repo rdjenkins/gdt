@@ -196,6 +196,11 @@ a#licenses {
   text-decoration: none;
 }
 
+.notificationPackage {
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .reload a {
   text-decoration: none;
 }

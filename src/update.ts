@@ -16,7 +16,7 @@ async function updateConfiguration(remoteConfig: JSON, url: string) {
     });
 }
 
-export async function loadConfig(url: string, version: number, defaultData: string) {
+export async function loadConfig(url: string, version: number, defaultData: string | JSON) {
     checkForUpdates(url, version) // send this off first (async)
 
     // load offline version
@@ -29,8 +29,12 @@ export async function loadConfig(url: string, version: number, defaultData: stri
         console.log("returning local stored config")
         return JSON.parse(result.data as string)
     } catch (error) {
-        console.log("Loading local config failed, fall back to built-in version.");
-        return JSON.parse(defaultData);
+        console.log("No local config, fall back to built-in version.");
+        if (typeof defaultData === 'string') {
+            return JSON.parse(defaultData)
+        } else {
+            return defaultData
+        }
     }
 }
 
@@ -45,11 +49,12 @@ async function checkForUpdates(url: string, version: number = 1) {
             await updateConfiguration(remoteConfig, url);
         }
     } catch (error) {
-        console.error("Error fetching configuration: ", error);
+        console.log("Error fetching configuration: ", error);
     }
 }
 
 // example usage
+/*
 const motdURL = 'https://photos.grampound.org.uk/repack.php?id=motd'
 const motdURLversion = 1;
 const motdDefault = `{"version":1,"text":"Where there's a will, there's a way."}`
@@ -66,3 +71,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 })
+*/

@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "data": [
+    {
+      "linkId": "bus-link-truro",
+      "name": "Bus times to Truro",
+      "buttons": [
+        {
+          "text": "Transport for Cornwall",
+          "url": "https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=Truro&destination%5Blocation%5D%5Blat%5D=50.263317&destination%5Blocation%5D%5Blon%5D=-5.051811&time%5Bwhen%5D=now"
+        },
+        {
+          "text": "First Bus",
+          "url": "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound,%20Truro,%20UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=Truro,%20UK&toLat=50.263195&toLng=-5.051041&toPlaceId=ChIJdRpa1XwQa0gRtAcdle9HY2E"
+        },
+        {
+          "text": "Traveline SW",
+          "url": "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004840%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
+        }
+      ]
+    },
+    {
+      "linkId": "bus-link-st-austell",
+      "name": "Bus times to St Austell",
+      "buttons": [
+        {
+          "text": "Transport for Cornwall",
+          "url": "https://www.transportforcornwall.co.uk/directions?origin%5Bname%5D=Grampound&origin%5Blocation%5D%5Blat%5D=50.29898&origin%5Blocation%5D%5Blon%5D=-4.900275&destination%5Bname%5D=St+Austell&destination%5Blocation%5D%5Blat%5D=50.33814&destination%5Blocation%5D%5Blon%5D=-4.794184&time%5Bwhen%5D=now"
+        },
+        {
+          "text": "First Bus",
+          "url": "https://www.firstbus.co.uk/cornwall/plan-journey/journey-planner/#/results?fromAddress=Grampound, Truro, UK&fromLat=50.2992589&fromLng=-4.8984499&fromPlaceId=ChIJaavkWhhra0gR-WQ7KozZobc&toAddress=St Austell, Saint Austell, UK&toLat=50.3403779&toLng=-4.7834252&toPlaceId=ChIJYwb4Jy1Aa0gRiCTxrSBmq2c"
+        },
+        {
+          "text": "Traveline SW",
+          "url": "https://nationaljourneyplanner.travelinesw.com/swe/trip?formik=destination%3D30004707%26mtcb0%3Dfalse%26mtcb9%3Dfalse%26origin%3D30006418&lng=en&trip=multiModalitySelected%3Dpt"
+        }
+      ]
+    },
+    {
+      "linkId": "creed-circuit",
+      "name": "Creed Circuit Walk",
+      "buttons": [
+        {
+          "text": "View on Map",
+          "url": "https://umap.openstreetmap.fr/en/map/creed-circuit-avoiding-most-of-fore-street_955200#15/50.2940/-4.8909"
+        },
+        {
+          "text": "Download GPX",
+          "url": "https://photos.grampound.org.uk/repack.php?id=gpx_creed_circuit_avoiding_most_of_fore_street"
+        }
+      ]
+    },
+    {
+      "linkId": "fal-footpath",
+      "name": "Fal Footpath Old Hill walk",
+      "buttons": [
+        {
+          "text": "View on Map",
+          "url": "https://umap.openstreetmap.fr/en/map/fal-footpath-barteliver-wood-bareliver-hill_1295709#16/50.2973/-4.9067"
+        },
+        {
+          "text": "Download GPX",
+          "url": "https://photos.grampound.org.uk/repack.php?id=gpx_fal_footpath__barteliver_wood__bareliver_hill"
+        }
+      ]
+    },
+    {
+      "linkId": "trenowth",
+      "name": "Trenowth walk",
+      "buttons": [
+        {
+          "text": "View on Map",
+          "url": "https://umap.openstreetmap.fr/en/map/grampound-walk-pepo-trenowth_947847#14/50.3122/-4.8960"
+        },
+        {
+          "text": "Download GPX",
+          "url": "https://photos.grampound.org.uk/repack.php?id=gpx_grampound_walk_pepo_trenowth"
+        }
+      ]
+    },
+    {
+      "linkId": "ghp-link",
+      "name": "Photo Archive",
+      "buttons": [
+        {
+          "text": "Photo search",
+          "url": "https://photos.grampound.org.uk/photos.php"
+        },
+        {
+          "text": "Slide show",
+          "url": "https://photos.grampound.org.uk/slideshow.php"
+        }
+      ]
+    },
+    {
+      "linkId": "sewage-links",
+      "name": "Sewage map",
+      "buttons": [
+        {
+          "text": "Floodmapper",
+          "url": "https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound"
+        },
+        {
+          "text": "SWW overflow map",
+          "url": "https://www.southwestwater.co.uk/environment/rivers-and-bathing-waters/waterfitlive/storm-overflow-map"
+        }
+      ]
+    },
+    {
+      "linkId": "traffic-links",
+      "name": "Traffic updates",
+      "buttons": [
+        {
+          "text": "Police incidents",
+          "url": "https://news.devon-cornwall.police.uk/traffic-watch/"
+        },
+        {
+          "text": "Planned roadworks & events",
+          "url": "https://api-gb.one.network/embedded/?lon=-4.90025&lat=50.29854&zoom=13&options={%22organisationID%22%3A1025%2C%22embedded%22%3Atrue%2C%22data%22%3A{%22layersActive%22%3A[%22INCIDENTS_LIVE_INCIDENT%22%2C%22INCIDENTS_LIVE_ACCIDENT%22%2C%22INCIDENTS_LIVE_TRAFFIC_CONGESTION%22%2C%22INCIDENTS_LIVE_HEALTH_EMERGENCY%22%2C%22INCIDENTS_LIVE_ROADCLOSURE%22%2C%22INCIDENTS_LIVE_LANECLOSURE%22%2C%22INCIDENTS_LIVE_HGVCLOSURE%22%2C%22INCIDENTS_LIVE_INFRASTRUCTURE_ISSUE%22%2C%22TM_LAYER_ROADCLOSURE_LIVE%22%2C%22TM_LAYER_DIVERSIONROUTE_LIVE%22%2C%22TM_LAYER_HGVDIVERSIONROUTE_LIVE%22%2C%22TM_LAYER_TEMPORARYONEWAY_LIVE%22%2C%22TM_LAYER_BRIDGECLOSURE_LIVE%22%2C%22TM_LAYER_LANECLOSURE_LIVE%22%2C%22TM_LAYER_ROADAHEADCLOSED_LIVE%22%2C%22TM_LAYER_ACCESS_ONLY_LIVE%22%2C%22TM_LAYER_GRITTING_LIVE%22%2C%22TM_LAYER_WIDENED_FOOTPATH_LIVE%22%2C%22TM_LAYER_FOOTWAYCLOSURE_LIVE%22%2C%22TM_LAYER_TOWAWAYZONE_LIVE%22%2C%22TM_LAYER_CLEARWAY_LIVE%22%2C%22TM_LAYER_NOUTURN_LIVE%22%2C%22TM_LAYER_NOLEFTTURN_LIVE%22%2C%22TM_LAYER_NORIGHTTURN_LIVE%22%2C%22TM_LAYER_NOVEHICLEACCESS_LIVE%22%2C%22TM_LAYER_REVERSALONEWAY_LIVE%22%2C%22TM_LAYER_TEMPORARYSPEEDLIMIT_LIVE%22%2C%22TM_LAYER_HEIGHTRESTRICTION_LIVE%22%2C%22TM_LAYER_WEIGHTRESTRICTION_LIVE%22%2C%22TM_LAYER_WIDTHRESTRICTION_LIVE%22%2C%22TM_LAYER_LENGTHRESTRICTION_LIVE%22%2C%22TM_LAYER_TEMPPARKINGRESTRICTION_LIVE%22%2C%22TM_LAYER_SUSPENSION_BUSWAY_LIVE%22%2C%22TM_LAYER_SUSPENSIONONEWAY_LIVE%22%2C%22TM_LAYER_SUSPENSIONPARKINGRESTRICTION_LIVE%22%2C%22TM_LAYER_SUSPENSIONWEIGHTRESTRICTION_LIVE%22%2C%22TM_LAYER_PREFERRED_ACCESS_LIVE%22%2C%22TM_LAYER_EMERGENCY_ACCESS_ROUTE_LIVE%22%2C%22TM_LAYER_PEDESTRIAN_ZONE_LIVE%22%2C%22TM_LAYER_CLOSURE_CROSSING_LIVE%22%2C%22TM_LAYER_CYCLE_LANE_LIVE%22%2C%22TM_LAYER_TWOWAYSIGNALS_LIVE%22%2C%22TM_LAYER_MULTIWAYSIGNALS_LIVE%22%2C%22TM_LAYER_STOPANDGO_LIVE%22%2C%22TM_LAYER_GIVEANDTAKE_LIVE%22%2C%22TM_LAYER_PRIORITYSIGNS_LIVE%22%2C%22TM_LAYER_CONVOYWORKING_LIVE%22%2C%22TM_LAYER_WORKSSTOP_LIVE%22%2C%22ROADWORKS_CURRENT%22%2C%22TM_LAYER_ENTITY_AGRICULTURAL_SHOW_LIVE%22%2C%22TM_LAYER_ENTITY_AIR_SHOW_LIVE%22%2C%22TM_LAYER_ENTITY_CARNIVAL_PARADE_STREET_LIVE%22%2C%22TM_LAYER_ENTITY_CHRISTMAS_EVENT_LIVE%22%2C%22TM_LAYER_ENTITY_CRUISE_SHIP_LIVE%22%2C%22TM_LAYER_ENTITY_CYCLING_LIVE%22%2C%22TM_LAYER_ENTITY_ENTERTAINMENT_EVENT_LIVE%22%2C%22TM_LAYER_ENTITY_FESTIVAL_LIVE%22%2C%22TM_LAYER_ENTITY_FILMING_LIVE%22%2C%22TM_LAYER_ENTITY_FOOTBALL_LIVE%22%2C%22TM_LAYER_ENTITY_FUNERAL_LIVE%22%2C%22TM_LAYER_ENTITY_HORSE_RACING_LIVE%22%2C%22TM_LAYER_ENTITY_MARKET_LIVE%22%2C%22TM_LAYER_ENTITY_MOTOR_SPORT_EVENT_LIVE%22%2C%22TM_LAYER_ENTITY_POLLING_STATION_LIVE%22%2C%22TM_LAYER_ENTITY_REMEMBRANCE_PARADE_LIVE%22%2C%22TM_LAYER_ENTITY_ROYAL_EVENT_LIVE%22%2C%22TM_LAYER_ENTITY_RUGBY_LIVE%22%2C%22TM_LAYER_ENTITY_RUNNING_LIVE%22%2C%22TM_LAYER_ENTITY_SPORT_EVENT_LIVE%22%2C%22TM_LAYER_ENTITY_OTHER_PUBLIC_EVENTS_LIVE%22]}%2C%22embedID%22%3A%22B9I9JDD9J9%22%2C%22system%22%3A{%22delayedLoad%22%3Afalse%2C%22historicWorksEnabled%22%3Afalse%2C%22tileServer%22%3A%22%24{region}-prd-%24{source}%24{randomizer}.one.network%22}%2C%22dateRange%22%3A%22today%22}"
+        },
+        {
+          "text": "Google traffic",
+          "url": "https://www.google.com/maps/@50.3053698,-4.9023496,12z/data=!5m1!1e1?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D"
+        }
+      ]
+    },
+    {
+      "linkId": "weather-links",
+      "name": "Forecasts",
+      "buttons": [
+        {
+          "text": "UK Met Office",
+          "url": "https://weather.metoffice.gov.uk/forecast/gbuqpg6k1#?nearestTo=Grampound%20(Cornwall)"
+        },
+        {
+          "text": "YR.no",
+          "url": "https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound"
+        },
+        {
+          "text": "(23rd Jan) Yellow warning of rain, wind affecting South West England",
+          "url": "https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-warnings#?date=2026-01-23&id=e705af73-38bd-43f5-9489-fc942287b709&referrer=rss"
+        }
+      ]
+    }
+  ]
+}

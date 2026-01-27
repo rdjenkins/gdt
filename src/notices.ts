@@ -4,9 +4,14 @@ import { FCM } from '@capacitor-community/fcm';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 
+//  const topic = 'gdt'; // topic for push notifications
+const topic = 'gdt-test'; // topic for push notifications
+const noticeArea = 'noticeArea'
+
 export function checkNoticePermissions() {
     return `
     <button id='notifyButton' title="Notices will help keep you updated.">add notices</button>
+    <div id='${noticeArea}'></div>
     `
 }
 
@@ -111,6 +116,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
+async function displayNotification(content: string, color: string = 'lightgreen', scroll: boolean = false) {
+  // reasonable colors: lightgreen, lightskyblue, lightgray
+  const notificationDisplay = document.getElementById(noticeArea)
+  if (notificationDisplay) {
+        notificationDisplay.innerHTML = '<p class="notificationPackage" style="background-color: ' + color + ';">' + content + '</p>';
+    if (scroll && notificationDisplay.parentElement) {
+        notificationDisplay.parentElement.scrollIntoView();
+    }
+  }
+}
+
+//document.addEventListener('DOMContentLoaded', async () => {
+  //displayNotification('Hello World! <a href="#?cheese">Click here</a>', 'lightskyblue')
+//})
+
 async function addListeners() {
   await PushNotifications.addListener('registration', token => {
     submitLog('Registration token: ', token.value);
@@ -121,18 +141,25 @@ async function addListeners() {
   });
 
   await PushNotifications.addListener('pushNotificationReceived', notification => {
-    submitLog('GDTTEST Push notification received: ', notification.title + ': ' + notification.body);
+//    submitLog('GDTTEST Push notification received: ', notification.title + ': ' + notification.body);
+    const color = notification.data.color ? notification.data.color : 'lightgreen';
+    if (notification.data.package) {
+        displayNotification(notification.data.package, color);
+    }
   });
 
   await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-    console.log('Push notification action performed', notification.actionId, notification.inputValue);
+//    submitLog('Push notification action performed: actionID=' + notification.actionId + ' inputValue= ' + notification.inputValue);
+      const color = notification.notification.data.color ? notification.notification.data.color : 'lightgreen';
+      if (notification.notification.data.package) {
+          displayNotification(notification.notification.data.package, color, true);
+      }
   });
 }
 
 // function to register for push notifications
 async function registerNotifications() {
   try {
-  const topic = 'gdt'; // topic for push notifications
   let permStatus = await PushNotifications.checkPermissions();
 
   if (permStatus.receive === 'prompt') {
@@ -147,7 +174,7 @@ async function registerNotifications() {
 
   // Now, subscribe to the topic using @capacitor-community/fcm
   FCM.subscribeTo({ topic: topic })
-    .then(r => console.log(`subscribed to topic "gdt"` + r))
+    .then(r => console.log(`subscribed to topic "${topic}"` + r))
     .catch(err => console.log(err));
 
 } catch (e) {
