@@ -201,9 +201,8 @@ function findWarning(obj: any, searchVal: string) {
                 }));
 
             addChoiceModalLink('weather-links', 'Forecasts', [
-                ...STANDARD_LINKS,
-                ...warningLinks
-            ]);
+                ...STANDARD_LINKS
+            ], [...warningLinks]);
         } else {
             addChoiceModalLink('weather-links', 'Forecasts', STANDARD_LINKS);
         }

@@ -1,6 +1,4 @@
 import { checkNoticePermissions } from './notices'
-import { loadConfig } from './update'
-import defaultConfig from './config.json'
 import './style.css'
 import openStreetMapLogo from '/OpenStreetMap-logo-with-text.svg'
 import calendarLogo from '/calendar.svg'
@@ -26,11 +24,7 @@ console.log('GDT Version:', packageJson.version);
 
 
 const CURRENT_DATE_TIME = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour12: false })
-loadConfig('https://photos.grampound-pc.gov.uk/repack.php?id=config', 1, JSON.stringify(defaultConfig))
-.then( (data) => {
-  console.log(Object.keys(data.data).length + ' config objects returned')
-  // TODO use this config object for generating all the click options
-})
+
 
 // TODO consider how to do the styling so the show...() modules could style themselves in other projects
 
@@ -197,4 +191,3 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
   defineCustomElements(window)
 })
-

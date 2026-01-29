@@ -1,4 +1,5 @@
 import { Toast } from '@capacitor/toast';
+import { config } from './update';
 
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
@@ -103,7 +104,14 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
 }
 
 
-export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string; url: string }[]) {
+export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string; url: string }[], dynamicButtons: { text: string; url: string }[] = Array()) {
+    // check for updated config data over-riding the built in button choices
+    var configData = await config(linkId)
+    if (configData) {
+        linkId = configData.linkId
+        name = configData.name
+        buttons = [...configData.buttons, ...dynamicButtons]
+    }
     let listenerSetup = false;
     const setupListener = () => {
         // Return early if listener is already set up for this linkId

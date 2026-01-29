@@ -1,5 +1,6 @@
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Md5 } from 'ts-md5';
+import defaultConfig from './config.json'
 
 function MD5(str: string) {
     return Md5.hashStr(str);
@@ -72,3 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 })
 */
+
+var configuration: any = undefined
+
+export async function config(linkId: string) {
+    if (configuration === undefined) {
+        configuration = await loadConfig('https://photos.grampound-pc.gov.uk/repack.php?id=config', 1, JSON.stringify(defaultConfig))
+        return configuration.data.find((item: { linkId: string }) => item.linkId === linkId)
+    } else {
+        return configuration.data.find((item: { linkId: string }) => item.linkId === linkId)
+    }
+}
+
+
