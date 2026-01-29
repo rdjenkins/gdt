@@ -108,9 +108,9 @@ export async function addChoiceModalLink(linkId: string, name: string, buttons: 
     // check for updated config data over-riding the built in button choices
     var configData = await config(linkId)
     if (configData) {
-        linkId = configData.linkId
-        name = configData.name
-        buttons = [...configData.buttons, ...dynamicButtons]
+        linkId = (configData.linkId) ? configData.linkId : linkId
+        name = (configData.name) ? configData.name : name
+        buttons = (configData.buttons) ? [...configData.buttons, ...dynamicButtons] : [...buttons, ...dynamicButtons]
     }
     let listenerSetup = false;
     const setupListener = () => {

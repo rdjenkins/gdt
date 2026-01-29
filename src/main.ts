@@ -19,6 +19,7 @@ import { showSearchContainer } from './mapsearch' // show the custom OSM map sea
 import { showTraffic } from './traffic'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
 import { showApps } from './apps'
+import { showAstro } from './astro'
 
 console.log('GDT Version:', packageJson.version);
 
@@ -92,6 +93,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${showSewage()}
 
       ${showFloodWarning()}
+
+      ${showAstro()}
 
     </ul>
   
