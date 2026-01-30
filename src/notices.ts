@@ -5,7 +5,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 
 //  const topic = 'gdt'; // topic for push notifications
-const topic = 'gdt'; // topic for push notifications
+const topic = 'gdt-test'; // topic for push notifications
 const noticeArea = 'noticeArea'
 
 export function checkNoticePermissions() {
