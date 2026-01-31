@@ -51,9 +51,9 @@ async function getTrafficIncidents() {
     }
 };
 
-window.onload = () => {
+(async () => {
     getTrafficIncidents()
-};
+})();
 
 
 addChoiceModalLink('traffic-links', 'Traffic updates', ([
