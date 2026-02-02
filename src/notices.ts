@@ -10,7 +10,7 @@ const noticeArea = 'noticeArea'
 
 export function checkNoticePermissions() {
     return `
-    <button id='notifyButton' title="Notices will help keep you updated.">add notices</button>
+    <button id='notifyButton' class="widgetlink" title="Notices will help keep you updated.">add notices</button>
     <div id='${noticeArea}'></div>
     `
 }
@@ -63,8 +63,8 @@ function showNoticeModal(button: HTMLButtonElement) {
     content.innerHTML = `
                         <p>Notices will help keep you up to date.</p>
 
-                        <button class="modal-ok">OK keep me posted!</button>
-                        <button class="modal-close">No, not now</button>
+                        <button class="modal-ok widgetlink">OK keep me posted!</button>
+                        <button class="modal-close widgetlink">No, not now</button>
                 `;
     modalContent.appendChild(content);
     modal.appendChild(modalContent)
@@ -132,7 +132,7 @@ async function displayNotification(content: string, color: string = 'lightgreen'
 //})
 
 async function addListeners() {
-  await PushNotifications.addListener('registration', token => {
+  await PushNotifications.addListener('registration', token => { // is this needed now?
     submitLog('Registration token: ', token.value);
   });
 
@@ -170,12 +170,19 @@ async function registerNotifications() {
     throw new Error('User denied permissions!');
   }
 
-  await PushNotifications.register();
+  // Now, subscribe to the topic using @capacitor-community/fcm after APNs registration completes
+  const regListener = await PushNotifications.addListener('registration', async token => {
+    submitLog('Push registration token: ' + token.value);
+    try {
+      await FCM.subscribeTo({ topic: topic });
+      console.log(`subscribed to topic "${topic}"`);
+    } catch (err) {
+      console.log('Error subscribing to topic:', err);
+    }
+    regListener.remove();
+  });
 
-  // Now, subscribe to the topic using @capacitor-community/fcm
-  FCM.subscribeTo({ topic: topic })
-    .then(r => console.log(`subscribed to topic "${topic}"` + r))
-    .catch(err => console.log(err));
+  await PushNotifications.register();
 
 } catch (e) {
   console.log('Error registering for push notifications (probably running in a browser)')

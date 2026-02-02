@@ -198,6 +198,7 @@ a#licenses {
 
 .notificationPackage {
   padding: 10px;
+  color: #213547; /* fixed for light or dark mode */
   border-radius: 5px;
 }
 
@@ -250,4 +251,21 @@ a#licenses {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #888888;
+    background-color: #242424;
+  }
+
+.reload a {
+  text-decoration: none;
+  color: #888888;
+}
+
+  #search-container input {
+    background-color: #f9f9f9;
+    color: #242424;
+  }   
 }
