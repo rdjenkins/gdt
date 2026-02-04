@@ -74,7 +74,7 @@ async function getAlmanacEvents() {
             return ""
         }
         const astro = await response.json();
-        console.log('fetched astro data');
+        console.log('fetched astro data: ' + astro.length + ' events');
 
         
         if (astro.length > 0) {
@@ -83,7 +83,11 @@ async function getAlmanacEvents() {
             if (astroeventDiv) {
                 astroeventDiv.innerHTML = '<span style="font-size: small;">' + astroText + '</span>'
             }
-        }
+        } else {
+            const astroeventDiv = document.getElementById(ASTRO_EVENTS);
+            if (astroeventDiv) {
+                astroeventDiv.innerHTML = '<span style="font-size: small;">No events in the next few days. Check again later.</span>'
+            }}
     } catch (error) {
         console.error('Error fetching astro events:', error);
     }
@@ -100,5 +104,4 @@ addChoiceModalLink('astro-links', 'Aurora and Astronomy links', ([
     { text: 'Eclipses', url: 'https://www.timeanddate.com/eclipse/in/@2648227' },
     { text: 'Night Sky', url: 'https://www.timeanddate.com/astronomy/night/@2648227'},
     { text: 'Greenwich Observatory', url: 'https://www.rmg.co.uk/stories/space-astronomy/astronomy'}
-
 ]));

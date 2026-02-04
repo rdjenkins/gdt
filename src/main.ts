@@ -142,6 +142,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <td>Open StreetMap data</td>
             <td><a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a></td>
           </tr>
+          <tr>
+            <td>Aurora data</td>
+            <td><a href="https://aurorawatch.lancs.ac.uk/" target="_blank">Aurorawatch UK, Lancaster University</a></td>
+          </tr>
          <tr>
             <td>Development</td>
             <td><a href="https://deanjenkins.me/#gdtapp" target="_blank">Developer's website</a></td>

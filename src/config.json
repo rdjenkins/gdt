@@ -138,6 +138,28 @@
           "url": "https://www.yr.no/en/forecast/daily-table/2-2648227/United%20Kingdom/England/Cornwall/Grampound"
         }
       ]
+    },
+    {
+      "linkId": "astro-links",
+      "name": "Aurora and Astronomy links",
+      "buttons": [
+        {
+          "text": "Aurora Activity",
+          "url": "https://aurorawatch.lancs.ac.uk/"
+        },
+        {
+          "text": "Eclipses",
+          "url": "https://www.timeanddate.com/eclipse/in/@2648227"
+        },
+        {
+          "text": "Night Sky",
+          "url": "https://www.timeanddate.com/astronomy/night/@2648227"
+        },
+        {
+          "text": "Greenwich Observatory",
+          "url": "https://www.rmg.co.uk/stories/space-astronomy/astronomy"
+        }
+      ]
     }
   ]
 }

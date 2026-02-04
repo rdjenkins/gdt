@@ -2,6 +2,10 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Md5 } from 'ts-md5';
 import defaultConfig from './config.json'
 
+var checkingUpdates = false;
+var configuration: any = undefined
+var configVersion = 1
+
 function MD5(str: string) {
     return Md5.hashStr(str);
 }
@@ -17,7 +21,7 @@ async function updateConfiguration(remoteConfig: JSON, url: string) {
     });
 }
 
-export async function loadConfig(url: string, version: number, defaultData: string | JSON) {
+async function loadConfig(url: string, version: number, defaultData: string | JSON) {
     checkForUpdates(url, version) // send this off first (async)
 
     // load offline version
@@ -32,14 +36,22 @@ export async function loadConfig(url: string, version: number, defaultData: stri
     } catch (error) {
         console.log("No local config, fall back to built-in version.");
         if (typeof defaultData === 'string') {
-            return JSON.parse(defaultData)
+            let parsedData = JSON.parse(defaultData)
+            if (parsedData.version) {
+                console.log('default data version: ' + parsedData.version)
+            } else {
+                console.log('default data has no version number')
+            }
+            return parsedData
         } else {
-            return defaultData
+            return defaultData // when might this happen?
         }
     }
 }
 
 async function checkForUpdates(url: string, version: number = 1) {
+    if (checkingUpdates) { return; } // only check online once per app load (unless there's an error)
+    checkingUpdates = true;
     try {
         const response = await fetch(url);
         const remoteConfig = await response.json();
@@ -48,9 +60,12 @@ async function checkForUpdates(url: string, version: number = 1) {
         if (remoteConfig.version > localVersion) {
             console.log("New config available: " + remoteConfig.version)
             await updateConfiguration(remoteConfig, url);
+        } else {
+            console.log("Config is up to date. Version: " + remoteConfig.version)
         }
     } catch (error) {
         console.log("Error fetching configuration: ", error);
+        checkingUpdates = false;
     }
 }
 
@@ -74,15 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 */
 
-var configuration: any = undefined
+let configPromise: Promise<any> | null = null;
 
 export async function config(linkId: string) {
-    if (configuration === undefined) {
-        configuration = await loadConfig('https://photos.grampound-pc.gov.uk/repack.php?id=config', 1, JSON.stringify(defaultConfig))
-        return configuration.data.find((item: { linkId: string }) => item.linkId === linkId)
-    } else {
-        return configuration.data.find((item: { linkId: string }) => item.linkId === linkId)
+    if (!configPromise) {
+        configPromise = loadConfig('https://photos.grampound-pc.gov.uk/repack.php?id=config', configVersion, JSON.stringify(defaultConfig));
     }
+    
+    configuration = await configPromise;
+    return configuration.data.find((item: { linkId: string }) => item.linkId === linkId);
 }
 
 
