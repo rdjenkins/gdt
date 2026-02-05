@@ -164,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             modal.appendChild(modalContent);
             document.body.appendChild(modal);
+            modalContent.scrollIntoView();
         });
     }
 });

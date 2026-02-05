@@ -101,6 +101,7 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
 
     modal.appendChild(modalContent);
     document.body.appendChild(modal);
+    modalContent.scrollIntoView();
 }
 
 // TODO move to using the built in config.json data when we've worked out how to handle the dynamic buttons
