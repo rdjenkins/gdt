@@ -94,14 +94,10 @@ async function getAlmanacEvents() {
 };
 
 
-window.onload = () => {
+// An IIFE (Immediately Invoked Function Expression) is more reliable than window.onload inside a Vite app
+(async () => {
     getAlmanacEvents()
     getAuroraEvents()
-};
+})();
 
-addChoiceModalLink('astro-links', 'Aurora and Astronomy links', ([
-    { text: 'Aurora Activity', url: 'https://aurorawatch.lancs.ac.uk/' },
-    { text: 'Eclipses', url: 'https://www.timeanddate.com/eclipse/in/@2648227' },
-    { text: 'Night Sky', url: 'https://www.timeanddate.com/astronomy/night/@2648227'},
-    { text: 'Greenwich Observatory', url: 'https://www.rmg.co.uk/stories/space-astronomy/astronomy'}
-]));
+addChoiceModalLink('astro-links')

@@ -14,7 +14,4 @@ export function showSewage() {
     `
 }
 
-addChoiceModalLink('sewage-links', 'Sewage map', ([
-    { text: 'Floodmapper', url: 'https://www.floodmapper.co.uk/data-explorer/search-sewage-report/1bfb1dc2-aaf8-11ee-baa2-0242ac140003/Grampound' },
-    { text: 'SWW overflow map', url: 'https://www.southwestwater.co.uk/environment/rivers-and-bathing-waters/waterfitlive/storm-overflow-map' }
-]));
+addChoiceModalLink('sewage-links')

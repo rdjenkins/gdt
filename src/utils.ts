@@ -105,7 +105,7 @@ function showChoiceModal(name: string, buttons: { text: string, url: string }[])
 }
 
 // TODO move to using the built in config.json data when we've worked out how to handle the dynamic buttons
-export async function addChoiceModalLink(linkId: string, name: string, buttons: { text: string; url: string }[], dynamicButtons: { text: string; url: string }[] = Array()) {
+export async function addChoiceModalLink(linkId: string, name: string = '', buttons: { text: string; url: string }[] = Array(), dynamicButtons: { text: string; url: string }[] = Array()) {
     // check for updated config data over-riding the built in button choices
     var configData = await config(linkId)
     if (configData) {

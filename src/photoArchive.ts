@@ -10,7 +10,4 @@ export function showPhotoArchive() {
     `
 }
 
-addChoiceModalLink('ghp-link', 'Photo Archive', ([
-    { text: 'Photo search', url: 'https://photos.grampound.org.uk/photos.php' },
-    { text: 'Slide show', url: 'https://photos.grampound.org.uk/slideshow.php' }
-]));
+addChoiceModalLink('ghp-link')
