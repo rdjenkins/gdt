@@ -1,8 +1,43 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { submitLog } from './utils';
+import { sleep, submitLog } from './utils';
 import { FCM } from '@capacitor-community/fcm';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+
+/*
+export const hapticsVibrate = async () => {
+  if (Capacitor.isNativePlatform()) {
+    await Haptics.vibrate();
+  }
+};
+*/
+
+export const hapticsImpactLight = async () => {
+  if (Capacitor.isNativePlatform()) {
+    await Haptics.impact({ style: ImpactStyle.Light });
+  }
+};
+
+
+export const hapticsImpactMedium = async () => {
+  await Haptics.impact({ style: ImpactStyle.Medium });
+};
+
+
+/*
+const hapticsSelectionStart = async () => {
+  await Haptics.selectionStart();
+};
+
+const hapticsSelectionChanged = async () => {
+  await Haptics.selectionChanged();
+};
+
+const hapticsSelectionEnd = async () => {
+  await Haptics.selectionEnd();
+};
+*/
 
 //  const topic = 'gdt'; // topic for push notifications
 const topic = 'gdt'; // topic for push notifications
@@ -10,26 +45,38 @@ const noticeArea = 'noticeArea'
 
 export function checkNoticePermissions() {
     return `
-    <button id='notifyButton' class="widgetlink" title="Notices will help keep you updated.">add notices</button>
+    <button id='notifyButton' style="margin-bottom:10px" class="widgetlink" title="Notices will help keep you updated.">add notices</button>
     <div id='${noticeArea}'></div>
     `
 }
 
 function thankyou() {
-    LocalNotifications.schedule({
-        notifications: [
-            {
-                title: "Thank you",
-                body: "Thank you for allowing notices from Grampound Digital Twin!",
-                id: 1,
-                schedule: { at: new Date(Date.now() + 1000 * 5) },
-                sound: '',
-                attachments: [],
-                actionTypeId: "",
-                extra: null
-            }
-        ]
-    });
+  const dataPackage = {
+        package: "Welcome to the Digital Twin! Your environment alerts are now active."
+  };
+
+  LocalNotifications.schedule({
+    notifications: [
+        {
+          title: "Thank you",
+          body: "Alerts Active: You will now receive notifications from Grampound Digital Twin!",
+          id: 1,
+          schedule: { at: new Date(Date.now() + 1000 * 5) },
+          sound: '',
+          attachments: [],
+          actionTypeId: "",
+          extra: dataPackage
+        }
+      ]
+  });
+
+  // This runs when the user taps the notification
+  LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+      const data = notification.notification.extra;    
+      if (data && data.package) {
+          displayNotification(data.package,'lightgreen',true);
+      }
+  });
 }
 
 function showNoticeModal(button: HTMLButtonElement) {
@@ -55,28 +102,31 @@ function showNoticeModal(button: HTMLButtonElement) {
     modalContent.style.position = 'relative';
 
     let title = document.createElement('h2');
-    title.textContent = 'Can the Digital Twin send you notifications?';
+    title.textContent = `Enable Digital Twin's Community Alerts`;
     title.style.textAlign = 'center';
     modalContent.appendChild(title);
 
     let content = document.createElement('div');
     content.innerHTML = `
-                        <p>Notices will help keep you up to date.</p>
+                        <p>Get real-time alerts for river level, air quality, environmental and travel information. You can change this anytime in Settings.</p>
 
-                        <button class="modal-ok widgetlink">OK keep me posted!</button>
-                        <button class="modal-close widgetlink">No, not now</button>
+                        <button class="modal-ok widgetlink">Notify Me</button>
+                        <button class="modal-close widgetlink">Maybe Later</button>
                 `;
     modalContent.appendChild(content);
     modal.appendChild(modalContent)
     document.body.appendChild(modal);
+    hapticsImpactMedium();
 
     modal.querySelector('.modal-close')?.addEventListener('click', () => {
-        modal.remove();
-                });
+        hapticsImpactLight()
+        modal.remove()
+      });
     modal.querySelector('.modal-ok')?.addEventListener('click', () => {
+        hapticsImpactLight()
         modal.remove();
         button.click();
-                });
+      });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -116,14 +166,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
-async function displayNotification(content: string, color: string = 'lightgreen', scroll: boolean = false) {
+let notificationClickListener: (() => void) | null = null;
+let notices_showing = 0
+var lastnotice: string 
+
+export async function displayNotification(content: string, color: string = 'lightgreen', scroll: boolean = false, target: string = 'nowhere', TTL = 1000 * 60) {
   // reasonable colors: lightgreen, lightskyblue, lightgray
+  if (content === lastnotice) { return } // ignore if it is a repeat (poor air quality for example)
+  if (notices_showing > 3 && scroll !== true) { // 4 will show! (plus local or remote notifications)
+    await sleep(65 * 1000); 
+  }
+  lastnotice = content
   const notificationDisplay = document.getElementById(noticeArea)
+  const notificationTarget = document.getElementById(target)
   if (notificationDisplay) {
-        notificationDisplay.innerHTML = '<p class="notificationPackage" style="background-color: ' + color + ';">' + content + '</p>';
+    var notficationDisplayNotice = document.createElement('div');
+    notficationDisplayNotice.setAttribute('class','notificationPackage')
+    notficationDisplayNotice.style.backgroundColor = color 
+    notificationDisplay.appendChild(notficationDisplayNotice);
+    notices_showing = notices_showing + 1
+    if (notificationClickListener) {
+      notficationDisplayNotice.removeEventListener('click', notificationClickListener);
+    }
+    notficationDisplayNotice.innerHTML = '<span class="XnotificationPackage" Xstyle="background-color: ' + color + ';">' + content + '</span> ';
     if (scroll && notificationDisplay.parentElement) {
         notificationDisplay.parentElement.scrollIntoView();
     }
+    hapticsImpactLight();
+    notificationClickListener = () => {
+      if (notificationTarget) {
+        notificationTarget.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    notficationDisplayNotice.addEventListener('click', notificationClickListener);
+    setTimeout(() => {
+      notficationDisplayNotice.style.opacity = '0';
+      notficationDisplayNotice.style.transition = 'opacity 0.5s ease';
+
+      setTimeout(() => {
+        notficationDisplayNotice.remove();
+        notices_showing = notices_showing - 1
+      }, 500); 
+    }, TTL);
   }
 }
 

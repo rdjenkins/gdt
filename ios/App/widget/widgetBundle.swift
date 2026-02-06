@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct widgetBundle: WidgetBundle {
     var body: some Widget {
-        widget()
+        CommunityWidget()
         widgetControl()
         widgetLiveActivity()
     }

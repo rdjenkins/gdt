@@ -1,14 +1,15 @@
-import { addChoiceModalLink } from "./utils"
+import { addChoiceModalLink, showToast } from "./utils"
 
 const astroURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=astro&number=3' // 5 days
 const auroraURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=aurora'
 const ASTRO_EVENTS = 'astroevents'
 const AURORA_STATUS = 'aurorastatus'
+const ASTRO_WIDGET_ID = 'astro-links'
 
 
 export function showAstro() {
     return `
-    <a href="#" id="astro-links" target="_blank" class="flex-item">
+    <a href="#" id="${ASTRO_WIDGET_ID}" target="_blank" class="flex-item">
         <button id="${AURORA_STATUS}">AuroraWatch</button>
         <p>Astronomy for Grampound</p>
         <div id="${ASTRO_EVENTS}"></div>
@@ -47,11 +48,13 @@ async function getAuroraEvents() {
                 auroraText = '<b>Amber, VISIBLE on camera<b>';
                 auroraTextColour = 'orange'
                 auroraBackgroundColour = 'ivory'
+                showToast('Aurora alert: Amber, visible on camera', ASTRO_WIDGET_ID)
             } 
             if (aurora.statusId === 'red') {
                 auroraText = '<b>RED, VISIBLE</b>';
                 auroraTextColour = 'red'
                 auroraBackgroundColour = 'ivory'
+                showToast('Aurora alert: RED, visible', ASTRO_WIDGET_ID)
             }
             const auroraeventDiv = document.getElementById(AURORA_STATUS);
             if (auroraeventDiv) {

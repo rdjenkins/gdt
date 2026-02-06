@@ -1,3 +1,4 @@
+import { SEWAGE_WIDGET_ID } from "./sewage";
 import { showToast } from "./utils";
 
 async function fetchWaterQualityTrafficLight() {
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (waterQualityDiv) {
             waterQualityDiv.innerHTML = waterQualityTrafficLightHTML + '<div style="margin-left: 10px;">Get more detail on Floodmapper<br>or SWW ↗</div>';
             if (isRedAlert(waterQualityTrafficLightHTML)) {
-                showToast('⚠️ Sewage alert in River Fal')
+                showToast('⚠️ Sewage alert in River Fal', SEWAGE_WIDGET_ID)
             }
         }
     });

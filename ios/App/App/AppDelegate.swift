@@ -1,4 +1,5 @@
 import UIKit
+import WidgetKit
 import Capacitor
 
 @UIApplicationMain
@@ -19,6 +20,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        let fileManager = FileManager.default
+            let groupID = "group.me.grampounddigitaltwin"
+            
+            let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let sourceURL = documentsURL.appendingPathComponent("community_data.json")
+            
+            if let groupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: groupID) {
+                let destinationURL = groupURL.appendingPathComponent("community_data.json")
+                
+                do {
+                    if fileManager.fileExists(atPath: sourceURL.path) {
+                        try? fileManager.removeItem(at: destinationURL)
+                        try fileManager.copyItem(at: sourceURL, to: destinationURL)
+                        print("✅ Widget Sync: Successfully copied to App Group")
+                        WidgetCenter.shared.reloadAllTimelines()
+                    } else {
+                        print("❌ Widget Sync: Source file not found in Documents")
+                    }
+                } catch {
+                    print("❌ Widget Sync: Copy failed: \(error)")
+                }
+            } else {
+                print("❌ Widget Sync: App Group Identifier not found")
+            }
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

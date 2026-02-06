@@ -3,6 +3,7 @@ import { showToast, submitLog } from './utils'
 const FLOOD_TARGET_AREA_URL = 'https://check-for-flooding.service.gov.uk/target-area/114WAFT1W02A00'
 const FLOOD_INFO_ID = 'flood-info' // the id of the HTML element where the flood info will go.
 const FLOOD_WARNING_BUTTON_ID = 'flood-warning-button'
+export var riverLevel = ''
 
 export function showFloodWarning() {
     return `
@@ -75,19 +76,24 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
 
     var output = 'River Fal height'
     var valid = false
+    var trenowth = ''
+    var tregony = ''
 
     if (TrenowthRiverLevel && typeof TrenowthRiverLevel.riverHeight === 'number' && typeof TrenowthRiverLevel.riverHeightHigh === 'number' && typeof TrenowthRiverLevel.riverHeightLow === 'number') {
         if (TrenowthRiverLevel.riverHeight >= TrenowthRiverLevel.riverHeightHigh) {
             output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (HIGH)</span>'
+            trenowth = 'high'
             showToast('River Fal level HIGH at Trenowth')
         } else if (TrenowthRiverLevel.riverHeight <= TrenowthRiverLevel.riverHeightLow) {
             output = output + '<br><span style="color:red">Trenowth ' + TrenowthRiverLevel.riverHeight + ' m (LOW)</span>'
+            trenowth = 'low'
             showToast('River Fal level LOW at Trenowth')
         } else {
             var range = (TrenowthRiverLevel.riverHeightHigh - TrenowthRiverLevel.riverHeightLow)
             if (range === 0) { range = 0.0001 }
             var aboveLow = (TrenowthRiverLevel.riverHeight - TrenowthRiverLevel.riverHeightLow)
             var TrenowthProportion = Math.round(100 * (aboveLow / range))
+            trenowth = 'OK'
             output = output + '<br>Trenowth ' + TrenowthRiverLevel.riverHeight.toFixed(2) + ' m' + colMaker(TrenowthProportion)
         }
         valid = true
@@ -95,15 +101,18 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
     if (TregonyRiverLevel && typeof TregonyRiverLevel.riverHeight === 'number' && typeof TregonyRiverLevel.riverHeightHigh === 'number' && typeof TregonyRiverLevel.riverHeightLow === 'number') {
         if (TregonyRiverLevel.riverHeight >= TregonyRiverLevel.riverHeightHigh) {
             output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (HIGH)</span>'
+            tregony = 'high'
             showToast('River Fal level HIGH at Tregony')
         } else if (TregonyRiverLevel.riverHeight <= TregonyRiverLevel.riverHeightLow) {
             output = output + '<br><span style="color:red">Tregony ' + TregonyRiverLevel.riverHeight + ' m (LOW)</span>'
+            tregony = 'low'
             showToast('River Fal level LOW at Tregony')
         } else {
             var range = (TregonyRiverLevel.riverHeightHigh - TregonyRiverLevel.riverHeightLow)
             if (range === 0) { range = 0.0001 }
             var aboveLow = (TregonyRiverLevel.riverHeight - TregonyRiverLevel.riverHeightLow)
             var TregonyProportion = Math.round(100 * (aboveLow / range))
+            tregony = 'OK'
             output = output + '<br>Tregony ' + TregonyRiverLevel.riverHeight.toFixed(2) + ' m' + colMaker(TregonyProportion)
         }
         valid = true
@@ -118,6 +127,9 @@ function colMaker(fillHeight = 50, width = 8, height = 22) {
         } else {
             console.log(output);
         }
+        if (trenowth === 'high' || tregony === 'high') { riverLevel = 'high' }
+        if (trenowth === 'low' || tregony === 'low') { riverLevel = 'low' }
+        if (trenowth === 'OK' || tregony === 'OK') { riverLevel = 'OK' }
     } else {
         if (floodInfo) {
             floodInfo.innerHTML = 'River level data not available'

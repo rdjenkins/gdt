@@ -5,10 +5,11 @@ import { addChoiceModalLink, showToast } from './utils'
 
 const WEATHER_INFO_ID = 'weather-info' // id of weather info HTML element
 const WEATHER_WARNING_ID = 'weather-warning' // if any
+const WEATHER_WIDGET_ID = 'weather-links'
 
 export function showWeather() {
     return `
-    <a href="#" id="weather-links" target="_blank" class="flex-item">
+    <a href="#" id="${WEATHER_WIDGET_ID}" target="_blank" class="flex-item">
         <p id="${WEATHER_INFO_ID}">
             Loading weather forecast preview ...
         </p>
@@ -114,6 +115,13 @@ const forecasturl = "https://api.open-meteo.com/v1/forecast";
         `\nIs it day? ${weatherData.current.is_day === 1 ? 'Yes' : 'No'}`,
     );
 
+    if (weatherCode <= 2)  {
+        showToast('Clear weather!', WEATHER_WIDGET_ID, 'lightgreen')
+    }
+    if (weatherCode === 3) {
+        showToast('Clear-ish weather!', WEATHER_WIDGET_ID, 'lightgreen')
+    }
+
     // wind speed as Beaufort scale description
     const wind_description = weatherData.current.wind_speed_10m <= 0.2 ? 'calm' :
         weatherData.current.wind_speed_10m <= 1.5 ? 'light air' :
@@ -176,18 +184,19 @@ function findWarning(obj: any, searchVal: string) {
         }
         const warnings = await response.json()
         var warningcolor = 'orange'
+        var toastcolor = 'yellow'
         var warningText = '⚠️ Weather Warning'
 
         if (warnings.length > 0) {
             const weatherWarning = document.getElementById(WEATHER_WARNING_ID);
             if (weatherWarning) {
-                if (findWarning(warnings, 'red ')) { warningcolor = 'red' }
+                if (findWarning(warnings, 'red ')) { warningcolor = 'red'; toastcolor = 'salmon' }
                 if (warnings.length === 1) {
                     weatherWarning.innerHTML += `<span style="color:${warningcolor};font-weight:bold;">${warningText}</span>`;
-                      showToast(warningText);
+                    showToast(warningText,WEATHER_WIDGET_ID, toastcolor);
                 } else {
                     weatherWarning.innerHTML += `<span style="color:${warningcolor};font-weight:bold;">${warnings.length} ${warningText}s</span>`;
-                    showToast(`${warnings.length} ${warningText}s`);
+                    showToast(`${warnings.length} ${warningText}s`,WEATHER_WIDGET_ID, toastcolor);
                 }
             }
 

@@ -1,4 +1,4 @@
-import { checkNoticePermissions } from './notices'
+import { checkNoticePermissions, hapticsImpactLight } from './notices'
 import './style.css'
 import openStreetMapLogo from '/OpenStreetMap-logo-with-text.svg'
 import calendarLogo from '/calendar.svg'
@@ -55,7 +55,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </ul>
 
 
-    <h2>What's on</h2>
+    <h2 id="whatson">What's on</h2>
     <ul class="flex-container">
 
       <a href="https://grampoundvillagehall.org.uk/calendar.php" target="_blank" class="flex-item">
@@ -185,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     content?.classList.toggle('hidden');
     const icon = document.querySelector('.licenses-more-icon');
     if (content && icon) {
+      hapticsImpactLight()
       if (content.classList.contains('hidden')) {
         icon.textContent = '▼';
       } else {

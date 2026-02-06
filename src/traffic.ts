@@ -4,10 +4,11 @@ import { addChoiceModalLink, showToast, submitLog } from "./utils"
 const TRAFFIC_INCIDENCES_ID = 'traffic-incidents' // id of traffic incidents HTML element
 // returns '', 'error', '0' (no incidents) or '1' (incidents found)
 const policeURL = 'https://photos.grampound-pc.gov.uk/repack.php?id=trafficCheck'
+const TRAFFIC_WIDGET_ID = 'traffic-links'
 
 export function showTraffic() {
     return `
-    <a href="#" id="traffic-links" target="_blank" class="flex-item">
+    <a href="#" id="${TRAFFIC_WIDGET_ID}" target="_blank" class="flex-item">
             <img src="${trafficLogo}" class="logo" alt="Sewage discharges logo" />
         <p>Traffic updates for Cornwall</p>
         <div id="${TRAFFIC_INCIDENCES_ID}"></div>
@@ -44,7 +45,7 @@ async function getTrafficIncidents() {
             if (incidentDiv) {
                 incidentDiv.innerHTML = '<span style="color:orange;font-weight:bold;">⚠️ Traffic incidents</span>'
             }
-            showToast('⚠️ Police traffic incidents found')
+            showToast('⚠️ Traffic incidents found', TRAFFIC_WIDGET_ID)
         }
     } catch (error) {
         console.error('Error fetching police traffic updates:', error);

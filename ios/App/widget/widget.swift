@@ -8,81 +8,93 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
-    }
-
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
-    }
-
-//    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
-}
-
-struct SimpleEntry: TimelineEntry {
+struct CommunityEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let riverLevel: String
+    let airQuality: String
 }
 
-struct widgetEntryView : View {
-    var entry: Provider.Entry
+struct CommunityWidgetEntryView : View {
+    var entry: CommunityEntry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Digital Twin")
+                .font(.caption)
+                .bold()
+                .foregroundColor(.secondary)
+                
+            HStack {
+                Text("🌊 River:")
+                Text(entry.riverLevel).bold()
+            }
+            
+            HStack {
+                Text("🍃 Air:")
+                Text(entry.airQuality).bold()
+            }
         }
+        .padding()
+        .containerBackground(for: .widget) {
+                    Color(.systemBackground)
+                }
     }
 }
 
-struct widget: Widget {
-    let kind: String = "widget"
+struct Provider: TimelineProvider {
+    // Helper to read data from the App Group
+//    func getSharedData() -> (level: String, air: String) {
+//        let shared = UserDefaults(suiteName: "group.me.grampoundigitaltwin")
+//        let level = shared?.string(forKey: "river_level") ?? "Loading..."
+//        let air = shared?.string(forKey: "air_quality") ?? "Loading..."
+//        return (level, air)
+//    }
 
-    var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            widgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+    func getSharedData() -> (level: String, air: String) {
+        let groupID = "group.me.grampounddigitaltwin"
+        guard let sharedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) else {
+            return ("Group Error", "Setup")
         }
-    }
-}
-
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
+        
+        let fileURL = sharedContainerURL.appendingPathComponent("community_data.json")
+        
+        if let data = try? Data(contentsOf: fileURL),
+           let json = try? JSONSerialization.jsonObject(with: data) as? [String: String] {
+            return (json["riverLevel"] ?? "N/A", json["airQuality"] ?? "N/A")
+        }
+        
+        return ("Waiting...", "Open App")
     }
     
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
+    
+    func placeholder(in context: Context) -> CommunityEntry {
+        CommunityEntry(date: Date(), riverLevel: "1.2m", airQuality: "Good")
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (CommunityEntry) -> ()) {
+        let data = getSharedData()
+        let entry = CommunityEntry(date: Date(), riverLevel: data.level, airQuality: data.air)
+        completion(entry)
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        let data = getSharedData()
+        let entry = CommunityEntry(date: Date(), riverLevel: data.level, airQuality: data.air)
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        completion(timeline)
     }
 }
 
-#Preview(as: .systemSmall) {
-    widget()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
+struct CommunityWidget: Widget {
+    let kind: String = "CommunityDashboardWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            CommunityWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Local Environmental Monitor")
+        .description("Keep an eye on local river levels and air quality.")
+        .supportedFamilies([ .systemMedium, .systemSmall]) // You can choose sizes here
+        .contentMarginsDisabled()
+    }
 }

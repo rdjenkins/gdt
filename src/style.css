@@ -196,10 +196,15 @@ a#licenses {
   text-decoration: none;
 }
 
+#noticeArea {
+  width: 100%;
+}
+
 .notificationPackage {
   padding: 10px;
   color: #213547; /* fixed for light or dark mode */
   border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .reload a {
@@ -226,6 +231,18 @@ a#licenses {
 
   .flex-item {
     padding: 0.8em;
+    width: 200px; /* widget width */
+  }
+
+  #noticeArea {
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .notificationPackage {
     width: 200px;
   }
 }

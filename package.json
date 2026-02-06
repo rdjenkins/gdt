@@ -1,13 +1,14 @@
 {
   "name": "grampound-digital-twin",
   "private": true,
-  "version": "0.9.3",
+  "version": "0.9.5",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && npm update && vite build",
     "android": "tsc && npm update && vite build && npx cap sync && npx cap run android",
-    "ios": "tsc && npm update && vite build && npx cap sync",
+    "iosSPMfix": "sed -i '' 's/.iOS(.v18)/.iOS(\"18.0\")/g' ios/App/CapApp-SPM/Package.swift",
+    "crossbuild": "tsc && npm update && vite build && npx cap sync && npm run iosSPMfix",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -21,6 +22,7 @@
     "@capacitor/cli": "^8.0.0",
     "@capacitor/core": "^8.0.0",
     "@capacitor/filesystem": "^8.0.0",
+    "@capacitor/haptics": "^8.0.0",
     "@capacitor/ios": "^8.0.0",
     "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/push-notifications": "^8.0.0",

@@ -1,10 +1,15 @@
 import { Toast } from '@capacitor/toast';
 import { config } from './update';
+import { displayNotification, hapticsImpactLight } from './notices';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const NO_LOG = (URL_PARAMS.has('nolog')) ? true : false
 const QR = (URL_PARAMS.has('QR')) ? true : false
 const m = (URL_PARAMS.has('m')) ? URL_PARAMS.get('m') : ''
+
+export const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 // Function to submit anonymous logs to the server to see which functions are being used
 export async function submitLog(lg: string, u: string = ''): Promise<string> {
@@ -125,6 +130,7 @@ export async function addChoiceModalLink(linkId: string, name: string = '', butt
             //console.log('adding ' + linkId);
             link.addEventListener('click', (event) => {
                 event.preventDefault();
+                hapticsImpactLight()
                 showChoiceModal(name, buttons);
             });
             listenerSetup = true; // Mark the listener as set up
@@ -163,17 +169,17 @@ export function formatDateWithSuffix(date: Date): string {
 }
 
 // Toast messages
-const toastQueue: string[] = [];
+const toastQueue: {message: string; target: string; color: string}[] = [];
 let isShowingToast = false;
 
 async function processQueue() {
     if (isShowingToast || toastQueue.length === 0) return;
 
     isShowingToast = true;
-    const message = toastQueue.shift();
-
+    const thisPackage = toastQueue.shift();
+    displayNotification(thisPackage?.message ?? '', thisPackage?.color, false, thisPackage?.target ?? 'nowhere');
     await Toast.show({
-        text: message ?? '',
+        text: thisPackage?.message ?? '',
     });
     
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -182,12 +188,35 @@ async function processQueue() {
     processQueue();
 }
 
-export async function showToast(message = '') {
+export async function showToast(message = '', target = 'nowhere', color = 'lightgrey') {
+
     if (message === '') { return }
-    toastQueue.push(message);
+    var toastPackage = {message, target, color}
+    toastQueue.push(toastPackage);
+    await waitUntilReady();
     processQueue();
 }
 
+async function waitUntilReady() {
+    let attempts = 0;
+    const maxAttempts = 50; // Avoid infinite loops
+
+    while (attempts < maxAttempts) {
+        // CHECK 1: Is the DOM element for notices available?
+        const container = document.getElementById('noticeArea');
+
+        if (container) {
+            return true;
+        }
+
+        attempts++;
+        await sleep(100); // Wait 100ms before checking again
+    }
+    
+    console.warn('Toast system: Timed out waiting for readiness.');
+}
+
+// for testing
 if (m !== '' && m !== null) {
     showToast(m)
 }
@@ -247,3 +276,46 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
+import { riverLevel } from './floodwarning';
+import { airQuality } from './purpleair';
+
+const saveWidgetData = async (riverLevel: string, airQuality: string) => {
+  const data = JSON.stringify({ riverLevel, airQuality });
+  
+  try {
+    await Filesystem.writeFile({
+      path: 'community_data.json',
+      data: data,
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
+    console.log('writing widget data to file')
+  } catch (e) {
+    console.error('Unable to write file', e);
+  }
+};
+
+let previousRiverLevel = '';
+let previousAirQuality = '';
+
+async function monitorWidgetData() {
+    const checkForChanges = async () => {
+        const currentRiverLevel = riverLevel;
+        const currentAirQuality = airQuality;
+
+        if (
+            currentRiverLevel !== previousRiverLevel ||
+            currentAirQuality !== previousAirQuality
+        ) {
+            previousRiverLevel = currentRiverLevel;
+            previousAirQuality = currentAirQuality;
+            await saveWidgetData(currentRiverLevel, currentAirQuality);
+        }
+
+        setTimeout(checkForChanges, 30000); // Check every 30 seconds
+    };
+
+    checkForChanges();
+}
+
+monitorWidgetData();

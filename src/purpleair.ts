@@ -2,6 +2,9 @@
 import { showToast, submitLog } from "./utils"
 import airQualityLogo from '/PurpleAir-Cornwall-Map.png'
 
+const AIRQUALITY_WIDGET_ID = 'air-quality-widget'
+
+export var airQuality = ''
 
 var PURPLE_AIR_CHOICE = "Grampound"
 //var PURPLE_AIR_CHOICE = "Truro"
@@ -25,7 +28,7 @@ function purpleAirSensorWidget() {
 
 export function showPurpleAir() {
     return `
-    <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" class="flex-item">
+    <a href="https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#8.63/50.2076/-5.023" target="_blank" id="${AIRQUALITY_WIDGET_ID}" class="flex-item">
         <img src="${airQualityLogo}" class="logo" alt="Air Quality, PurpleAir logo" />
         <p>${purpleAirSensorWidget()}</p>
         <p>Air quality in ${PURPLE_AIR_CHOICE}.</p>
@@ -70,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     newSpan.style.padding = '0.5em 0.5em';
                     widgetDiv.innerHTML = '';
                     widgetDiv.appendChild(newSpan);
+                    airQuality = 'good'
                 }
                 if (!isNaN(pmValue) && pmValue >= 50 && pmValue < 100) {
                     // Create a new span element
@@ -82,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     newSpan.style.padding = '0.5em 0.5em';
                     widgetDiv.innerHTML = '';
                     widgetDiv.appendChild(newSpan);
-                    showToast('Poor Air Quality')
+                    airQuality = 'poor'
+                    showToast('Poor Air Quality', AIRQUALITY_WIDGET_ID, 'yellow')
                 }
                 if (!isNaN(pmValue) && pmValue >= 100) {
                     // Create a new span element
@@ -95,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     newSpan.style.padding = '0.5em 0.5em';
                     widgetDiv.innerHTML = '';
                     widgetDiv.appendChild(newSpan);
-                    showToast('Very poor air quality')
+                    airQuality = 'very poor'
+                    showToast('Very poor air quality', AIRQUALITY_WIDGET_ID, 'salmon')
                 }
                 if (sent === false) { // only send once
                     submitLog(`Nearest PurpleAir sensor Pm2.5 value: ${pmValue}`);
