@@ -20,6 +20,7 @@ import { showTraffic } from './traffic'
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
 import { showApps } from './apps'
 import { showAstro } from './astro'
+import { showHeatHealthAlert } from './heat-health'
 
 console.log('GDT Version:', packageJson.version);
 
@@ -89,6 +90,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${showWeather()}
 
       ${showPurpleAir()}
+
+      ${showHeatHealthAlert()}
 
       ${showSewage()}
 
