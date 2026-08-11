@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 4,
     "data": [
         {
             "linkId": "bus-link-truro",
@@ -150,6 +150,16 @@
                 {
                     "text": "Greenwich Observatory",
                     "url": "https://www.rmg.co.uk/stories/space-astronomy/astronomy"
+                }
+            ]
+        },
+        {
+            "linkId": "heat-health-alert-links",
+            "name": "Heat Health Alerts",
+            "buttons": [
+                {
+                    "text": "South West Heat Health Alerts",
+                    "url": "https://ukhsa-dashboard.data.gov.uk/weather-health-alerts/heat/south-west"
                 }
             ]
         }

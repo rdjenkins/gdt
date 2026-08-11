@@ -4,7 +4,7 @@ import defaultConfig from './config.json'
 
 var checkingUpdates = false;
 var configuration: any = undefined
-var configVersion = 1
+var configVersion = 4 // built-in version number of the config file. If the online version is higher, it will be downloaded and stored locally.
 
 function MD5(str: string) {
     return Md5.hashStr(str);
@@ -89,8 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 */
 
+// Singleton pattern to ensure that the configuration is only loaded once and reused across the application.
+// This avoids multiple fetches and ensures consistency in the configuration data.
 let configPromise: Promise<any> | null = null;
 
+// config(linkId) returns the configuration for a specific linkId.
+// It will load the configuration from local storage or fetch it from the remote URL if it's not already loaded.
 export async function config(linkId: string) {
     if (!configPromise) {
         configPromise = loadConfig('https://photos.grampound-pc.gov.uk/repack.php?id=config', configVersion, JSON.stringify(defaultConfig));

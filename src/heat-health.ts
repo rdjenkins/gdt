@@ -1,13 +1,13 @@
-import { showToast } from "./utils"
+import { addChoiceModalLink, showToast } from "./utils"
 
 const HEAT_HEALTH_ALERT_REPACK_URL = 'https://photos.grampound-pc.gov.uk/repack.php?id=heat-health-alert-sw'
 const HEAT_HEALTH_ALERT_URL = 'https://ukhsa-dashboard.data.gov.uk/weather-health-alerts/heat/south-west'
-const HEAT_HEALTH_ALERT_WIDGET_ID = 'heat-health-alert-link'
+const HEAT_HEALTH_ALERT_WIDGET_ID = 'heat-health-alert-links'
 const HEAT_HEALTH_ALERT_DIV = 'heat-health-alert-div'
 
 export function showHeatHealthAlert() {
     return `
-    <a href="${HEAT_HEALTH_ALERT_URL}" id="${HEAT_HEALTH_ALERT_WIDGET_ID}" target="_blank" class="flex-item">
+    <a href="#" id="${HEAT_HEALTH_ALERT_WIDGET_ID}" target="_blank" class="flex-item">
         <button>Visit UKHSA Heat Health</button>
         <br><br>
         <div id="${HEAT_HEALTH_ALERT_DIV}">Heat Health in the South West</div>
@@ -57,3 +57,5 @@ async function getHeatHealthAlert() {
 (async () => {
     getHeatHealthAlert()
 })();
+
+addChoiceModalLink(HEAT_HEALTH_ALERT_WIDGET_ID);
