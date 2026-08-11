@@ -17,6 +17,8 @@ Build
 // for web
 
 npm run build
+Code is hosted on workers.cloudflare.com
+
 
 // for Android - build in Android Studio (workflow)
 // - make sure the config file (not included in git) is present and correct
