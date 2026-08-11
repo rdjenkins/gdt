@@ -130,6 +130,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <td><a href="https://weather.metoffice.gov.uk/guides/rss" target="_blank">Met Office</a></td>
           </tr>
           <tr>
+            <td>Heat Health</td>
+            <td><a href="https://ukhsa-dashboard.data.gov.uk/weather-health-alerts/heat" target="_blank">UK Health Security Agency</a></td>
+          </tr>
+          <tr>
             <td>Weather summary</td>
             <td><a href="https://open-meteo.com/en/docs" target="_blank">Open-Meteo</a></td>
           </tr>
@@ -164,8 +168,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <p>It provides information from, and links to, publicly available UK government data including:
             <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference">Environment Agency
             Real Time flood-monitoring API</a> for flood alert and river level data,
-            UK <a href="https://weather.metoffice.gov.uk/guides/rss">Met Office</a> for weather
-            alerts for the South West,
+            UK <a href="https://weather.metoffice.gov.uk/guides/rss">Met Office</a> for weather and
+            <a href="https://ukhsa-dashboard.data.gov.uk/weather-health-alerts/heat">UK Health Security Agency</a>
+            for heat health alerts for the South West,
             and planned roadworks from <a href="https://www.cornwall.gov.uk/transport-parking-and-streets/roads-highways-and-pavements/roadworks/">Cornwall
             Council</a>.
           </p>
